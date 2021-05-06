@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     // Init channel, 只能在build这里初始化，否则会报错
     CommonChannel.initChannel();
     return MaterialApp(
-        title: 'Education',
+        title: 'Flutter Scaffold',
         initialRoute: SPRoute.initialRoute,
         routes: SPRoute.routes,
         theme: ThemeData(
