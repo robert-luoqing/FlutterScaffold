@@ -1,4 +1,3 @@
-// 这个调用方式如下
 import 'package:dio/dio.dart';
 import '../common/core/httpClient.dart';
 
@@ -12,7 +11,7 @@ Stream<List<String>?> getRooms(String roomName) {
     CancelToken token = CancelToken();
     // 用于用户cancel后进行取消
     setCancelToken(token);
-    var result = await HttpClient().getJSON("/rooms", cancelToken: token);
+    var result = await SPHttpClient().getJSON("/rooms", cancelToken: token);
     // Save to db
     return result;
   });

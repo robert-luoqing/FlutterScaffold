@@ -1,3 +1,5 @@
+import '../../common/controlls/scaffold.dart';
+
 import '../../common/controlls/carousel.dart';
 import '../../common/controlls/toast.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +21,16 @@ final List<String> imgList = [
 class _TestCarouselPageState extends State<TestCarouselPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Carousel"),
-        ),
+    return SPScaffold(
+        title: Text("Carousel"),
         body: Container(
           child: SPCarouselView(
             items: imgList,
-            onPress: (index) {
-              SPToast.show(context, "Press $index");
+            builder: (item) {
+              return Image.network(item);
+            },
+            onPress: (item) {
+              SPToast.show(context, "Press $item");
             },
           ),
         ));

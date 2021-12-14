@@ -1,14 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 typedef DateChangedCallback(DateTime time);
 
 class SPDateTimePicker {
-  static void showDatePicker(BuildContext context,
+  static Future<DateTime?> showDatePicker(BuildContext context,
       {DateChangedCallback? onConfirm,
       DateTime? selectedDate,
       DateTime? minTime,
       DateTime? maxTime}) {
+    var completer = Completer<DateTime?>();
+
     DatePicker.showDatePicker(context,
         showTitleActions: true,
         minTime: minTime,
@@ -19,9 +23,12 @@ class SPDateTimePicker {
       if (onConfirm != null) {
         onConfirm(date);
       }
+      completer.complete(date);
     }, onCancel: () {
       print('canceled');
+      completer.complete(null);
     }, currentTime: selectedDate);
+    return completer.future;
   }
 
   static void showDateTimePicker(BuildContext context,

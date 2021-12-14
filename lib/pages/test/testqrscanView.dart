@@ -11,7 +11,10 @@ class _TestQrScanViewState extends State<TestQrScanView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Test")),
-      body: Container(child: SPQRScanner()
+      body: Container(
+          child: SPQRScanner(
+        onScanFinished: (String qr) {},
+      )
           // child: Column(
           //   // mainAxisAlignment: MainAxisAlignment.center,
           //   crossAxisAlignment: CrossAxisAlignment.stretch,

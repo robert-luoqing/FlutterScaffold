@@ -3,13 +3,13 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class UserDb extends Db {
-  static final Map<String, UserDb> _cache = <String, UserDb>{};
-  factory UserDb(String userId) {
+  static final Map<int, UserDb> _cache = <int, UserDb>{};
+  factory UserDb(int userId) {
     _cache.putIfAbsent(userId, () => UserDb._internal(userId));
     return _cache[userId]!;
   }
 
-  final String userId;
+  final int userId;
   UserDb._internal(this.userId);
 
   @override
@@ -28,6 +28,7 @@ class UserDb extends Db {
       // "using","values","when","where"
       await db
           .execute('CREATE TABLE Setting (key TEXT PRIMARY KEY, value TEXT)');
+      await db.execute('CREATE TABLE Cache (key TEXT PRIMARY KEY, value TEXT)');
     });
   }
 }

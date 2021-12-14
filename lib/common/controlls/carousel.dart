@@ -1,34 +1,50 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-typedef SPCarouselPress = void Function(int index);
+typedef SPCarouselPress = void Function(dynamic item);
+typedef SPCarouselItemBuild = Widget Function(dynamic item);
+typedef SPCarouselChanged = void Function(int index);
 
 class SPCarouselView extends StatefulWidget {
   @override
   _SPCarouselViewState createState() => _SPCarouselViewState();
-  final List<String> items;
+  final List<dynamic> items;
   final SPCarouselPress? onPress;
+  final SPCarouselItemBuild builder;
+  final SPCarouselChanged? onChange;
+  final double aspectRatio;
 
-  SPCarouselView({required this.items, this.onPress});
+  SPCarouselView(
+      {required this.items,
+      required this.builder,
+      this.aspectRatio = 16 / 9,
+      this.onPress,
+      this.onChange});
 }
 
 class _SPCarouselViewState extends State<SPCarouselView> {
   int _current = 0;
-  CarouselController buttonCarouselController = CarouselController();
+  CarouselController carouselController = CarouselController();
   List<Widget> imageSliders = [];
 
+  @override
   initState() {
     buildItems();
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant SPCarouselView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    buildItems();
+  }
+
   buildItems() {
     this.imageSliders = this.widget.items.map((item) {
-      int index = this.widget.items.indexOf(item);
       return GestureDetector(
         onTap: () {
           if (this.widget.onPress != null) {
-            this.widget.onPress!(index);
+            this.widget.onPress!(item);
           }
         },
         child: Container(
@@ -38,7 +54,12 @@ class _SPCarouselViewState extends State<SPCarouselView> {
                 borderRadius: BorderRadius.all(Radius.circular(5.0)),
                 child: Stack(
                   children: <Widget>[
-                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                    Positioned(
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: this.widget.builder(item))
                   ],
                 )),
           ),
@@ -52,17 +73,20 @@ class _SPCarouselViewState extends State<SPCarouselView> {
     return Stack(children: [
       CarouselSlider(
         items: imageSliders,
-        carouselController: buttonCarouselController,
+        carouselController: carouselController,
         options: CarouselOptions(
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 1.0,
-            aspectRatio: 2.0,
+            aspectRatio: this.widget.aspectRatio,
             initialPage: 0,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
               });
+              if (this.widget.onChange != null) {
+                this.widget.onChange!(index);
+              }
             }),
       ),
       Positioned(

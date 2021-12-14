@@ -8,7 +8,7 @@ class SPWebSocket {
   final ReceiveCallback? onReceive;
   final ReceiveCallback? onDisconnect;
   final ReceiveCallback? onError;
-  SPWebSocket(String url, {this.onReceive, this.onDisconnect, this.onError}) {}
+  SPWebSocket(String url, {this.onReceive, this.onDisconnect, this.onError});
 
   void connect(String url) {
     if (_channel != null) {

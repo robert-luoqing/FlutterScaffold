@@ -1,3 +1,6 @@
+import '../../../common/utils/platformUtil.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SPSwitch extends StatefulWidget {
@@ -11,9 +14,8 @@ class SPSwitch extends StatefulWidget {
 }
 
 class _SPSwitchState extends State<SPSwitch> {
-  @override
-  Widget build(BuildContext context) {
-    return Switch(
+  Widget _buildIOWidget() {
+    return CupertinoSwitch(
       value: this.widget.value,
       onChanged: (bool val) {
         if (this.widget.onChanged != null) {
@@ -21,5 +23,23 @@ class _SPSwitchState extends State<SPSwitch> {
         }
       },
     );
+  }
+
+  Widget _buildAndroidWidget() {
+    return SizedBox(
+      child: Switch(
+        value: this.widget.value,
+        onChanged: (bool val) {
+          if (this.widget.onChanged != null) {
+            this.widget.onChanged!(val);
+          }
+        },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SPPlatform.isIOS() ? _buildIOWidget() : _buildAndroidWidget();
   }
 }

@@ -22,6 +22,7 @@ class GlobalDb extends Db {
       // When creating the db, create the table
       await db
           .execute('CREATE TABLE Setting (key TEXT PRIMARY KEY, value TEXT)');
+      await db.execute('CREATE TABLE Cache (key TEXT PRIMARY KEY, value TEXT)');
     });
   }
 }

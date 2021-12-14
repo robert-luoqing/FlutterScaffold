@@ -1,20 +1,117 @@
 <html>
 
-    <head>
-        <title>My Local HTML File</title>
-    </head>
+<head>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+    <title>My Local HTML File</title>
+</head>
 
-    <body>
-        <h1 id="title">Hello World!</h1>
-        <script type="text/javascript">
-            function fromFlutter(newTitle) {
-                document.getElementById("title").innerHTML = newTitle;
-                sendBack();
-             }
+<body>
+    <h1 id="title">Hello World!</h1>
+    <script type="text/javascript">
+        function fromFlutter(type, data) {
+            if ((eduv3Instance && eduv3Instance.onCallback) || type == "response") {
+                var param = null;
+                if (data) {
+                    var dataJson = decodeURIComponent(atob(data));
+                    param = JSON.parse(dataJson);
+                }
+                if (eduv3Instance && eduv3Instance.onCallback) {
+                    eduv3Instance.onCallback(type, param);
+                }
+                if (type == "response" && data.id) {
+                    var cb = eduv3Instance_method_callback[data.id];
+                    if (cb) {
+                        delete eduv3Instance_method_callback[data.id];
+                        cb(data.data, data.error);
+                    }
+                }
+            }
+        }
 
-             function sendBack() {
-                messageHandler.postMessage("Hello from JS");
-             }
-        </script>
-    </body>
+        function eduv3PostMessageToApp(type, data) {
+            var postObj = { type, data };
+            var base64Data = btoa(encodeURIComponent(JSON.stringify(postObj)));
+            messageHandler.postMessage(base64Data);
+        }
+        var eduv3Instance_method_id = 100;
+        var eduv3Instance_method_callback = {};
+        var eduv3Instance = {
+            goBack(param) {
+                eduv3PostMessageToApp("GoBack", param);
+            },
+            openNewUrl(url, showStatusBar, title) {
+                eduv3PostMessageToApp("OpenNewUrl", { url, showStatusBar, title });
+            },
+            openPage(url, page, param) {
+                eduv3PostMessageToApp("OpenPage", { url, page, param });
+            },
+            openNewUrlAsync(url, showStatusBar, title, callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("openNewUrlAsync", {
+                    id,
+                    url,
+                    showStatusBar,
+                    title,
+                });
+            },
+            OpenPageAsync(url, page, param, callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("OpenPageWithId", { id, url, page, param });
+            },
+            isInApp() {
+                return !!messageHandler;
+            },
+            saveDataAsync(key, val, callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("saveDataAsync", { idm, key, val });
+            },
+            getDataAsync(key, callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("getDataAsync", { id, key });
+            },
+            getTokenAsync(callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("getTokenAsync", { id });
+            },
+            alertAsync(msg, callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("alertAsync", { id, msg });
+            },
+            confirmAsync(msg, callback) {
+                var id = eduv3Instance_method_id;
+                eduv3Instance_method_callback[(id, callback)];
+                eduv3Instance_method_id++;
+                eduv3PostMessageToApp("confirmAsync", { id, msg });
+            },
+        };
+
+    </script>
+    <script>
+        function didClose() {
+            eduv3Instance.goBack();
+        }
+
+        function openNewUrl() {
+            eduv3Instance.openNewUrl("https://www.baidu.com", false, "Hello");
+        }
+    </script>
+    <div>
+        <button type="button" onclick="didClose()">Closed</button>
+        <button type="button" onclick="openNewUrl()">Open new url</button>
+    </div>
+</body>
+
 </html>

@@ -15,7 +15,9 @@ class _MyWebViewState extends State<MyWebView> {
       key: _scaffoldKey,
       appBar: AppBar(title: Text(_title)),
       body: Container(
-        child: SPWebview(),
+        child: SPWebview(
+          url: 'https://www.baidu.com',
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

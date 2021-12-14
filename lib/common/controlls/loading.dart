@@ -1,3 +1,5 @@
+import '../../../common/controlls/roundContainer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:load/load.dart';
@@ -35,7 +37,27 @@ class _SPLoadingState extends State<SPLoading> {
   @override
   Widget build(BuildContext context) {
     return LoadingProvider(
-      themeData: LoadingThemeData(),
+      themeData: LoadingThemeData(
+          loadingSize: Size(55, 55), loadingBackgroundColor: Colors.black),
+      loadingWidgetBuilder: (ctx, data) {
+        return Center(
+          child: SizedBox(
+            width: 65,
+            height: 65,
+            child: SPRoundContainer(
+              radius: 8,
+              child: Theme(
+                  data: ThemeData(
+                      cupertinoOverrideTheme:
+                          CupertinoThemeData(brightness: Brightness.dark)),
+                  child: CupertinoActivityIndicator(
+                    radius: 15,
+                  )),
+              bkColor: Colors.black87,
+            ),
+          ),
+        );
+      },
       child: this.widget.child,
     );
   }

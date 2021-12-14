@@ -50,7 +50,24 @@ class _SPListViewState extends State<SPListView> {
     return SmartRefresher(
       enablePullDown: this.widget.enablePullDown,
       enablePullUp: this.widget.enablePullUp,
-      header: WaterDropHeader(),
+      header: WaterDropHeader(
+        complete: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Icon(
+              Icons.done,
+              color: Colors.grey,
+            ),
+            Container(
+              width: 15.0,
+            ),
+            Text(
+              "已刷新",
+              style: TextStyle(color: Colors.grey),
+            )
+          ],
+        ),
+      ),
       footer: CustomFooter(
         builder: (BuildContext context, LoadStatus? mode) {
           Widget body;

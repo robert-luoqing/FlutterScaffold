@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 
 class NetUtil {
-  StreamSubscription? _subscription;
+  late StreamSubscription _subscription;
   ConnectivityResult? _status;
   static NetUtil? _cache;
   factory NetUtil() {
@@ -30,9 +30,10 @@ class NetUtil {
   }
 
   void close() {
-    if (_subscription != null) {
-      _subscription!.cancel();
-      _subscription = null;
-    }
+    _subscription.cancel();
+  }
+
+  void dispose() {
+    _subscription.cancel();
   }
 }
