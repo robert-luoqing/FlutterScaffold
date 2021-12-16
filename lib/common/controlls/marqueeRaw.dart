@@ -33,7 +33,7 @@ class _MarqueeState extends State<MarqueeRaw>
     with SingleTickerProviderStateMixin {
   List<String> get textList => widget.textList;
   Timer? stopTimer;
-  AnimationController? animationConroller;
+  late AnimationController animationConroller;
   late List<Widget> textWidgets = [];
   late List<double> textHeights = [];
   late List<int> showItems = [];
@@ -54,27 +54,28 @@ class _MarqueeState extends State<MarqueeRaw>
     for (var i = 0; i < this.widget.maxLine; i++) {
       if (this.textList.length > i) {
         this.showItems.add(i);
-        if (i == 0) {
-          defaultHeight += textHeights[i];
-        } else {
-          defaultHeight += textHeights[i] + this.widget.lineSpace;
-        }
+        // if (i == 0) {
+        //   defaultHeight += textHeights[i];
+        // } else {
+        //   defaultHeight += textHeights[i] + this.widget.lineSpace;
+        // }
       }
     }
+
+    var textHeight = textHeights.length > 0 ? textHeights[0] : 15.0;
+    this.defaultHeight = textHeight * this.widget.maxLine +
+        (this.widget.maxLine - 1.0) * this.widget.lineSpace;
+
     if (textList.length > this.widget.maxLine) {
-      if (animationConroller == null) {
-        animationConroller = AnimationController(vsync: this);
-        animationConroller!.addListener(() {});
-        stopTimer = Timer.periodic(widget.stopDuration + widget.scrollDuration,
-            (timer) {
-          next();
-        });
+      if (stopTimer != null) {
+        stopTimer!.cancel();
+        stopTimer = null;
       }
+      stopTimer =
+          Timer.periodic(widget.stopDuration + widget.scrollDuration, (timer) {
+        next();
+      });
     } else {
-      if (animationConroller != null) {
-        animationConroller!.dispose();
-        animationConroller = null;
-      }
       if (stopTimer != null) {
         stopTimer!.cancel();
         stopTimer = null;
@@ -82,16 +83,21 @@ class _MarqueeState extends State<MarqueeRaw>
     }
   }
 
+  _initAnimation() {
+    animationConroller = AnimationController(vsync: this);
+  }
+
   @override
   void didUpdateWidget(covariant MarqueeRaw oldWidget) {
-    super.didUpdateWidget(oldWidget);
     this._resetDataFromWidget();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
   void initState() {
-    super.initState();
     this._resetDataFromWidget();
+    this._initAnimation();
+    super.initState();
   }
 
   void next() async {
@@ -106,9 +112,9 @@ class _MarqueeState extends State<MarqueeRaw>
         showItems.add(0);
       }
     });
-    await animationConroller!.animateTo(1.0, duration: widget.scrollDuration);
+    await animationConroller.animateTo(1.0, duration: widget.scrollDuration);
     setState(() {
-      animationConroller!.value = 0.0;
+      animationConroller.value = 0.0;
       // 1. Remove first item
       showItems.removeAt(0);
     });
@@ -152,29 +158,30 @@ class _MarqueeState extends State<MarqueeRaw>
             left: 0,
             right: 0,
             child: AnimatedBuilder(
-                animation: animationConroller!,
+                animation: animationConroller,
                 builder: (context, child) {
                   return Transform.translate(
                       offset: Offset(0,
-                          -currentAnimationHeight * animationConroller!.value),
+                          -currentAnimationHeight * animationConroller.value),
                       child: this.textWidgets[item]);
                 })),
       );
 
       accumlateX += textHeights[item] + this.widget.lineSpace;
     }
+
     return SizedBox(
         height: defaultHeight,
-        child: Stack(
-          children: stackChildren,
+        child: ClipRect(
+          child: Stack(
+            children: stackChildren,
+          ),
         ));
   }
 
   @override
   void dispose() {
-    if (animationConroller != null) {
-      animationConroller!.dispose();
-    }
+    animationConroller.dispose();
     if (stopTimer != null) {
       stopTimer!.cancel();
     }

@@ -1,7 +1,6 @@
 import '../../../common/utils/platformUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SPScaffold extends StatefulWidget {
   final Widget? body;

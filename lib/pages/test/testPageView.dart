@@ -88,6 +88,11 @@ class _TestPageViewState extends State<TestPageView> {
                     Navigator.pushNamed(context, "/testSwitchControl");
                   },
                   child: Text("Open Switch Control")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/testShowModalSideSheet");
+                  },
+                  child: Text("Open Side sheet")),
             ],
           ),
         ),

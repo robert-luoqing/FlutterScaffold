@@ -13,6 +13,7 @@ import 'pages/test/testGlobalLoading.dart';
 import 'pages/test/testImagePicker.dart';
 import 'pages/test/testListView.dart';
 import 'pages/test/testMarquee.dart';
+import 'pages/test/testShowModalSideSheet.dart';
 import 'pages/test/testSliverView.dart';
 import 'pages/test/testSwitchControl.dart';
 import 'pages/test/testTextField.dart';
@@ -44,5 +45,6 @@ class SPRoute {
     "/testDateTimePicker": (context) => TestDateTimePicker(),
     "/testTextField": (context) => TestTextField(),
     "/testSwitchControl": (context) => TestSwitchControl(),
+    "/testShowModalSideSheet": (context) => TestShowModalSideSheet(),
   };
 }
