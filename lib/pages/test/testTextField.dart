@@ -13,7 +13,7 @@ class _TestTextFieldState extends State<TestTextField> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Dialog")),
+        appBar: AppBar(title: Text("Text field")),
         body: Container(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,

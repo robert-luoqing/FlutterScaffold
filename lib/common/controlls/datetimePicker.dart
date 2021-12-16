@@ -11,32 +11,7 @@ class SPDateTimePicker {
       DateTime? selectedDate,
       DateTime? minTime,
       DateTime? maxTime}) {
-    var completer = Completer<DateTime?>();
-
-    DatePicker.showDatePicker(context,
-        showTitleActions: true,
-        minTime: minTime,
-        maxTime: maxTime, onChanged: (date) {
-      print('change $date');
-    }, onConfirm: (date) {
-      print('confirm $date');
-      if (onConfirm != null) {
-        onConfirm(date);
-      }
-      completer.complete(date);
-    }, onCancel: () {
-      print('canceled');
-      completer.complete(null);
-    }, currentTime: selectedDate);
-    return completer.future;
-  }
-
-  static void showDateTimePicker(BuildContext context,
-      {DateChangedCallback? onConfirm,
-      DateTime? selectedDate,
-      DateTime? minTime,
-      DateTime? maxTime}) {
-    DatePicker.showDateTimePicker(context,
+    return DatePicker.showDatePicker(context,
         showTitleActions: true,
         minTime: minTime,
         maxTime: maxTime, onChanged: (date) {
@@ -51,12 +26,32 @@ class SPDateTimePicker {
     }, currentTime: selectedDate);
   }
 
-  static void showTimePicker(BuildContext context,
+  static Future<DateTime?> showDateTimePicker(BuildContext context,
       {DateChangedCallback? onConfirm,
       DateTime? selectedDate,
       DateTime? minTime,
       DateTime? maxTime}) {
-    DatePicker.showTimePicker(context, showTitleActions: true,
+    return DatePicker.showDateTimePicker(context,
+        showTitleActions: true,
+        minTime: minTime,
+        maxTime: maxTime, onChanged: (date) {
+      print('change $date');
+    }, onConfirm: (date) {
+      print('confirm $date');
+      if (onConfirm != null) {
+        onConfirm(date);
+      }
+    }, onCancel: () {
+      print('canceled');
+    }, currentTime: selectedDate);
+  }
+
+  static Future<DateTime?> showTimePicker(BuildContext context,
+      {DateChangedCallback? onConfirm,
+      DateTime? selectedDate,
+      DateTime? minTime,
+      DateTime? maxTime}) {
+    return DatePicker.showTimePicker(context, showTitleActions: true,
         onChanged: (date) {
       print('change $date');
     }, onConfirm: (date) {

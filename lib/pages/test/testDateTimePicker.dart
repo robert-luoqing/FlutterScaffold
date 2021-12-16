@@ -21,24 +21,28 @@ class _TestDateTimePickerState extends State<TestDateTimePicker> {
             children: [
               ElevatedButton(
                   onPressed: () async {
-                    SPDateTimePicker.showDatePicker(context, onConfirm: (date) {
-                      SPDialog.alert(context, "$date");
+                    var selectredDate = await SPDateTimePicker.showDatePicker(
+                        context, onConfirm: (date) {
+                      // SPDialog.alert(context, "$date");
                     });
+
+                    SPDialog.alert(context, "$selectredDate");
                   },
                   child: Text("Open Date Picker")),
               ElevatedButton(
                   onPressed: () async {
-                    SPDateTimePicker.showTimePicker(context, onConfirm: (date) {
-                      SPDialog.alert(context, "$date");
-                    });
+                    var selectredDate = await SPDateTimePicker.showTimePicker(
+                        context,
+                        onConfirm: (date) {});
+                    SPDialog.alert(context, "$selectredDate");
                   },
                   child: Text("Open Time Picker")),
               ElevatedButton(
                   onPressed: () async {
-                    SPDateTimePicker.showDateTimePicker(context,
-                        onConfirm: (date) {
-                      SPDialog.alert(context, "$date");
-                    });
+                    var selectredDate =
+                        await SPDateTimePicker.showDateTimePicker(context,
+                            onConfirm: (date) {});
+                    SPDialog.alert(context, "$selectredDate");
                   },
                   child: Text("Open DateTime Picker")),
             ],

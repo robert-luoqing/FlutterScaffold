@@ -11,7 +11,7 @@ class _TestImagePickerState extends State<TestImagePicker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Dialog")),
+        appBar: AppBar(title: Text("Image selection")),
         body: Container(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
