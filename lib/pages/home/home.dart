@@ -1,3 +1,4 @@
+import 'package:FlutterScaffold/localization/spI18N.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -20,28 +21,30 @@ class _MyHomePageState extends State<MyHomePage> {
     currentIndex = 0;
   }
 
-  final List<BottomNavigationBarItem> bottomNavItems = [
-    BottomNavigationBarItem(
-      // backgroundColor: Colors.blue,
-      icon: Icon(Icons.home),
-      label: "首页",
-    ),
-    BottomNavigationBarItem(
-      // backgroundColor: Colors.green,
-      icon: Icon(Icons.message),
-      label: "消息",
-    ),
-    BottomNavigationBarItem(
-      // backgroundColor: Colors.amber,
-      icon: Icon(Icons.shopping_cart),
-      label: "购物车",
-    ),
-    BottomNavigationBarItem(
-      // backgroundColor: Colors.red,
-      icon: Icon(Icons.person),
-      label: "个人中心",
-    ),
-  ];
+  List<BottomNavigationBarItem> _getBottomNavItem() {
+    return [
+      BottomNavigationBarItem(
+        // backgroundColor: Colors.blue,
+        icon: Icon(Icons.home),
+        label: SPI18N.of(context).appHome,
+      ),
+      BottomNavigationBarItem(
+        // backgroundColor: Colors.green,
+        icon: Icon(Icons.message),
+        label: "消息",
+      ),
+      BottomNavigationBarItem(
+        // backgroundColor: Colors.amber,
+        icon: Icon(Icons.shopping_cart),
+        label: "购物车",
+      ),
+      BottomNavigationBarItem(
+        // backgroundColor: Colors.red,
+        icon: Icon(Icons.person),
+        label: "个人中心",
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +54,28 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
           constraints: BoxConstraints.expand(),
-          child: Center(child: Text("Hello world, test" * 10))),
+          child: Column(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    SPI18N().changeLocale(SPI18N().supportedLocales[0]);
+                  },
+                  child: Text("Change Lang To EN")),
+              ElevatedButton(
+                  onPressed: () {
+                    SPI18N().changeLocale(SPI18N().supportedLocales[1]);
+                  },
+                  child: Text("Change Lang To CN")),
+              Center(child: Text("Hello world, test" * 10)),
+            ],
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: bottomNavItems,
+        items: _getBottomNavItem(),
         currentIndex: currentIndex,
         backgroundColor: Colors.blue,
         selectedItemColor: Colors.white,

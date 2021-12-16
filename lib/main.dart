@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'common/utils/errorUtil.dart';
 import 'package:provider/provider.dart';
 import 'common/controlls/app.dart';
 import 'common/core/eventBus.dart';
 import 'common/core/eventBusType.dart';
 import 'common/providers/globalVariableProvider.dart';
 import 'dao/baseDao.dart';
+import 'localization/spI18N.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
 import 'common/controlls/loading.dart';
@@ -37,6 +37,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool inited = false;
   String appName = "Flutter Scaffold";
+  Locale locale = SPI18N().currentLocale;
 
   _initBasicData() async {
     this.setState(() {
@@ -50,14 +51,26 @@ class _MyAppState extends State<MyApp> {
     SPEventBus().emit(SPEventBusType.UserLoginOrLogout);
   }
 
+  _localeChanged(arg) {
+    this.setState(() {
+      this.locale = SPI18N().currentLocale;
+    });
+  }
+
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     // Init channel, 只能在build这里初始化，否则会报错（放在这里看一下）
     CommonChannel.initChannel();
     this._initBasicData();
-
+    SPEventBus().on(SPEventBusType.LocaleChanged, _localeChanged);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    SPEventBus().off(SPEventBusType.LocaleChanged, _localeChanged);
+    super.dispose();
   }
 
   @override
@@ -74,6 +87,11 @@ class _MyAppState extends State<MyApp> {
         title: this.appName,
         initialRoute: SPRoute.initialRoute,
         routes: SPRoute.routes,
+        supportedLocales: SPI18N().supportedLocales,
+        localizationsDelegates: [
+          SPI18N().delegate,
+        ],
+        locale: locale,
         builder: (context, widget) {
           return SPLoading(child: Container(child: widget));
         },
