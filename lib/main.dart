@@ -4,8 +4,8 @@ import 'common/controlls/app.dart';
 import 'common/core/eventBus.dart';
 import 'common/core/eventBusType.dart';
 import 'common/providers/globalVariableProvider.dart';
+import 'common/providers/i18nProvider.dart';
 import 'dao/baseDao.dart';
-import 'common/localization/spI18N.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
 import 'common/controlls/loading.dart';
@@ -24,6 +24,7 @@ void main() async {
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => SPGlobalVariableProvider()),
+    ChangeNotifierProvider(create: (_) => SPI18NProvider()),
   ], child: MyApp()));
 }
 
@@ -37,8 +38,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool inited = false;
   String appName = "Flutter Scaffold";
-  Locale locale = SPI18N().currentLocale;
-
   _initBasicData() async {
     this.setState(() {
       inited = true;
@@ -51,25 +50,18 @@ class _MyAppState extends State<MyApp> {
     SPEventBus().emit(SPEventBusType.UserLoginOrLogout);
   }
 
-  _localeChanged(arg) {
-    this.setState(() {
-      this.locale = SPI18N().currentLocale;
-    });
-  }
-
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     // Init channel, 只能在build这里初始化，否则会报错（放在这里看一下）
     CommonChannel.initChannel();
     this._initBasicData();
-    SPEventBus().on(SPEventBusType.LocaleChanged, _localeChanged);
+
     super.initState();
   }
 
   @override
   void dispose() {
-    SPEventBus().off(SPEventBusType.LocaleChanged, _localeChanged);
     super.dispose();
   }
 
@@ -83,19 +75,20 @@ class _MyAppState extends State<MyApp> {
             fit: BoxFit.fill,
           ));
     } else {
-      return SPApp(
-        title: this.appName,
-        initialRoute: SPRoute.initialRoute,
-        routes: SPRoute.routes,
-        supportedLocales: SPI18N().supportedLocales,
-        localizationsDelegates: [
-          SPI18N().delegate,
-        ],
-        locale: locale,
-        builder: (context, widget) {
-          return SPLoading(child: Container(child: widget));
-        },
-      );
+      return Consumer<SPI18NProvider>(
+          builder: (context, provider, child) => SPApp(
+                title: this.appName,
+                initialRoute: SPRoute.initialRoute,
+                routes: SPRoute.routes,
+                supportedLocales: provider.supportedLocales,
+                localizationsDelegates: [
+                  provider.delegate,
+                ],
+                locale: provider.currentLocale,
+                builder: (context, widget) {
+                  return SPLoading(child: Container(child: widget));
+                },
+              ));
     }
   }
 }

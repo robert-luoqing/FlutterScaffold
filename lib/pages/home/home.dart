@@ -1,5 +1,6 @@
-import 'package:FlutterScaffold/common/localization/spI18N.dart';
+import 'package:FlutterScaffold/common/providers/i18nProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title = "Home page";
@@ -58,12 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    SPI18N().changeLocale(SPI18N().supportedLocales[0]);
+                    var localeProvider = context.read<SPI18NProvider>();
+                    localeProvider
+                        .changeLocale(localeProvider.supportedLocales[0]);
                   },
                   child: Text("Change Lang To EN")),
               ElevatedButton(
                   onPressed: () {
-                    SPI18N().changeLocale(SPI18N().supportedLocales[1]);
+                    var localeProvider = context.read<SPI18NProvider>();
+                    localeProvider
+                        .changeLocale(localeProvider.supportedLocales[1]);
                   },
                   child: Text("Change Lang To CN")),
               Center(child: Text("Hello world, test" * 10)),
