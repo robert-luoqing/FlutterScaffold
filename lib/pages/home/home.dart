@@ -1,4 +1,4 @@
-import 'package:FlutterScaffold/localization/spI18N.dart';
+import 'package:FlutterScaffold/common/localization/spI18N.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {

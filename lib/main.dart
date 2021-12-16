@@ -5,7 +5,7 @@ import 'common/core/eventBus.dart';
 import 'common/core/eventBusType.dart';
 import 'common/providers/globalVariableProvider.dart';
 import 'dao/baseDao.dart';
-import 'localization/spI18N.dart';
+import 'common/localization/spI18N.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
 import 'common/controlls/loading.dart';
