@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:FlutterScaffold/theme/baseTheme.dart';
 import 'package:provider/provider.dart';
 import 'common/controlls/app.dart';
 import 'common/core/eventBus.dart';
 import 'common/core/eventBusType.dart';
 import 'common/providers/globalVariableProvider.dart';
 import 'common/providers/i18nProvider.dart';
+import 'common/providers/themeProvider.dart';
 import 'dao/baseDao.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => SPGlobalVariableProvider()),
     ChangeNotifierProvider(create: (_) => SPI18NProvider()),
+    ChangeNotifierProvider(create: (_) => SPThemeProvider()),
   ], child: MyApp()));
 }
 
@@ -38,6 +41,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool inited = false;
   String appName = "Flutter Scaffold";
+
   _initBasicData() async {
     this.setState(() {
       inited = true;
@@ -75,20 +79,22 @@ class _MyAppState extends State<MyApp> {
             fit: BoxFit.fill,
           ));
     } else {
-      return Consumer<SPI18NProvider>(
-          builder: (context, provider, child) => SPApp(
+      return Consumer2<SPI18NProvider, SPThemeProvider>(
+          builder: (context, i18nProv, themeProv, child) => SPTheme(
+              theme: themeProv.currentTheme,
+              child: SPApp(
                 title: this.appName,
                 initialRoute: SPRoute.initialRoute,
                 routes: SPRoute.routes,
-                supportedLocales: provider.supportedLocales,
+                supportedLocales: i18nProv.supportedLocales,
                 localizationsDelegates: [
-                  provider.delegate,
+                  i18nProv.delegate,
                 ],
-                locale: provider.currentLocale,
+                locale: i18nProv.currentLocale,
                 builder: (context, widget) {
                   return SPLoading(child: Container(child: widget));
                 },
-              ));
+              )));
     }
   }
 }

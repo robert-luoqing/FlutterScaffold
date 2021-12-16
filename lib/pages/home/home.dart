@@ -1,4 +1,7 @@
 import 'package:FlutterScaffold/common/providers/i18nProvider.dart';
+import 'package:FlutterScaffold/common/providers/themeProvider.dart';
+import 'package:FlutterScaffold/theme/baseTheme.dart';
+import 'package:FlutterScaffold/theme/darkTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
           constraints: BoxConstraints.expand(),
+          color: SPTheme.of(context).primaryColor,
           child: Column(
             children: [
               ElevatedButton(
@@ -71,7 +75,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         .changeLocale(localeProvider.supportedLocales[1]);
                   },
                   child: Text("Change Lang To CN")),
-              Center(child: Text("Hello world, test" * 10)),
+              ElevatedButton(
+                  onPressed: () {
+                    var themeProvider = context.read<SPThemeProvider>();
+                    themeProvider.changeTheme(BaseTheme());
+                  },
+                  child: Text("Change Theme To Light")),
+              ElevatedButton(
+                  onPressed: () {
+                    var themeProvider = context.read<SPThemeProvider>();
+                    themeProvider.changeTheme(DarkTheme());
+                  },
+                  child: Text("Change Theme To Dark")),
+              Center(
+                  child: Text(
+                "Hello world, test" * 10,
+                style: TextStyle(fontFamily: "arial", fontSize: 14),
+              )),
             ],
           )),
       floatingActionButton: FloatingActionButton(
