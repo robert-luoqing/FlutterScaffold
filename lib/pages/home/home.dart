@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // identityHashCode(this);
     return SPScaffold(
       title: Text(widget.title),
       body: Container(
