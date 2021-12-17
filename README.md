@@ -21,3 +21,6 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 ## flutter_native_splash
 flutter pub run flutter_native_splash:create
+
+## Build Android Package
+flutter build apk --no-tree-shake-icons --split-per-abi

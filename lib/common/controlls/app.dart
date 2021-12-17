@@ -63,6 +63,7 @@ class _SPAppState extends State<SPApp> {
             supportedLocales: this.widget.supportedLocales,
             locale: this.widget.locale,
             theme: ThemeData(
+              // fontFamily: "Segoe UI Mono",
               primarySwatch: Colors.blue,
               appBarTheme: AppBarTheme(
                 iconTheme: IconThemeData(color: Colors.grey[600]),

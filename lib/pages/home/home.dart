@@ -87,6 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     themeProvider.changeTheme(DarkTheme());
                   },
                   child: Text("Change Theme To Dark")),
+              TextField(
+                  // textAlign: TextAlign.end,
+
+                  decoration: InputDecoration.collapsed(hintText: 'hello')),
               Center(
                   child: Padding(
                 padding: const EdgeInsets.all(20.0),
