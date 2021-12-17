@@ -25,7 +25,7 @@ class SPDialog {
             SPNavigator.pop(context);
             completer.complete();
           },
-          child: Text(buttonText != null ? buttonText : '确认'),
+          child: Text(buttonText != null ? buttonText : 'OK'),
         ),
       ],
     );
@@ -39,7 +39,10 @@ class SPDialog {
       content: Text(message),
       actions: [
         CupertinoButton(
-            child: Text(buttonText != null ? buttonText : '确认'),
+            child: Text(
+              buttonText != null ? buttonText : 'OK',
+              style: TextStyle(color: Color(0xFF000000)),
+            ),
             onPressed: () {
               SPNavigator.pop(context);
               completer.complete();
@@ -81,7 +84,9 @@ class SPDialog {
             SPNavigator.pop(context);
             completer.complete(false);
           },
-          child: Text(cancelButtonText != null ? cancelButtonText : '取消'),
+          child: Text(
+            cancelButtonText != null ? cancelButtonText : 'CANCEL',
+          ),
         ),
         TextButton(
           style: ButtonStyle(
@@ -91,7 +96,7 @@ class SPDialog {
             SPNavigator.pop(context);
             completer.complete(true);
           },
-          child: Text(okButtonText != null ? okButtonText : '确认'),
+          child: Text(okButtonText != null ? okButtonText : 'OK'),
         ),
       ],
     );
@@ -105,13 +110,19 @@ class SPDialog {
       content: Text(message),
       actions: [
         CupertinoButton(
-            child: Text(cancelButtonText != null ? cancelButtonText : '取消'),
+            child: Text(
+              cancelButtonText != null ? cancelButtonText : 'CANCEL',
+              style: TextStyle(color: Colors.red[400]),
+            ),
             onPressed: () {
               SPNavigator.pop(context);
               completer.complete(false);
             }),
         CupertinoButton(
-            child: Text(okButtonText != null ? okButtonText : '确认'),
+            child: Text(
+              okButtonText != null ? okButtonText : 'OK',
+              style: TextStyle(color: Colors.blue),
+            ),
             onPressed: () {
               SPNavigator.pop(context);
               completer.complete(true);
@@ -163,8 +174,11 @@ class SPDialog {
     );
   }
 
-  static Future<String?> showInputDialog(
-      {required BuildContext context, String? title, String? defaultValue}) {
+  static Future<String?> _buildAndroidInputDialog(
+      {required BuildContext context,
+      String? title,
+      String? defaultValue,
+      String? hintText}) {
     var completer = Completer<String?>();
     var textController = TextEditingController(text: defaultValue);
     SPDialog.showCommonDialog(
@@ -192,7 +206,9 @@ class SPDialog {
                                 child: SizedBox(
                               height: 55,
                               child: SPTextField(
+                                autofocus: true,
                                 pattern: SPTextFieldPattern.normal,
+                                placeholder: hintText,
                                 controller: textController,
                               ),
                             )),
@@ -210,7 +226,7 @@ class SPDialog {
                                           SPNavigator.pop(context);
                                           completer.complete(null);
                                         },
-                                        text: "取消"),
+                                        text: "Cancel"),
                                   )),
                                   Expanded(
                                       child: Padding(
@@ -223,7 +239,7 @@ class SPDialog {
                                           completer
                                               .complete(textController.text);
                                         },
-                                        text: "确定"),
+                                        text: "Ok"),
                                   ))
                                 ],
                               ),
@@ -238,6 +254,132 @@ class SPDialog {
     );
 
     return completer.future;
+  }
+
+  static Future<String?> _buildiOSInputDialog(
+      {required BuildContext context,
+      String? title,
+      String? defaultValue,
+      String? hintText}) {
+    var completer = Completer<String?>();
+    var textController = TextEditingController(text: defaultValue);
+    SPDialog.showCommonDialog(
+      context: context,
+      widget: Container(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: SizedBox(
+                      height: 120,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15.0),
+                              child: Text(
+                                title ?? "",
+                                textAlign: TextAlign.center,
+                                style: SPTextStyle.text15_333_BoldStyle,
+                              ),
+                            ),
+                            Flexible(
+                                child: SizedBox(
+                              height: 44,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15.0, right: 15.0),
+                                  child: Material(
+                                    child: TextField(
+                                        autofocus: true,
+                                        controller: textController,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 5.0, horizontal: 8),
+                                          hintText: hintText,
+                                          hintStyle:
+                                              SPTextStyle.text14_ABA_Style,
+                                          border: InputBorder.none,
+                                        )),
+                                  )),
+                            )),
+                            SizedBox(
+                              height: 1,
+                              child: Divider(),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: CupertinoButton(
+                                        child: Text(
+                                          'CANCEL',
+                                          style:
+                                              TextStyle(color: Colors.red[400]),
+                                        ),
+                                        onPressed: () {
+                                          SPNavigator.pop(context);
+                                          completer.complete(null);
+                                        }),
+                                  ),
+                                  Expanded(
+                                    child: CupertinoButton(
+                                        child: Text(
+                                          'OK',
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                        onPressed: () {
+                                          SPNavigator.pop(context);
+                                          completer
+                                              .complete(textController.text);
+                                        }),
+                                  )
+                                ],
+                              ),
+                            )
+                          ]),
+                    ),
+                  ))
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return completer.future;
+  }
+
+  static Future<String?> showInputDialog(
+      {required BuildContext context,
+      String? title,
+      String? defaultValue,
+      String? hintText}) {
+    if (SPPlatform.isIOS()) {
+      return _buildiOSInputDialog(
+          context: context,
+          title: title,
+          defaultValue: defaultValue,
+          hintText: hintText);
+    } else {
+      return _buildAndroidInputDialog(
+          context: context,
+          title: title,
+          defaultValue: defaultValue,
+          hintText: hintText);
+    }
   }
 
   static void closeDialog(BuildContext context) {

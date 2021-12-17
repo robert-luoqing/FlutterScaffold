@@ -21,7 +21,7 @@ class _TestDialogViewState extends State<TestDialogView> {
               ElevatedButton(
                   onPressed: () async {
                     await SPDialog.alert(context, "I'm robert", title: "Hello");
-                    SPDialog.alert(context, "Done");
+                    // SPDialog.alert(context, "Done");
                   },
                   child: Text("Open Alert")),
               ElevatedButton(
@@ -36,6 +36,13 @@ class _TestDialogViewState extends State<TestDialogView> {
                     }
                   },
                   child: Text("Open Confirm")),
+              ElevatedButton(
+                  onPressed: () async {
+                    var result = await SPDialog.showInputDialog(
+                        context: this.context, title: "Please input some text");
+                    SPDialog.alert(context, "input: $result");
+                  },
+                  child: Text("Open Prompt")),
             ],
           ),
         ));

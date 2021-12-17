@@ -21,6 +21,7 @@ class SPTextField extends StatefulWidget {
   final VoidCallback? onBlur;
   final int maxLines;
   final TextInputAction? textInputAction;
+  final bool autofocus;
   SPTextField(
       {this.pattern,
       this.prefixIcon,
@@ -31,7 +32,8 @@ class SPTextField extends StatefulWidget {
       this.onFocus,
       this.onBlur,
       this.maxLines = 1,
-      this.textInputAction});
+      this.textInputAction,
+      this.autofocus = false});
 
   @override
   _SPTextFieldState createState() => _SPTextFieldState();
@@ -68,6 +70,7 @@ class _SPTextFieldState extends State<SPTextField> {
               obscureText: this.widget.obscureText ?? false,
               maxLines: this.widget.maxLines,
               textInputAction: this.widget.textInputAction,
+              autofocus: this.widget.autofocus,
               decoration: InputDecoration(
                   prefixIcon: this.widget.prefixIcon,
                   suffixIcon: this.widget.sufixIcon,
@@ -78,6 +81,7 @@ class _SPTextFieldState extends State<SPTextField> {
         return Material(
           child: TextField(
               focusNode: focusNode,
+              autofocus: this.widget.autofocus,
               controller: this.widget.controller,
               obscureText: this.widget.obscureText ?? false,
               maxLines: this.widget.maxLines,
@@ -96,6 +100,7 @@ class _SPTextFieldState extends State<SPTextField> {
         return Material(
           child: TextField(
               focusNode: focusNode,
+              autofocus: this.widget.autofocus,
               controller: this.widget.controller,
               obscureText: this.widget.obscureText ?? false,
               maxLines: this.widget.maxLines,
@@ -138,6 +143,7 @@ class _SPTextFieldState extends State<SPTextField> {
         return Material(
           child: TextField(
               focusNode: focusNode,
+              autofocus: this.widget.autofocus,
               controller: this.widget.controller,
               obscureText: this.widget.obscureText ?? false,
               maxLines: this.widget.maxLines,

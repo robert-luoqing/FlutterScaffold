@@ -1,3 +1,5 @@
+import 'package:FlutterScaffold/common/controlls/bottomNavigationBar.dart';
+import 'package:FlutterScaffold/common/controlls/scaffold.dart';
 import 'package:FlutterScaffold/common/providers/i18nProvider.dart';
 import 'package:FlutterScaffold/common/providers/themeProvider.dart';
 import 'package:FlutterScaffold/theme/baseTheme.dart';
@@ -52,10 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+    return SPScaffold(
+      title: Text(widget.title),
       body: Container(
           constraints: BoxConstraints.expand(),
           color: SPTheme.of(context).primaryColor,
@@ -88,9 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: Text("Change Theme To Dark")),
               Center(
-                  child: Text(
-                "Hello world, test" * 10,
-                style: TextStyle(fontFamily: "arial", fontSize: 14),
+                  child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  SPI18N.of(context).helloWorld,
+                ),
               )),
             ],
           )),
@@ -99,13 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: SPBottomNavigationBar(
         items: _getBottomNavItem(),
         currentIndex: currentIndex,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.yellow,
-        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           _changePage(index);
         },

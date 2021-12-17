@@ -1,3 +1,4 @@
+import '../../common/controlls/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestPageView extends StatefulWidget {
@@ -8,8 +9,8 @@ class TestPageView extends StatefulWidget {
 class _TestPageViewState extends State<TestPageView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Test")),
+    return SPScaffold(
+      title: Text("Test"),
       body: SingleChildScrollView(
         child: Container(
           child: Column(

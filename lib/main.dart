@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 import 'common/controlls/app.dart';
 import 'common/core/eventBus.dart';
 import 'common/core/eventBusType.dart';
+import 'common/core/httpClient.dart';
 import 'common/providers/globalVariableProvider.dart';
 import 'common/providers/i18nProvider.dart';
 import 'common/providers/themeProvider.dart';
+import 'config.dart';
 import 'dao/baseDao.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +42,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool inited = false;
-  String appName = "Flutter Scaffold";
 
   _initBasicData() async {
+    SPHttpClient().host = Config.apiHost;
+    // 以下是获取token,并设置API Host
+    SPHttpClient().onHeaderCallback = () async {
+      // var userInfo = await getLoginInfo();
+      // if (userInfo == null) {
+      //   return {};
+      // } else {
+      //   return {"x-access-token": userInfo.token};
+      // }
+      return {};
+    };
+
+    // 这里是LoadToken到
     this.setState(() {
       inited = true;
     });
@@ -60,7 +74,6 @@ class _MyAppState extends State<MyApp> {
     // Init channel, 只能在build这里初始化，否则会报错（放在这里看一下）
     CommonChannel.initChannel();
     this._initBasicData();
-
     super.initState();
   }
 
@@ -83,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context, i18nProv, themeProv, child) => SPTheme(
               theme: themeProv.currentTheme,
               child: SPApp(
-                title: this.appName,
+                title: Config.appName,
                 initialRoute: SPRoute.initialRoute,
                 routes: SPRoute.routes,
                 supportedLocales: i18nProv.supportedLocales,
