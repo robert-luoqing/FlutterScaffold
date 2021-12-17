@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import '../../dao/userDao.dart';
-import '../../models/account/loginReqDto.dart';
-import '../../models/account/loginRespDto.dart';
-import '../../models/account/userInfo.dart';
+import '../../models/user/loginReqDto.dart';
+import '../../models/user/loginRespDto.dart';
+import '../../models/user/userInfo.dart';
 import '../../repos/globalCacheRepo.dart';
 import '../../repos/userCacheRepo.dart';
 

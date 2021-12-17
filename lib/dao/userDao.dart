@@ -1,6 +1,6 @@
-import '../../models/account/loginReqDto.dart';
-import '../../models/account/loginRespDto.dart';
-import '../../models/account/userInfo.dart';
+import '../../models/user/loginReqDto.dart';
+import '../../models/user/loginRespDto.dart';
+import '../../models/user/userInfo.dart';
 import 'baseDao.dart';
 
 class UserDao extends BaseDao {
