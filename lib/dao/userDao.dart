@@ -1,7 +1,9 @@
+import 'package:FlutterScaffold/common/core/graphQLClient.dart';
+
 import '../../models/user/loginReqDto.dart';
 import '../../models/user/loginRespDto.dart';
 import '../../models/user/userInfo.dart';
-import 'baseDao.dart';
+import 'base/baseDao.dart';
 
 class UserDao extends BaseDao {
   static UserDao? _cache;
@@ -13,9 +15,31 @@ class UserDao extends BaseDao {
   }
   UserDao._internal();
 
+  // Future<LoginRespDto> login(LoginReqDto param) async {
+  //   var resp = await this.post("/api/v1.member/login", data: param);
+  //   return LoginRespDto.fromJson(resp);
+  // }
+
   Future<LoginRespDto> login(LoginReqDto param) async {
-    var resp = await this.post("/api/v1.member/login", data: param);
-    return LoginRespDto.fromJson(resp);
+    const String loginMobile = r'''
+    mutation LoginMobile($countryCode: String!, $mobileNumber: String!, $password: String!,
+      $deviceId: String!, $macAddress: String!, $platform: DevicePlatform!,
+      $version: String!, $os: String!, $model: String!, $brand: String!,
+      $maxVersion: String, $ip: String) {
+      loginMobile(countryCode: $countryCode, mobileNumber: $mobileNumber,
+        password: $password, deviceId: $deviceId, macAddress: $macAddress,
+        platform: $platform, version: $version, os: $os, model: $model, brand: $brand,
+        maxVersion: $maxVersion, ip: $ip) {
+        id,
+        token,
+        code,
+        message
+      }
+    }''';
+    var data = await GrahpQLClient()
+        .mutate(mutationQL: loginMobile, variables: param.toJson());
+
+    return LoginRespDto.fromJson(data);
   }
 
   Future<void> sendSMS(String phone) async {

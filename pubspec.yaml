@@ -42,7 +42,7 @@ dependencies:
   uuid: ^3.0.4
   qr_code_scanner: ^0.4.0
   # page_turn: ^1.0.1
-  json_annotation: ^4.0.0
+  json_annotation: ^4.4.0
   date_format: ^2.0.2
   # flutter_datetime_picker: ^1.5.1
   flutter_datetime_picker:
@@ -82,13 +82,14 @@ dependencies:
   permission_handler: ^6.0.1
   device_info_plus: ^3.1.1
   wakelock: ^0.5.6
+  graphql: ^5.0.0
 
 dev_dependencies:
   # flutter_test:
   #   sdk: flutter
   # flutter pub run build_runner build
   build_runner: ^2.0.1
-  json_serializable: ^4.1.1
+  json_serializable: ^6.1.3
   change_app_package_name: ^1.0.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

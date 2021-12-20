@@ -1,3 +1,5 @@
+import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
+
 import 'pages/test/testPageView.dart';
 
 import 'pages/home/home.dart';
@@ -46,5 +48,6 @@ class SPRoute {
     "/testTextField": (context) => TestTextField(),
     "/testSwitchControl": (context) => TestSwitchControl(),
     "/testShowModalSideSheet": (context) => TestShowModalSideSheet(),
+    "/testGraphQL": (context) => TestGraphQL(),
   };
 }

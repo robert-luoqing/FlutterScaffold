@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:FlutterScaffold/theme/baseTheme.dart';
 import 'package:provider/provider.dart';
 import 'common/controlls/app.dart';
 import 'common/core/eventBus.dart';
@@ -9,7 +8,8 @@ import 'common/providers/globalVariableProvider.dart';
 import 'common/providers/i18nProvider.dart';
 import 'common/providers/themeProvider.dart';
 import 'config.dart';
-import 'dao/baseDao.dart';
+import 'dao/base/baseDao.dart';
+import 'common/core/graphQLClient.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
 import 'common/controlls/loading.dart';
@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
 
   _initBasicData() async {
     SPHttpClient().host = Config.apiHost;
+    GrahpQLClient().host = Config.grahpQLHost;
     // 以下是获取token,并设置API Host
     SPHttpClient().onHeaderCallback = () async {
       // var userInfo = await getLoginInfo();
@@ -53,6 +54,10 @@ class _MyAppState extends State<MyApp> {
       // } else {
       //   return {"x-access-token": userInfo.token};
       // }
+      return {};
+    };
+
+    GrahpQLClient().onHeaderCallback = () async {
       return {};
     };
 

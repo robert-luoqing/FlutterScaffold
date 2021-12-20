@@ -6,23 +6,21 @@ part of 'userInfo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
-  return UserInfo(
-    id: json['id'] as int,
-  )
-    ..nickname = json['nickname'] as String?
-    ..email = json['email'] as String?
-    ..mobile = json['mobile'] as String?
-    ..isavalible = json['isavalible'] as int?
-    ..userName = json['userName'] as String?
-    ..realname = json['realname'] as String?
-    ..gender = json['gender'] as int?
-    ..avatar = json['avatar'] as String?
-    ..birthday = json['birthday'] as String?
-    ..workStatus = json['work_status'] as String?
-    ..education = json['education'] as String?
-    ..profession = json['profession'] as String?;
-}
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
+      id: json['id'] as int,
+    )
+      ..nickname = json['nickname'] as String?
+      ..email = json['email'] as String?
+      ..mobile = json['mobile'] as String?
+      ..isavalible = json['isavalible'] as int?
+      ..userName = json['userName'] as String?
+      ..realname = json['realname'] as String?
+      ..gender = json['gender'] as int?
+      ..avatar = json['avatar'] as String?
+      ..birthday = json['birthday'] as String?
+      ..workStatus = json['work_status'] as String?
+      ..education = json['education'] as String?
+      ..profession = json['profession'] as String?;
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'id': instance.id,

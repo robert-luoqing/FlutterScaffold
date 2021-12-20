@@ -94,6 +94,11 @@ class _TestPageViewState extends State<TestPageView> {
                     Navigator.pushNamed(context, "/testShowModalSideSheet");
                   },
                   child: Text("Open Side sheet")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/testGraphQL");
+                  },
+                  child: Text("Test GraphQL")),
             ],
           ),
         ),

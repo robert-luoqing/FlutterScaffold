@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
+import 'exception.dart';
+
 /// 这个是调用前取一下头，比如加载token等
 typedef SPHttpClientHeaderCallback = Future<Map<String, dynamic>> Function();
 
@@ -76,10 +78,16 @@ class SPHttpClient {
       return _convertToJSON(response.data);
     } on DioError catch (e, s) {
       print("$url postJSON Error: $e $s");
-      throw "网络错误";
+      throw SPException(
+          code: SPException.NetworkError,
+          message: "Network Error",
+          stackTrace: s);
     } catch (ex, sx) {
       print("$url postJSON2 Error: $ex $sx");
-      throw "网络错误";
+      throw SPException(
+          code: SPException.NetworkError,
+          message: "Network Error",
+          stackTrace: sx);
     }
   }
 

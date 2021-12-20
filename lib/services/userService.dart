@@ -9,15 +9,15 @@ import '../../repos/userCacheRepo.dart';
 
 import 'cacheService.dart';
 
-class AccountService {
-  static AccountService? _cache;
-  factory AccountService() {
+class UserService {
+  static UserService? _cache;
+  factory UserService() {
     if (_cache == null) {
-      _cache = AccountService._internal();
+      _cache = UserService._internal();
     }
     return _cache!;
   }
-  AccountService._internal();
+  UserService._internal();
 
   Future<LoginRespDto> login(LoginReqDto param) async {
     var loginResult = await UserDao().login(param);
