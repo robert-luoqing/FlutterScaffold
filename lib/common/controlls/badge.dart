@@ -13,17 +13,19 @@ class SPBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (this.pattern) {
       case SPBadgePattern.h14_f10:
-        return SizedBox(
-          height: 14,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7), color: Colors.red),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minWidth: 14),
-              child: Center(
-                child: Text(
-                  this.badge,
-                  style: SPTextStyle.text10_FFF_Style,
+        return Center(
+          child: SizedBox(
+            height: 14,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7), color: Colors.red),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 14),
+                child: Center(
+                  child: Text(
+                    this.badge,
+                    style: SPTextStyle.text10_FFF_Style,
+                  ),
                 ),
               ),
             ),

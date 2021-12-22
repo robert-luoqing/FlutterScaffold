@@ -1,5 +1,7 @@
 import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
 
+import 'pages/test/testAlphabetListView.dart';
+import 'pages/test/testImage.dart';
 import 'pages/test/testPageView.dart';
 
 import 'pages/home/home.dart';
@@ -15,6 +17,7 @@ import 'pages/test/testGlobalLoading.dart';
 import 'pages/test/testImagePicker.dart';
 import 'pages/test/testListView.dart';
 import 'pages/test/testMarquee.dart';
+import 'pages/test/testPicker.dart';
 import 'pages/test/testShowModalSideSheet.dart';
 import 'pages/test/testSliverView.dart';
 import 'pages/test/testSwitchControl.dart';
@@ -49,5 +52,8 @@ class SPRoute {
     "/testSwitchControl": (context) => TestSwitchControl(),
     "/testShowModalSideSheet": (context) => TestShowModalSideSheet(),
     "/testGraphQL": (context) => TestGraphQL(),
+    "/testImage": (context) => TestImage(),
+    "/testPicker": (context) => TestPicker(),
+    "/testAlphabetListView": (context) => TestAlphabetListView(),
   };
 }

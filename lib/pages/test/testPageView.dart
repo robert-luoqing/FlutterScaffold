@@ -99,6 +99,21 @@ class _TestPageViewState extends State<TestPageView> {
                     Navigator.pushNamed(context, "/testGraphQL");
                   },
                   child: Text("Test GraphQL")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/testImage");
+                  },
+                  child: Text("Test Image")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/testPicker");
+                  },
+                  child: Text("Test Picker")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/testAlphabetListView");
+                  },
+                  child: Text("Test AlphabetListView")),
             ],
           ),
         ),

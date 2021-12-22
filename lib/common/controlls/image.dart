@@ -4,22 +4,22 @@ import '../../../common/controlls/networkImage.dart';
 import '../../../common/utils/imageUtil.dart';
 import 'package:flutter/material.dart';
 
-enum ImageType { assetImage, networkImage, iconImage, fileImage }
+enum SPImageType { assetImage, networkImage, iconImage, fileImage }
 
-ImageType convertImageTypeFromModel(int type) {
+SPImageType convertImageTypeFromModel(int type) {
   if (type == 1) {
-    return ImageType.iconImage;
+    return SPImageType.iconImage;
   } else if (type == 2) {
-    return ImageType.assetImage;
+    return SPImageType.assetImage;
   } else if (type == 3) {
-    return ImageType.networkImage;
+    return SPImageType.networkImage;
   } else {
-    return ImageType.networkImage;
+    return SPImageType.networkImage;
   }
 }
 
 class SPImage extends StatefulWidget {
-  final ImageType imageType;
+  final SPImageType imageType;
   final String url;
   final String? defaultUrl;
   final double? width;
@@ -43,13 +43,13 @@ class _SPImageState extends State<SPImage> {
   @override
   Widget build(BuildContext context) {
     switch (this.widget.imageType) {
-      case ImageType.assetImage:
+      case SPImageType.assetImage:
         return Image.asset(this.widget.url,
             width: this.widget.width,
             height: this.widget.height,
             fit: this.widget.fit);
 
-      case ImageType.networkImage:
+      case SPImageType.networkImage:
         if (this.widget.url.trim() == "") {
           if (this.widget.defaultUrl == null) {
             return Container(
@@ -68,14 +68,14 @@ class _SPImageState extends State<SPImage> {
               height: this.widget.height,
               fit: this.widget.fit);
         }
-      case ImageType.iconImage:
+      case SPImageType.iconImage:
         return SizedBox(
             width: this.widget.width,
             height: this.widget.height,
             child: Icon(
               IconData(int.parse(this.widget.url)),
             ));
-      case ImageType.fileImage:
+      case SPImageType.fileImage:
         return Image.file(File(this.widget.url),
             width: this.widget.width,
             height: this.widget.height,

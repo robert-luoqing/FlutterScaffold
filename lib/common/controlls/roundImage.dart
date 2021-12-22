@@ -6,7 +6,7 @@ class SPRoundImage extends StatelessWidget {
   final double? height;
   final double radius;
   final String url;
-  final ImageType imageType;
+  final SPImageType imageType;
   final String? defaultUrl;
   final Color? backgroundColor;
   const SPRoundImage(
@@ -22,7 +22,7 @@ class SPRoundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    Widget content = ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(this.radius)),
       child: Container(
         color: backgroundColor,
@@ -36,5 +36,13 @@ class SPRoundImage extends StatelessWidget {
         ),
       ),
     );
+
+    if (width != null || height != null) {
+      content = Center(
+        child: content,
+      );
+    }
+
+    return content;
   }
 }

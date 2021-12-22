@@ -1,5 +1,6 @@
-import 'package:FlutterScaffold/common/controlls/dialog.dart';
-import 'package:FlutterScaffold/common/controlls/marqueeVertical.dart';
+import '../../common/controlls/dialog.dart';
+import '../../common/controlls/marqueeVertical.dart';
+import '../../common/controlls/scaffold.dart';
 
 import '../../common/controlls/marquee.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,8 @@ class TestMarqueePage extends StatefulWidget {
 class _TestMarqueePageState extends State<TestMarqueePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Marquee"),
-      ),
+    return SPScaffold(
+      title: Text("Marquee"),
       body: Container(
         width: double.infinity,
         child: Column(

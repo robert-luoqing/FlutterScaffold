@@ -1,7 +1,6 @@
 import '../../../common/utils/screenUtil.dart';
 import '../../../common/utils/textStyleUtil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SPToast {

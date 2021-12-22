@@ -1,11 +1,8 @@
-import '../../../common/utils/textStyleUtil.dart';
-import 'package:flutter/cupertino.dart';
-
 /// The class will wrap text field and its styles.
 /// Principle: Don't expose complicate style to invoker
 /// Just make invoker simple ASAP to reduce complex in page or component
 /// The style will be finished in cocrect work in project or coming from UX team
-
+import '../../../common/utils/textStyleUtil.dart';
 import 'package:flutter/material.dart';
 
 enum SPTextFieldPattern { normal, textWithIcon, h35_F9F, withoutBorder }

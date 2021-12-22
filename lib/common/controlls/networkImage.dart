@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 class SPNetworkImage extends StatefulWidget {
   final String url;
   final String? defaultUrl;
+  final bool defaultUrlIsAsset;
   final double? width;
   final double? height;
   final BoxFit fit;
+  final bool showLoadImageProgress;
   const SPNetworkImage(
       {required this.url,
       this.defaultUrl,
       this.width,
       this.height,
       this.fit = BoxFit.fill,
+      this.defaultUrlIsAsset = true,
+      this.showLoadImageProgress = false,
       Key? key})
       : super(key: key);
 
@@ -24,14 +28,27 @@ class _SPImageState extends State<SPNetworkImage> {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-        // placeholder: (context, url) => CircularProgressIndicator(),
+        placeholder: this.widget.showLoadImageProgress
+            ? (context, url) => CircularProgressIndicator()
+            : null,
         imageUrl: this.widget.url,
-        errorWidget: (context, url, error) => this.widget.defaultUrl != null
-            ? Image.asset(this.widget.defaultUrl!,
-                width: this.widget.width,
-                height: this.widget.height,
-                fit: this.widget.fit)
-            : Container(),
+        errorWidget: (context, url, error) {
+          if (this.widget.defaultUrl != null) {
+            if (this.widget.defaultUrlIsAsset) {
+              return Image.asset(this.widget.defaultUrl!,
+                  width: this.widget.width,
+                  height: this.widget.height,
+                  fit: this.widget.fit);
+            } else {
+              return Image.network(this.widget.defaultUrl!,
+                  width: this.widget.width,
+                  height: this.widget.height,
+                  fit: this.widget.fit);
+            }
+          }
+
+          return Container();
+        },
         width: this.widget.width,
         height: this.widget.height,
         fit: this.widget.fit);

@@ -10,11 +10,21 @@ class SPPicker extends StatefulWidget {
   final Map<dynamic, String> data;
   final double height;
   final dynamic selectedKey;
+  final String okButtonText;
+  final String cancelButtonText;
+  // The selected item is the value if click outside content
+  // default is false
+  final bool dismissIsSelect;
+  final bool showTopBar;
   const SPPicker(
       {required this.completer,
       required this.data,
       this.selectedKey,
       this.height = 100,
+      this.okButtonText = "OK",
+      this.cancelButtonText = "CANCEL",
+      this.dismissIsSelect = false,
+      this.showTopBar = true,
       Key? key})
       : super(key: key);
 
@@ -22,13 +32,28 @@ class SPPicker extends StatefulWidget {
   _SPPickerState createState() => _SPPickerState();
 
   static Future<dynamic> show(BuildContext context, Map<dynamic, String> data,
-      {double height = 250}) {
+      {double height = 250,
+      dynamic selectedKey,
+      bool isDismissible = true,
+      bool dismissIsSelect = false,
+      bool showTopBar = true,
+      String okButtonText = "OK",
+      String cancelButtonText = "CANCEL"}) {
     var completer = Completer<dynamic>();
 
     showModalBottomSheet(
         context: context,
+        isDismissible: isDismissible,
         builder: (BuildContext context) {
-          return SPPicker(completer: completer, data: data, height: height);
+          return SPPicker(
+              completer: completer,
+              data: data,
+              height: height,
+              selectedKey: selectedKey,
+              okButtonText: okButtonText,
+              cancelButtonText: cancelButtonText,
+              dismissIsSelect: dismissIsSelect,
+              showTopBar: showTopBar);
         });
     return completer.future;
   }
@@ -37,6 +62,7 @@ class SPPicker extends StatefulWidget {
 class _SPPickerState extends State<SPPicker> {
   bool invokeCompleter = false;
   late FixedExtentScrollController controller;
+  dynamic selectedValue;
   @override
   void initState() {
     var selectedIndex = 0;
@@ -46,9 +72,15 @@ class _SPPickerState extends State<SPPicker> {
         break;
       }
     }
-
+    this.selectedValue = this.widget.selectedKey;
     this.controller = FixedExtentScrollController(initialItem: selectedIndex);
     super.initState();
+  }
+
+  _selectValue() {
+    invokeCompleter = true;
+    var selectedItem = this.widget.data.keys.elementAt(controller.selectedItem);
+    this.widget.completer.complete(selectedItem);
   }
 
   @override
@@ -57,33 +89,30 @@ class _SPPickerState extends State<SPPicker> {
       height: this.widget.height,
       child: Column(
         children: [
-          Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    invokeCompleter = true;
-                    SPNavigator.pop(context);
-                    this.widget.completer.complete(null);
-                  },
-                  child: Text("取消")),
-              Expanded(
-                  child: Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                    onPressed: () {
-                      invokeCompleter = true;
-                      SPNavigator.pop(context);
-                      var selectedItem = this
-                          .widget
-                          .data
-                          .keys
-                          .elementAt(controller.selectedItem);
-                      this.widget.completer.complete(selectedItem);
-                    },
-                    child: Text("确定")),
-              ))
-            ],
-          ),
+          this.widget.showTopBar
+              ? Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          invokeCompleter = true;
+                          SPNavigator.pop(context);
+                          this.widget.completer.complete(null);
+                        },
+                        child: Text(this.widget.cancelButtonText)),
+                    Expanded(
+                        child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          onPressed: () {
+                            this._selectValue();
+
+                            SPNavigator.pop(context);
+                          },
+                          child: Text(this.widget.okButtonText)),
+                    ))
+                  ],
+                )
+              : Container(),
           Expanded(
             child: CupertinoPicker(
               backgroundColor: Colors.white,
@@ -91,6 +120,8 @@ class _SPPickerState extends State<SPPicker> {
               magnification: 1.2,
               useMagnifier: true,
               onSelectedItemChanged: (value) {
+                var selectedItem = this.widget.data.keys.elementAt(value);
+                this.selectedValue = selectedItem;
                 print("selectedd: $value");
               },
               itemExtent: 32.0,
@@ -106,8 +137,13 @@ class _SPPickerState extends State<SPPicker> {
   @override
   void dispose() {
     if (invokeCompleter == false) {
-      this.widget.completer.complete(null);
+      if (this.widget.dismissIsSelect) {
+        this.widget.completer.complete(this.selectedValue);
+      } else {
+        this.widget.completer.complete(null);
+      }
     }
+    this.controller.dispose();
     super.dispose();
   }
 }

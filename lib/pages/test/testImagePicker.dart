@@ -1,3 +1,5 @@
+import '../../common/controlls/scaffold.dart';
+
 import '../../common/controlls/dialog.dart';
 import '../../common/controlls/imagePicker.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,8 @@ class TestImagePicker extends StatefulWidget {
 class _TestImagePickerState extends State<TestImagePicker> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Image selection")),
+    return SPScaffold(
+        title: Text("Image selection"),
         body: Container(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
