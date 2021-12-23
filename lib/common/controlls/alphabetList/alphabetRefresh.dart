@@ -54,7 +54,9 @@ class _AlphabetRefreshState extends State<AlphabetRefresh>
       // Do nothing
     }
     _isRefreshing = false;
-    this.setState(() {});
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      this.setState(() {});
+    });
   }
 
   void _handleOffsetChange() {
