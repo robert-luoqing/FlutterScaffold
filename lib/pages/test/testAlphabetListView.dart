@@ -84,6 +84,9 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                 headerBuilder: getDefaultHeaderBuilder((d) => d.alphabet),
                 alphabetBuilder: getDefaultAlphabetBuilder((d) => d.alphabet),
                 alphabetTipBuilder: getDefaultTipBuilder((d) => d.alphabet),
+                onRefresh: () async {
+                  await Future.delayed(Duration(seconds: 4));
+                },
                 itemBuilder:
                     (context, itemData, itemIndex, headerData, headerIndex) {
                   return Padding(

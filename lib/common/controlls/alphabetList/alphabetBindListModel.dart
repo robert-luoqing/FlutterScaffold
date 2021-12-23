@@ -19,6 +19,8 @@ typedef SPAlphabetListViewAlphabetBuilder<T> = Widget Function(
 typedef SPAlphabetListViewTipBuilder<T> = Widget Function(
     BuildContext context, T headerData);
 
+typedef SPAlphabetListViewRefresh = Future Function();
+
 List<AlphabetHeader<T>> convertListToAlphaHeader<T>(
     Iterable<T> data, SPAlphabetListViewOnFetchAlphabet onAlphabet) {
   List<AlphabetHeader<T>> result = [];
@@ -41,20 +43,35 @@ class AlphabetModel<T> {
       {required this.mapIndex,
       required this.headerData,
       required this.headerIndex});
+
+  /// [mapIndex] is used to indicate the index of list data
   int mapIndex;
   T headerData;
+
+  /// [headerIndex] is the index of header list
   int headerIndex;
 }
 
+enum AlphabetBindListModelType { dataHeader, dataItem, refresh, loading }
+
 class AlphabetBindListModel {
   AlphabetBindListModel(
-      {required this.headerIndex,
+      {required this.type,
+      required this.headerIndex,
       required this.headerData,
       this.itemData,
       this.itemIndex});
+  AlphabetBindListModelType type;
+
+  /// [headerIndex] is the index of header list
   int headerIndex;
-  int? itemIndex;
   dynamic headerData;
+
+  /// [itemIndex] is the index of header's list
+  /// it is null if type is not dataItem
+  int? itemIndex;
+
+  /// it is null if type is not dataItem
   dynamic itemData;
 }
 

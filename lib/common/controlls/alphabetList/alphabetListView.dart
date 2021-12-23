@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'alphabetBindListModel.dart';
+import 'alphabetRefresh.dart';
 import 'alphabetSideList.dart';
 import 'alphabetSticky.dart';
 import 'alphabetTip.dart';
@@ -12,11 +13,14 @@ class SPAlphabetListView<T, N> extends StatefulWidget {
       required this.onFetchListData,
       required this.headerBuilder,
       required this.itemBuilder,
+      this.onRefresh,
+      this.refreshWidget,
       this.alphabetAlign = Alignment.center,
       this.alphabetInset = const EdgeInsets.all(4.0),
       this.enableSticky = true,
       this.alphabetBuilder,
       this.alphabetTipBuilder,
+      this.physics,
       Key? key})
       : super(key: key);
 
@@ -26,9 +30,12 @@ class SPAlphabetListView<T, N> extends StatefulWidget {
   final SPAlphabetListViewItemBuilder<T, N> itemBuilder;
   final SPAlphabetListViewAlphabetBuilder<T>? alphabetBuilder;
   final SPAlphabetListViewTipBuilder<T>? alphabetTipBuilder;
+  final SPAlphabetListViewRefresh? onRefresh;
+  final Widget? refreshWidget;
   final bool enableSticky;
   final Alignment alphabetAlign;
   final EdgeInsets alphabetInset;
+  final ScrollPhysics? physics;
 
   @override
   _SPAlphabetListViewState<T, N> createState() =>
@@ -59,9 +66,18 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
     List<AlphabetModel<T>> _buildMap = [];
     int _headerIndex = 0;
     int _listIndex = 0;
+    // Add refresh control on it
+    _buildData.add(AlphabetBindListModel(
+        type: AlphabetBindListModelType.refresh,
+        headerIndex: -1,
+        headerData: null));
+    _listIndex++;
+
     for (T _header in this.ownWidget.source) {
       _buildData.add(AlphabetBindListModel(
-          headerIndex: _headerIndex, headerData: _header));
+          type: AlphabetBindListModelType.dataHeader,
+          headerIndex: _headerIndex,
+          headerData: _header));
 
       var _itemIndex = 0;
       _buildMap.add(AlphabetModel(
@@ -74,6 +90,7 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
       var _itemList = this.ownWidget.onFetchListData(_header);
       for (N _item in _itemList) {
         _buildData.add(AlphabetBindListModel(
+            type: AlphabetBindListModelType.dataItem,
             headerIndex: _headerIndex,
             headerData: _header,
             itemIndex: _itemIndex,
@@ -85,6 +102,13 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
       _headerIndex++;
     }
 
+    // Add loading control on it
+    _buildData.add(AlphabetBindListModel(
+        type: AlphabetBindListModelType.loading,
+        headerIndex: -1,
+        headerData: null));
+    _listIndex++;
+
     this.listData = _buildData;
     this.headerToIndexMap = _buildMap;
   }
@@ -93,6 +117,8 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
     Iterable<ItemPosition> positions =
         itemPositionsListener.itemPositions.value;
 
+    AlphabetBindListModel? currentTopItem;
+    List<ItemPosition> updatedPosition = [];
     if (positions.isNotEmpty) {
       List<ItemPosition> newPositions = positions
           .where((ItemPosition position) => position.itemTrailingEdge > 0)
@@ -101,27 +127,23 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
           ((a.itemTrailingEdge - b.itemTrailingEdge) * 1000000).toInt());
 
       if (newPositions.length > 0) {
-        var itemPosition = newPositions.first;
-        int index = itemPosition.index;
-        if (alphabetSideListKey.currentState != null) {
-          alphabetSideListKey.currentState!.topItem = this.listData[index];
-        }
-      } else {
-        if (alphabetSideListKey.currentState != null) {
-          alphabetSideListKey.currentState!.topItem = null;
-        }
-      }
+        var firstPosition = newPositions.first;
 
-      if (stickyKey.currentState != null) {
-        stickyKey.currentState!.updateItemPositions(newPositions);
+        int index = firstPosition.index;
+        var type = this.listData[index].type;
+        if (type == AlphabetBindListModelType.dataHeader ||
+            type == AlphabetBindListModelType.dataItem) {
+          currentTopItem = this.listData[index];
+        }
       }
-    } else {
-      if (alphabetSideListKey.currentState != null) {
-        alphabetSideListKey.currentState!.topItem = null;
-      }
-      if (stickyKey.currentState != null) {
-        stickyKey.currentState!.updateItemPositions([]);
-      }
+      updatedPosition = newPositions;
+    }
+
+    if (alphabetSideListKey.currentState != null) {
+      alphabetSideListKey.currentState!.topItem = currentTopItem;
+    }
+    if (stickyKey.currentState != null) {
+      stickyKey.currentState!.updateItemPositions(updatedPosition);
     }
   }
 
@@ -148,23 +170,45 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         var metrics = notification.metrics;
+
         if (stickyKey.currentState != null) {
           stickyKey.currentState!.updateScrollPixed(
               metrics.pixels <= metrics.minScrollExtent,
               metrics.viewportDimension);
         }
+
         return false;
       },
       child: ScrollablePositionedList.builder(
+        // physics: const ClampingScrollPhysics(),
+        // physics: const BouncingScrollPhysics(),
+        physics: ownWidget.onRefresh != null
+            ? const BouncingScrollPhysics()
+            : ownWidget.physics,
         itemCount: this.listData.length,
         itemBuilder: (context, index) {
           AlphabetBindListModel itemData = this.listData[index];
-          if (itemData.itemIndex == null) {
-            return this.ownWidget.headerBuilder(
-                context, itemData.headerData, itemData.headerIndex);
-          } else {
-            return this.ownWidget.itemBuilder(context, itemData.itemData,
-                itemData.itemIndex!, itemData.headerData, itemData.headerIndex);
+          switch (itemData.type) {
+            case AlphabetBindListModelType.dataHeader:
+              return this.ownWidget.headerBuilder(
+                  context, itemData.headerData, itemData.headerIndex);
+            case AlphabetBindListModelType.dataItem:
+              return this.ownWidget.itemBuilder(
+                  context,
+                  itemData.itemData,
+                  itemData.itemIndex!,
+                  itemData.headerData,
+                  itemData.headerIndex);
+            case AlphabetBindListModelType.refresh:
+              return ownWidget.onRefresh != null
+                  ? (ownWidget.refreshWidget != null
+                      ? ownWidget.refreshWidget!
+                      : AlphabetRefresh(
+                          onRefresh: ownWidget.onRefresh!,
+                        ))
+                  : Container();
+            case AlphabetBindListModelType.loading:
+              return Container();
           }
         },
         itemScrollController: itemScrollController,
