@@ -7,12 +7,16 @@ class AlphabetSideList<T> extends StatefulWidget {
   const AlphabetSideList(
       {required this.headerToIndexMap,
       required this.onTap,
+      required this.alphabetAlign,
+      required this.alphabetInset,
       this.alphabetBuilder,
       Key? key})
       : super(key: key);
   final SPAlphabetListViewAlphabetBuilder<T>? alphabetBuilder;
   final List<AlphabetModel<T>> headerToIndexMap;
   final AlphabetItemOnTap<AlphabetModel<T>> onTap;
+  final Alignment alphabetAlign;
+  final EdgeInsets alphabetInset;
 
   @override
   AlphabetSideListState<T> createState() => AlphabetSideListState<T>();
@@ -69,16 +73,17 @@ class AlphabetSideListState<T> extends State<AlphabetSideList> {
           top: 0,
           bottom: 0,
           right: 0,
-          child: Center(
+          child: Align(
+              alignment: ownWidget.alphabetAlign,
               child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: (Column(
-                mainAxisSize: MainAxisSize.min,
-                children: alphabetWidgets,
-              )),
-            ),
-          )));
+                child: Padding(
+                  padding: ownWidget.alphabetInset,
+                  child: (Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: alphabetWidgets,
+                  )),
+                ),
+              )));
     }
   }
 }

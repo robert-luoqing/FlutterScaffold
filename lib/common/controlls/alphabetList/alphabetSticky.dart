@@ -46,48 +46,54 @@ class AlphabetStickyState<T> extends State<AlphabetSticky> {
   }
 
   _mixHandlePosition() {
-    AlphabetBindListModel? curr;
-    double strickyPos = 0;
-    if (this._isBounceState == false) {
-      List<ItemPosition> posList = this._positions;
-      if (posList.length > 0 && listData.length > posList[0].index) {
-        curr = listData[posList[0].index];
-        if (_containerKey.currentContext != null) {
-          var stickyHeight = 0.0;
-          try {
-            stickyHeight = _containerKey.currentContext!.size?.height ?? 0;
-          } catch (e, s) {
-            // print('--->_mixHandlePosition error $e,$s');
-          }
+    try {
+      AlphabetBindListModel? curr;
+      double strickyPos = 0;
+      if (this._isBounceState == false) {
+        List<ItemPosition> posList = this._positions;
+        if (posList.length > 0 && listData.length > posList[0].index) {
+          curr = listData[posList[0].index];
+          if (_containerKey.currentContext != null) {
+            var stickyHeight = 0.0;
+            try {
+              stickyHeight = _containerKey.currentContext!.size?.height ?? 0;
+            } catch (e, s) {
+              // print('--->_mixHandlePosition error $e,$s');
+            }
 
-          if (stickyHeight > 0) {
-            // Get next header info
-            for (var i = 1; i < this._positions.length; i++) {
-              var item = this._positions[i];
-              var itemData = listData[item.index];
-              if (itemData.itemIndex == null) {
-                var itemLeadingOffset =
-                    this._viewportHeight * item.itemLeadingEdge;
-                if (itemLeadingOffset < stickyHeight) {
-                  // AlphabetHeader _tem = itemData.headerData as AlphabetHeader;
-                  // print(
-                  //     "------>$itemLeadingOffset, item: ${_tem.alphabet}， _viewportHeight: $_viewportHeight");
-                  strickyPos = itemLeadingOffset - stickyHeight;
+            if (stickyHeight > 0) {
+              // Get next header info
+              for (var i = 1; i < this._positions.length; i++) {
+                var item = this._positions[i];
+                var itemData = listData[item.index];
+                if (itemData.itemIndex == null) {
+                  var itemLeadingOffset =
+                      this._viewportHeight * item.itemLeadingEdge;
+                  if (itemLeadingOffset < stickyHeight) {
+                    // AlphabetHeader _tem = itemData.headerData as AlphabetHeader;
+                    // print(
+                    //     "------>$itemLeadingOffset, item: ${_tem.alphabet}， _viewportHeight: $_viewportHeight");
+                    strickyPos = itemLeadingOffset - stickyHeight;
+                  }
+                  break;
                 }
-                break;
               }
             }
           }
         }
       }
-    }
 
-    // print("------2>$_viewportHeight");
-    if (curr != this._currentHeader || strickyPos != this._strickyPos) {
-      this.setState(() {
-        this._currentHeader = curr;
-        this._strickyPos = strickyPos;
-      });
+      // print("------2>$_viewportHeight");
+      if (curr != this._currentHeader || strickyPos != this._strickyPos) {
+        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+          this.setState(() {
+            this._currentHeader = curr;
+            this._strickyPos = strickyPos;
+          });
+        });
+      }
+    } catch (ex, ss) {
+      print("=====>$ex, $ss");
     }
   }
 

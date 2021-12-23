@@ -98,13 +98,12 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                 },
                 itemBuilder:
                     (context, itemData, itemIndex, headerData, headerIndex) {
-                  return Container(
-                      child: Padding(
+                  return Padding(
                     padding: const EdgeInsets.only(right: 12.0),
                     child: ListTile(
                         title: Text(itemData["countryName"] as String),
                         trailing: Text(itemData["phoneCode"] as String)),
-                  ));
+                  );
                 },
                 alphabetBuilder:
                     (context, headerData, isCurrent, headerIndex) => isCurrent

@@ -12,6 +12,8 @@ class SPAlphabetListView<T, N> extends StatefulWidget {
       required this.onFetchListData,
       required this.headerBuilder,
       required this.itemBuilder,
+      this.alphabetAlign = Alignment.center,
+      this.alphabetInset = const EdgeInsets.all(4.0),
       this.enableSticky = true,
       this.alphabetBuilder,
       this.alphabetTipBuilder,
@@ -25,6 +27,8 @@ class SPAlphabetListView<T, N> extends StatefulWidget {
   final SPAlphabetListViewAlphabetBuilder<T>? alphabetBuilder;
   final SPAlphabetListViewTipBuilder<T>? alphabetTipBuilder;
   final bool enableSticky;
+  final Alignment alphabetAlign;
+  final EdgeInsets alphabetInset;
 
   @override
   _SPAlphabetListViewState<T, N> createState() =>
@@ -185,6 +189,8 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
         AlphabetSideList<T>(
           alphabetBuilder: ownWidget.alphabetBuilder,
           headerToIndexMap: this.headerToIndexMap,
+          alphabetAlign: ownWidget.alphabetAlign,
+          alphabetInset: ownWidget.alphabetInset,
           key: alphabetSideListKey,
           onTap: <T>(item) {
             if (alphabetTipKey.currentState != null) {
