@@ -150,7 +150,7 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
         var metrics = notification.metrics;
         if (stickyKey.currentState != null) {
           stickyKey.currentState!.updateScrollPixed(
-              metrics.pixels < metrics.minScrollExtent,
+              metrics.pixels <= metrics.minScrollExtent,
               metrics.viewportDimension);
         }
         return false;
