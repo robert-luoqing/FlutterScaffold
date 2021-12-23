@@ -2,23 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'alphabetBindListModel.dart';
+import 'alphabetSideList.dart';
 import 'alphabetSticky.dart';
+import 'alphabetTip.dart';
 
 class SPAlphabetListView<T, N> extends StatefulWidget {
-  final List<T> source;
-  final SPAlphabetListViewOnFetchListData<T, N> onFetchListData;
-  final SPAlphabetListViewHeaderWidgetBuilder<T> headerWidgetBuilder;
-  final SPAlphabetListViewItemWidgetBuilder<T, N> itemWidgetBuilder;
-  final SPAlphabetListViewAlphabetWidgetBuilder<T> alphabetWidgetBuilder;
-
   const SPAlphabetListView(
       {required this.source,
       required this.onFetchListData,
-      required this.headerWidgetBuilder,
-      required this.itemWidgetBuilder,
-      required this.alphabetWidgetBuilder,
+      required this.headerBuilder,
+      required this.itemBuilder,
+      this.alphabetBuilder,
+      this.alphabetTipBuilder,
       Key? key})
       : super(key: key);
+
+  final List<T> source;
+  final SPAlphabetListViewOnFetchListData<T, N> onFetchListData;
+  final SPAlphabetListViewHeaderBuilder<T> headerBuilder;
+  final SPAlphabetListViewItemBuilder<T, N> itemBuilder;
+  final SPAlphabetListViewAlphabetBuilder<T>? alphabetBuilder;
+  final SPAlphabetListViewTipBuilder<T>? alphabetTipBuilder;
 
   @override
   _SPAlphabetListViewState<T, N> createState() =>
@@ -36,11 +40,9 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
   /// Map header to index of [ScrollablePositionedList]
   List<AlphabetModel<T>> headerToIndexMap = [];
 
-  /// It is top item on viewport, the headerData can be used to tracking
-  /// current alphabet
-  AlphabetBindListModel? topItem;
-
   final stickyKey = GlobalKey<AlphabetStickyState>();
+  final alphabetTipKey = GlobalKey<AlphabetTipState>();
+  final alphabetSideListKey = GlobalKey<AlphabetSideListState>();
 
   SPAlphabetListView<T, N> get ownWidget {
     return this.widget as SPAlphabetListView<T, N>;
@@ -95,16 +97,12 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
       if (newPositions.length > 0) {
         var itemPosition = newPositions.first;
         int index = itemPosition.index;
-        if (topItem != this.listData[index]) {
-          this.setState(() {
-            topItem = this.listData[index];
-          });
+        if (alphabetSideListKey.currentState != null) {
+          alphabetSideListKey.currentState!.topItem = this.listData[index];
         }
       } else {
-        if (topItem != null) {
-          this.setState(() {
-            topItem = null;
-          });
+        if (alphabetSideListKey.currentState != null) {
+          alphabetSideListKey.currentState!.topItem = null;
         }
       }
 
@@ -112,10 +110,8 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
         stickyKey.currentState!.updateItemPositions(newPositions);
       }
     } else {
-      if (topItem != null) {
-        this.setState(() {
-          topItem = null;
-        });
+      if (alphabetSideListKey.currentState != null) {
+        alphabetSideListKey.currentState!.topItem = null;
       }
       if (stickyKey.currentState != null) {
         stickyKey.currentState!.updateItemPositions([]);
@@ -142,35 +138,33 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
     super.dispose();
   }
 
-  Widget _renderRightAlphabet() {
-    List<Widget> alphabetWidgets = [];
-    for (var header in this.headerToIndexMap) {
-      var _alphabetWidget = this.ownWidget.alphabetWidgetBuilder(
-          context,
-          header.headerData,
-          header.headerIndex == this.topItem?.headerIndex,
-          header.headerIndex);
-      alphabetWidgets.add(GestureDetector(
-          onTap: () {
-            itemScrollController.jumpTo(index: header.mapIndex);
-          },
-          behavior: HitTestBehavior.opaque,
-          child: _alphabetWidget));
-    }
-    return Positioned(
-        top: 0,
-        bottom: 0,
-        right: 0,
-        child: Center(
-            child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: (Column(
-              mainAxisSize: MainAxisSize.min,
-              children: alphabetWidgets,
-            )),
-          ),
-        )));
+  Widget _renderList() {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        var metrics = notification.metrics;
+        if (stickyKey.currentState != null) {
+          stickyKey.currentState!.updateScrollPixed(
+              metrics.pixels < metrics.minScrollExtent,
+              metrics.viewportDimension);
+        }
+        return false;
+      },
+      child: ScrollablePositionedList.builder(
+        itemCount: this.listData.length,
+        itemBuilder: (context, index) {
+          AlphabetBindListModel itemData = this.listData[index];
+          if (itemData.itemIndex == null) {
+            return this.ownWidget.headerBuilder(
+                context, itemData.headerData, itemData.headerIndex);
+          } else {
+            return this.ownWidget.itemBuilder(context, itemData.itemData,
+                itemData.itemIndex!, itemData.headerData, itemData.headerIndex);
+          }
+        },
+        itemScrollController: itemScrollController,
+        itemPositionsListener: itemPositionsListener,
+      ),
+    );
   }
 
   @override
@@ -178,44 +172,27 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
     return Container(
         child: Stack(
       children: [
-        NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            var metrics = notification.metrics;
-            // print(
-            //     "scroll: ${metrics.pixels}, ${metrics.extentBefore},${metrics.minScrollExtent}, ${metrics.maxScrollExtent}");
-            if (stickyKey.currentState != null) {
-              stickyKey.currentState!.updateScrollPixed(
-                  metrics.pixels < metrics.minScrollExtent,
-                  metrics.viewportDimension);
-            }
-            return false;
-          },
-          child: ScrollablePositionedList.builder(
-            itemCount: this.listData.length,
-            itemBuilder: (context, index) {
-              AlphabetBindListModel itemData = this.listData[index];
-              if (itemData.itemIndex == null) {
-                return this.ownWidget.headerWidgetBuilder(
-                    context, itemData.headerData, itemData.headerIndex);
-              } else {
-                return this.ownWidget.itemWidgetBuilder(
-                    context,
-                    itemData.itemData,
-                    itemData.itemIndex!,
-                    itemData.headerData,
-                    itemData.headerIndex);
-              }
-            },
-            itemScrollController: itemScrollController,
-            itemPositionsListener: itemPositionsListener,
-          ),
-        ),
+        this._renderList(),
         AlphabetSticky<T>(
           listData: this.listData,
-          headerWidgetBuilder: ownWidget.headerWidgetBuilder,
+          headerBuilder: ownWidget.headerBuilder,
           key: stickyKey,
         ),
-        this._renderRightAlphabet()
+        AlphabetSideList<T>(
+          alphabetBuilder: ownWidget.alphabetBuilder,
+          headerToIndexMap: this.headerToIndexMap,
+          key: alphabetSideListKey,
+          onTap: <T>(item) {
+            if (alphabetTipKey.currentState != null) {
+              alphabetTipKey.currentState!.tipData = item.headerData;
+            }
+            itemScrollController.jumpTo(index: item.mapIndex);
+          },
+        ),
+        AlphabetTip(
+          alphabetTipBuilder: ownWidget.alphabetTipBuilder,
+          key: alphabetTipKey,
+        )
       ],
     ));
   }

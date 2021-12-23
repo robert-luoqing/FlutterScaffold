@@ -5,9 +5,9 @@ import 'alphabetBindListModel.dart';
 
 class AlphabetSticky<T> extends StatefulWidget {
   final List<AlphabetBindListModel>? listData;
-  final SPAlphabetListViewHeaderWidgetBuilder<T> headerWidgetBuilder;
+  final SPAlphabetListViewHeaderBuilder<T> headerBuilder;
 
-  AlphabetSticky({required this.headerWidgetBuilder, this.listData, Key? key})
+  AlphabetSticky({required this.headerBuilder, this.listData, Key? key})
       : super(key: key);
 
   @override
@@ -69,7 +69,7 @@ class AlphabetStickyState<T> extends State<AlphabetSticky> {
                 var itemLeadingOffset =
                     this._viewportHeight * item.itemLeadingEdge;
                 if (itemLeadingOffset < stickyHeight) {
-                  AlphabetHeader _tem = itemData.headerData as AlphabetHeader;
+                  // AlphabetHeader _tem = itemData.headerData as AlphabetHeader;
                   // print(
                   //     "------>$itemLeadingOffset, item: ${_tem.alphabet}， _viewportHeight: $_viewportHeight");
                   strickyPos = itemLeadingOffset - stickyHeight;
@@ -104,8 +104,8 @@ class AlphabetStickyState<T> extends State<AlphabetSticky> {
         child: Container(
           key: _containerKey,
           child: this._currentHeader != null
-              ? ownWidget.headerWidgetBuilder(context,
-                  _currentHeader!.headerData, _currentHeader!.headerIndex)
+              ? ownWidget.headerBuilder(context, _currentHeader!.headerData,
+                  _currentHeader!.headerIndex)
               : SizedBox(
                   height: 0,
                 ),

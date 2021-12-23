@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 typedef SPAlphabetListViewOnFetchListData<T, N> = List<N> Function(
     T sourceItem);
 typedef SPAlphabetListViewOnFetchAlphabet<T> = String Function(T header);
-typedef SPAlphabetListViewItemWidgetBuilder<T, N> = Widget Function(
+typedef SPAlphabetListViewItemBuilder<T, N> = Widget Function(
   BuildContext context,
   N itemData,
   int itemIndex,
   T headerData,
   int headerIndex,
 );
-typedef SPAlphabetListViewHeaderWidgetBuilder<T> = Widget Function(
+typedef SPAlphabetListViewHeaderBuilder<T> = Widget Function(
     BuildContext context, T headerData, int headerIndex);
 
-typedef SPAlphabetListViewAlphabetWidgetBuilder<T> = Widget Function(
+typedef SPAlphabetListViewAlphabetBuilder<T> = Widget Function(
     BuildContext context, T headerData, bool isCurrent, int headerIndex);
+
+typedef SPAlphabetListViewTipBuilder<T> = Widget Function(
+    BuildContext context, T headerData);
 
 List<AlphabetHeader<T>> convertListToAlphaHeader<T>(
     Iterable<T> data, SPAlphabetListViewOnFetchAlphabet onAlphabet) {
