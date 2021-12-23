@@ -1,14 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 import '../../common/controlls/alphabetList/alphabetBindListModel.dart';
-import 'package:flutter/services.dart';
-
 import '../../common/controlls/scaffold.dart';
-
 import '../../common/controlls/alphabetList/alphabetListView.dart';
-import 'package:flutter/material.dart';
 
 class TestAlphabetListView extends StatefulWidget {
   const TestAlphabetListView({Key? key}) : super(key: key);
