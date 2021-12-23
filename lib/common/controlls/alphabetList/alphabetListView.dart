@@ -12,6 +12,7 @@ class SPAlphabetListView<T, N> extends StatefulWidget {
       required this.onFetchListData,
       required this.headerBuilder,
       required this.itemBuilder,
+      this.enableSticky = true,
       this.alphabetBuilder,
       this.alphabetTipBuilder,
       Key? key})
@@ -23,6 +24,7 @@ class SPAlphabetListView<T, N> extends StatefulWidget {
   final SPAlphabetListViewItemBuilder<T, N> itemBuilder;
   final SPAlphabetListViewAlphabetBuilder<T>? alphabetBuilder;
   final SPAlphabetListViewTipBuilder<T>? alphabetTipBuilder;
+  final bool enableSticky;
 
   @override
   _SPAlphabetListViewState<T, N> createState() =>
@@ -173,11 +175,13 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
         child: Stack(
       children: [
         this._renderList(),
-        AlphabetSticky<T>(
-          listData: this.listData,
-          headerBuilder: ownWidget.headerBuilder,
-          key: stickyKey,
-        ),
+        ownWidget.enableSticky
+            ? AlphabetSticky<T>(
+                listData: this.listData,
+                headerBuilder: ownWidget.headerBuilder,
+                key: stickyKey,
+              )
+            : Container(),
         AlphabetSideList<T>(
           alphabetBuilder: ownWidget.alphabetBuilder,
           headerToIndexMap: this.headerToIndexMap,

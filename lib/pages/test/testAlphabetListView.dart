@@ -81,6 +81,7 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
               child: SPAlphabetListView<AlphabetHeader, Map>(
                 source: filterCountries,
                 onFetchListData: (header) => List<Map>.from(header.items),
+                enableSticky: true,
                 headerBuilder: (context, headerData, headerIndex) {
                   return Container(
                     color: Color(0xFFF3F4F5),
