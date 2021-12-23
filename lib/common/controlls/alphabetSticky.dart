@@ -53,7 +53,13 @@ class AlphabetStickyState<T> extends State<AlphabetSticky> {
       if (posList.length > 0 && listData.length > posList[0].index) {
         curr = listData[posList[0].index];
         if (_containerKey.currentContext != null) {
-          var stickyHeight = _containerKey.currentContext!.size?.height ?? 0;
+          var stickyHeight = 0.0;
+          try {
+            stickyHeight = _containerKey.currentContext!.size?.height ?? 0;
+          } catch (e, s) {
+            // print('--->_mixHandlePosition error $e,$s');
+          }
+
           if (stickyHeight > 0) {
             // Get next header info
             for (var i = 1; i < this._positions.length; i++) {

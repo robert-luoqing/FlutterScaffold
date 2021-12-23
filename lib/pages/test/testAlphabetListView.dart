@@ -75,12 +75,7 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
             CupertinoSearchTextField(controller: _textController),
             Expanded(
               flex: 1,
-              child:
-                  // SPListView(
-                  //   enablePullDown: true,
-                  //   enablePullUp: true,
-                  //   child:
-                  SPAlphabetListView<AlphabetHeader, Map>(
+              child: SPAlphabetListView<AlphabetHeader, Map>(
                 source: filterCountries,
                 onFetchListData: (header) => List<Map>.from(header.items),
                 headerWidgetBuilder: (context, headerData, headerIndex) {
