@@ -207,3 +207,59 @@ class _SPAlphabetListViewState<T, N> extends State<SPAlphabetListView> {
     ));
   }
 }
+
+SPAlphabetListViewAlphabetBuilder<T> getDefaultAlphabetBuilder<T>(
+    String fetchAlphabet(T data)) {
+  return (BuildContext context, T headerData, bool isCurrent, int headerIndex) {
+    return isCurrent
+        ? SizedBox(
+            width: 18,
+            height: 18,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(9)),
+                child: Center(
+                    child: Text(
+                  fetchAlphabet(headerData),
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ))))
+        : Text(
+            fetchAlphabet(headerData),
+            style: TextStyle(color: Color(0xFF767676)),
+          );
+  };
+}
+
+SPAlphabetListViewTipBuilder<T> getDefaultTipBuilder<T>(
+    String fetchAlphabet(T data)) {
+  return (BuildContext context, T headerData) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8), color: Color(0xCC000000)),
+        width: 50,
+        height: 50,
+        child: Center(
+          child: Text(
+            fetchAlphabet(headerData),
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          ),
+        ));
+  };
+}
+
+SPAlphabetListViewHeaderBuilder<T> getDefaultHeaderBuilder<T>(
+    String fetchAlphabet(T data)) {
+  return (BuildContext context, T headerData, int headerIndex) {
+    return Container(
+      color: Color(0xFFF3F4F5),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Text(
+          fetchAlphabet(headerData),
+          style: TextStyle(fontSize: 18, color: Color(0xFF767676)),
+        ),
+      ),
+    );
+  };
+}

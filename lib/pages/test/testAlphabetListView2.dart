@@ -10,14 +10,14 @@ import '../../common/controlls/scaffold.dart';
 import '../../common/controlls/alphabetList/alphabetListView.dart';
 import 'package:flutter/material.dart';
 
-class TestAlphabetListView extends StatefulWidget {
-  const TestAlphabetListView({Key? key}) : super(key: key);
+class TestAlphabetListView2 extends StatefulWidget {
+  const TestAlphabetListView2({Key? key}) : super(key: key);
 
   @override
-  _TestAlphabetListViewState createState() => _TestAlphabetListViewState();
+  _TestAlphabetListView2State createState() => _TestAlphabetListView2State();
 }
 
-class _TestAlphabetListViewState extends State<TestAlphabetListView> {
+class _TestAlphabetListView2State extends State<TestAlphabetListView2> {
   late TextEditingController _textController;
   List<Map<dynamic, dynamic>> _allCountries = [];
   List<AlphabetHeader<Map>> filterCountries = [];
@@ -84,9 +84,20 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                 enableSticky: true,
                 alphabetAlign: Alignment.center,
                 alphabetInset: const EdgeInsets.all(4.0),
-                headerBuilder: getDefaultHeaderBuilder((d) => d.alphabet),
-                alphabetBuilder: getDefaultAlphabetBuilder((d) => d.alphabet),
-                alphabetTipBuilder: getDefaultTipBuilder((d) => d.alphabet),
+                headerBuilder: (context, headerData, headerIndex) {
+                  return Container(
+                    color: Color(0xFFF3F4F5),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 12.0),
+                      child: Text(
+                        headerData.alphabet,
+                        style:
+                            TextStyle(fontSize: 18, color: Color(0xFF767676)),
+                      ),
+                    ),
+                  );
+                },
                 itemBuilder:
                     (context, itemData, itemIndex, headerData, headerIndex) {
                   return Padding(
@@ -95,6 +106,39 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                         title: Text(itemData["countryName"] as String),
                         trailing: Text(itemData["phoneCode"] as String)),
                   );
+                },
+                alphabetBuilder:
+                    (context, headerData, isCurrent, headerIndex) => isCurrent
+                        ? SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[400],
+                                    borderRadius: BorderRadius.circular(9)),
+                                child: Center(
+                                    child: Text(
+                                  headerData.alphabet,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ))))
+                        : Text(
+                            headerData.alphabet,
+                            style: TextStyle(color: Color(0xFF767676)),
+                          ),
+                alphabetTipBuilder: (context, headerData) {
+                  return Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Color(0xCC000000)),
+                      width: 50,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          headerData.alphabet,
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      ));
                 },
               ),
             ),
