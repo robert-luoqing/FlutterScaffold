@@ -86,7 +86,7 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                     color: Color(0xFFF3F4F5),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14.0, vertical: 12.0),
+                          horizontal: 16.0, vertical: 12.0),
                       child: Text(
                         headerData.alphabet,
                         style:
