@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../common/controlls/alphabetList/alphabetBindListModel.dart';
 import '../../common/controlls/scaffold.dart';
 import '../../common/controlls/alphabetList/alphabetListView.dart';
+import '../../common/controlls/alphabetList/alphabetBouncingScrollRefresh.dart';
 
 class TestAlphabetListView extends StatefulWidget {
   const TestAlphabetListView({Key? key}) : super(key: key);
@@ -81,11 +83,24 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                 enableSticky: true,
                 alphabetAlign: Alignment.center,
                 alphabetInset: const EdgeInsets.all(4.0),
+                // physics: const ClampingScrollPhysics(),
                 headerBuilder: getDefaultHeaderBuilder((d) => d.alphabet),
                 alphabetBuilder: getDefaultAlphabetBuilder((d) => d.alphabet),
                 alphabetTipBuilder: getDefaultTipBuilder((d) => d.alphabet),
+                refreshBuilder:
+                    (isRefreshing, onRefresh, isBouncePhysic, child) {
+                  if (isBouncePhysic) {
+                    return AlphabetBouncingScrollRefresh(
+                      isRefreshing: isRefreshing,
+                      onRefresh: onRefresh,
+                    );
+                  } else {
+                    return RefreshIndicator(
+                        onRefresh: onRefresh, child: child ?? Container());
+                  }
+                },
                 onRefresh: () async {
-                  await Future.delayed(Duration(seconds: 4));
+                  await Future.delayed(Duration(seconds: 10));
                 },
                 itemBuilder:
                     (context, itemData, itemIndex, headerData, headerIndex) {

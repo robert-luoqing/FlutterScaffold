@@ -21,6 +21,11 @@ typedef SPAlphabetListViewTipBuilder<T> = Widget Function(
 
 typedef SPAlphabetListViewRefresh = Future Function();
 
+typedef SPAlphabetRefreshWidgetBuilder = Widget Function(double offset);
+
+typedef SPAlphabetListViewRefreshBuilder = Widget Function(bool isRefreshing,
+    SPAlphabetListViewRefresh onRefresh, bool isBouncePhysic, Widget? child);
+
 List<AlphabetHeader<T>> convertListToAlphaHeader<T>(
     Iterable<T> data, SPAlphabetListViewOnFetchAlphabet onAlphabet) {
   List<AlphabetHeader<T>> result = [];
