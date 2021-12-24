@@ -3,11 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-
-import '../../common/controlls/alphabetList/alphabetBindListModel.dart';
+import 'package:section_view/section_view.dart';
 import '../../common/controlls/scaffold.dart';
-import '../../common/controlls/alphabetList/alphabetListView.dart';
-import '../../common/controlls/alphabetList/alphabetBouncingScrollRefresh.dart';
 
 class TestAlphabetListView extends StatefulWidget {
   const TestAlphabetListView({Key? key}) : super(key: key);
@@ -77,7 +74,7 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
             ),
             Expanded(
               flex: 1,
-              child: SPAlphabetListView<AlphabetHeader, Map>(
+              child: SectionView<AlphabetHeader, Map>(
                 source: filterCountries,
                 onFetchListData: (header) => List<Map>.from(header.items),
                 enableSticky: true,
@@ -86,11 +83,11 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                 // physics: const ClampingScrollPhysics(),
                 headerBuilder: getDefaultHeaderBuilder((d) => d.alphabet),
                 alphabetBuilder: getDefaultAlphabetBuilder((d) => d.alphabet),
-                alphabetTipBuilder: getDefaultTipBuilder((d) => d.alphabet),
+                tipBuilder: getDefaultTipBuilder((d) => d.alphabet),
                 refreshBuilder:
                     (isRefreshing, onRefresh, isBouncePhysic, child) {
                   if (isBouncePhysic) {
-                    return AlphabetBouncingScrollRefresh(
+                    return SectionViewBouncingScrollRefresh(
                       isRefreshing: isRefreshing,
                       onRefresh: onRefresh,
                     );
@@ -100,7 +97,7 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                   }
                 },
                 onRefresh: () async {
-                  await Future.delayed(Duration(seconds: 10));
+                  await Future.delayed(Duration(seconds: 2));
                 },
                 itemBuilder:
                     (context, itemData, itemIndex, headerData, headerIndex) {

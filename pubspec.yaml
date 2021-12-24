@@ -84,7 +84,7 @@ dependencies:
   wakelock: ^0.5.6
   graphql: ^5.0.0
   scrollable_positioned_list: ^0.2.3
-  sticky_headers: ^0.2.0
+  section_view: ^1.0.1
 
 dev_dependencies:
   # flutter_test:
