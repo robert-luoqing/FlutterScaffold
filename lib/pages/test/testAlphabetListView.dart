@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,10 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
     _jsonData.sort((a, b) =>
         a["countryName"].toString().compareTo(b["countryName"].toString()));
     _allCountries = List<Map<dynamic, dynamic>>.from(_jsonData);
+    for (var item in _allCountries) {
+      var rng = new Random();
+      item["height"] = 40.0 + rng.nextInt(40);
+    }
     this._constructAlphabet(this._allCountries);
   }
 
@@ -103,9 +108,12 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                     (context, itemData, itemIndex, headerData, headerIndex) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 12.0),
-                    child: ListTile(
-                        title: Text(itemData["countryName"] as String),
-                        trailing: Text(itemData["phoneCode"] as String)),
+                    child: SizedBox(
+                      height: itemData["height"] as double,
+                      child: ListTile(
+                          title: Text(itemData["countryName"] as String),
+                          trailing: Text(itemData["phoneCode"] as String)),
+                    ),
                   );
                 },
               ),
