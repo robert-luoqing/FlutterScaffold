@@ -64,7 +64,7 @@ class SPPicker extends StatefulWidget {
               dismissIsSelect: dismissIsSelect,
               showTopBar: showTopBar,
               itemBuilder: itemBuilder == null
-                  ? (key, val) => Text('$val')
+                  ? (key, val) => Center(child: Text('$val'))
                   : itemBuilder);
         });
     return completer.future;
