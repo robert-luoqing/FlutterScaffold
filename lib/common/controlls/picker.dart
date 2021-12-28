@@ -5,20 +5,28 @@ import 'package:flutter/material.dart';
 
 import '../utils/navigator.dart';
 
+typedef SPPickerItemBuilder = Widget Function(dynamic key, dynamic val);
+
 class SPPicker extends StatefulWidget {
   final Completer<dynamic> completer;
-  final Map<dynamic, String> data;
+  final Map<dynamic, dynamic> data;
   final double height;
   final dynamic selectedKey;
   final String okButtonText;
   final String cancelButtonText;
-  // The selected item is the value if click outside content
-  // default is false
+
+  /// [dismissIsSelect] is true mean: the selected item is the value if click outside content
+  /// default is false
   final bool dismissIsSelect;
+
   final bool showTopBar;
+
+  final SPPickerItemBuilder itemBuilder;
+
   const SPPicker(
       {required this.completer,
       required this.data,
+      required this.itemBuilder,
       this.selectedKey,
       this.height = 100,
       this.okButtonText = "OK",
@@ -31,12 +39,13 @@ class SPPicker extends StatefulWidget {
   @override
   _SPPickerState createState() => _SPPickerState();
 
-  static Future<dynamic> show(BuildContext context, Map<dynamic, String> data,
+  static Future<dynamic> show(BuildContext context, Map<dynamic, dynamic> data,
       {double height = 250,
       dynamic selectedKey,
       bool isDismissible = true,
       bool dismissIsSelect = false,
       bool showTopBar = true,
+      SPPickerItemBuilder? itemBuilder,
       String okButtonText = "OK",
       String cancelButtonText = "CANCEL"}) {
     var completer = Completer<dynamic>();
@@ -53,7 +62,10 @@ class SPPicker extends StatefulWidget {
               okButtonText: okButtonText,
               cancelButtonText: cancelButtonText,
               dismissIsSelect: dismissIsSelect,
-              showTopBar: showTopBar);
+              showTopBar: showTopBar,
+              itemBuilder: itemBuilder == null
+                  ? (key, val) => Text('$val')
+                  : itemBuilder);
         });
     return completer.future;
   }
@@ -105,7 +117,6 @@ class _SPPickerState extends State<SPPicker> {
                       child: TextButton(
                           onPressed: () {
                             this._selectValue();
-
                             SPNavigator.pop(context);
                           },
                           child: Text(this.widget.okButtonText)),
@@ -117,16 +128,21 @@ class _SPPickerState extends State<SPPicker> {
             child: CupertinoPicker(
               backgroundColor: Colors.white,
               scrollController: this.controller,
-              magnification: 1.2,
+              magnification: 1,
               useMagnifier: true,
-              onSelectedItemChanged: (value) {
-                var selectedItem = this.widget.data.keys.elementAt(value);
+              onSelectedItemChanged: (index) {
+                var selectedItem = this.widget.data.keys.elementAt(index);
                 this.selectedValue = selectedItem;
-                print("selectedd: $value");
+                print("selectedd: $index");
               },
               itemExtent: 32.0,
-              children:
-                  this.widget.data.values.map((item) => Text(item)).toList(),
+              children: this
+                  .widget
+                  .data
+                  .keys
+                  .map((dataKey) =>
+                      widget.itemBuilder(dataKey, this.widget.data[dataKey]))
+                  .toList(),
             ),
           )
         ],
