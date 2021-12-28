@@ -1,6 +1,8 @@
 import '../../../common/utils/textStyleUtil.dart';
 import 'package:flutter/material.dart';
 
+import 'singleChildDiv.dart';
+
 enum SPButtonPattern {
   primaryRoundButton,
   primaryRectButton,
@@ -77,13 +79,9 @@ class _SPButtonState extends State<SPButton> {
           fontFamily: FontFamily_Regular)),
     );
     if (fitContent) {
-      return Center(child: SizedBox(height: height, child: button));
+      return UnconstrainedBox(child: SizedBox(height: height, child: button));
     } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [SizedBox(height: height, child: button)],
-      );
+      return SingleChildDiv(height: height, child: button);
     }
   }
 
