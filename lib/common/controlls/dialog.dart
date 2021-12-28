@@ -218,29 +218,81 @@ class SPDialog {
                                 children: [
                                   Expanded(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(right: 4.0),
-                                    child: SPButton(
-                                        pattern:
-                                            SPButtonPattern.normal_h40_15_FFF,
-                                        onPressed: () {
-                                          SPNavigator.pop(context);
-                                          completer.complete(null);
-                                        },
-                                        text: "Cancel"),
-                                  )),
+                                          padding:
+                                              const EdgeInsets.only(right: 4.0),
+                                          child: Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: [
+                                                Color(0xFFFFFFFF),
+                                                Color(0xFFFFFFFF)
+                                              ]),
+                                              borderRadius:
+                                                  BorderRadius.circular(0),
+                                            ),
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(0))),
+                                                shadowColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                              ),
+                                              onPressed: () {
+                                                SPNavigator.pop(context);
+                                                completer.complete(null);
+                                              },
+                                              child: Text("Cancel",
+                                                  style: SPTextStyle
+                                                      .text15_999_Style),
+                                            ),
+                                          ))),
                                   Expanded(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(right: 4.0),
-                                    child: SPButton(
-                                        pattern: SPButtonPattern
-                                            .normal_h40_15_F46921,
-                                        onPressed: () {
-                                          SPNavigator.pop(context);
-                                          completer
-                                              .complete(textController.text);
-                                        },
-                                        text: "Ok"),
-                                  ))
+                                          padding:
+                                              const EdgeInsets.only(right: 4.0),
+                                          child: Container(
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: [
+                                                Color(0xFFF46921),
+                                                Color(0xFFF46921)
+                                              ]),
+                                              borderRadius:
+                                                  BorderRadius.circular(0),
+                                            ),
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                shape: MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(0))),
+                                                shadowColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                              ),
+                                              onPressed: () {
+                                                SPNavigator.pop(context);
+                                                completer.complete(
+                                                    textController.text);
+                                              },
+                                              child: Text("OK",
+                                                  style: SPTextStyle
+                                                      .text15_FFF_Style),
+                                            ),
+                                          )))
                                 ],
                               ),
                             )

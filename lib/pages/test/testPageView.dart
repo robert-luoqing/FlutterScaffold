@@ -114,6 +114,11 @@ class _TestPageViewState extends State<TestPageView> {
                     Navigator.pushNamed(context, "/testAlphabetListView");
                   },
                   child: Text("Test AlphabetListView")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/testButton");
+                  },
+                  child: Text("Test Button")),
             ],
           ),
         ),

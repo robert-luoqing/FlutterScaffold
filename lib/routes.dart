@@ -1,6 +1,7 @@
 import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
 
 import 'pages/test/testAlphabetListView.dart';
+import 'pages/test/testButton.dart';
 import 'pages/test/testImage.dart';
 import 'pages/test/testPageView.dart';
 
@@ -55,5 +56,6 @@ class SPRoute {
     "/testImage": (context) => TestImage(),
     "/testPicker": (context) => TestPicker(),
     "/testAlphabetListView": (context) => TestAlphabetListView(),
+    "/testButton": (context) => TestButton(),
   };
 }
