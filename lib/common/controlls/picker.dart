@@ -18,10 +18,9 @@ class SPPicker extends StatefulWidget {
   /// [dismissIsSelect] is true mean: the selected item is the value if click outside content
   /// default is false
   final bool dismissIsSelect;
-
   final bool showTopBar;
-
   final SPPickerItemBuilder itemBuilder;
+  final double itemExtent;
 
   const SPPicker(
       {required this.completer,
@@ -33,6 +32,7 @@ class SPPicker extends StatefulWidget {
       this.cancelButtonText = "CANCEL",
       this.dismissIsSelect = false,
       this.showTopBar = true,
+      this.itemExtent = 32,
       Key? key})
       : super(key: key);
 
@@ -47,7 +47,8 @@ class SPPicker extends StatefulWidget {
       bool showTopBar = true,
       SPPickerItemBuilder? itemBuilder,
       String okButtonText = "OK",
-      String cancelButtonText = "CANCEL"}) {
+      String cancelButtonText = "CANCEL",
+      double itemExtent = 32}) {
     var completer = Completer<dynamic>();
 
     showModalBottomSheet(
@@ -63,6 +64,7 @@ class SPPicker extends StatefulWidget {
               cancelButtonText: cancelButtonText,
               dismissIsSelect: dismissIsSelect,
               showTopBar: showTopBar,
+              itemExtent: itemExtent,
               itemBuilder: itemBuilder == null
                   ? (key, val) => Center(child: Text('$val'))
                   : itemBuilder);
@@ -133,9 +135,9 @@ class _SPPickerState extends State<SPPicker> {
               onSelectedItemChanged: (index) {
                 var selectedItem = this.widget.data.keys.elementAt(index);
                 this.selectedValue = selectedItem;
-                print("selectedd: $index");
+                // print("selectedd: $index");
               },
-              itemExtent: 32.0,
+              itemExtent: widget.itemExtent,
               children: this
                   .widget
                   .data
