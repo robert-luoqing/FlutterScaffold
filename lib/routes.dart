@@ -23,6 +23,7 @@ import 'pages/test/testShowModalSideSheet.dart';
 import 'pages/test/testSliverView.dart';
 import 'pages/test/testSwitchControl.dart';
 import 'pages/test/testTextField.dart';
+import 'pages/test/testThemeAndI18N.dart';
 import 'pages/test/testVoice.dart';
 import 'pages/test/testqrscanView.dart';
 import 'pages/test/toastTest.dart';
@@ -59,5 +60,6 @@ class SPRoute {
     "/testAlphabetListView": (context) => TestAlphabetListView(),
     "/testButton": (context) => TestButton(),
     "/testVoice": (context) => TestVoice(),
+    "/testThemeAndI18N": (context) => TestThemeAndI18N()
   };
 }
