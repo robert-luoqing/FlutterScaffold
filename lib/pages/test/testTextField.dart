@@ -29,6 +29,7 @@ class _TestTextFieldState extends State<TestTextField> {
                     SPDialog.alert(context, "${myController.text}");
                   },
                   child: Text("Test")),
+              // Text field in ListTile can't input space
               ListTile(
                 title: Row(
                   children: <Widget>[
@@ -44,6 +45,19 @@ class _TestTextFieldState extends State<TestTextField> {
                   ],
                 ),
               ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text('Career'),
+                  ),
+                  Expanded(
+                      child: TextField(
+                          // textAlign: TextAlign.end,
+                          decoration: InputDecoration.collapsed(
+                              hintText: 'Input your career'))),
+                ],
+              )
             ],
           ),
         ));
