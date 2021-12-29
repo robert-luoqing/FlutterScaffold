@@ -11,15 +11,17 @@ class TestPicker extends StatefulWidget {
 }
 
 class _TestPickerState extends State<TestPicker> {
-  final list = {
-    1: "First",
-    2: "Second",
-    3: "Third",
-    4: "Fourth",
-    5: "Fifth",
-    6: "Sixth"
-  };
+  Map<num, String> list = {};
   int? selectedValue = 2;
+
+  @override
+  void initState() {
+    for (var i = 0; i < 1000; i++) {
+      list[i] = "Item $i";
+    }
+    super.initState();
+  }
+
   _openPicker({bool showTopBar = true, bool dismissIsSelect = false}) async {
     this.selectedValue = await SPPicker.show(context, list,
         selectedKey: this.selectedValue,
