@@ -1,5 +1,5 @@
-import '../../../common/utils/pathUtil.dart';
-import '../../../common/utils/uuidUtil.dart';
+import '../utils/pathUtil.dart';
+import '../utils/uuidUtil.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,7 +37,7 @@ class SPSoundUtil {
 
   static Future<void> beginRecordSound(String filePath) async {
     if (_recorder != null) {
-      _recorder!.closeAudioSession();
+      await _recorder!.closeAudioSession();
     }
     var status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
@@ -48,8 +48,10 @@ class SPSoundUtil {
     // Do not access your FlutterSoundPlayer or FlutterSoundRecorder before the completion of the Future
     await _recorder!.openAudioSession();
     await _recorder!.startRecorder(
-      toFile: filePath + ".aac",
-      codec: Codec.aacADTS,
+      toFile: filePath + ".wav",
+      codec: Codec.pcm16WAV,
+      numChannels: 2,
+      bitRate: 128000,
     );
   }
 
@@ -60,15 +62,16 @@ class SPSoundUtil {
         path = await _recorder!.stopRecorder();
       }
       await _recorder!.closeAudioSession();
+      _recorder = null;
 
       var newPath = await SPPathUtil().getPathInTemporaryDirectory(
           "voices/" + SPUUIDUtil.generateUUID2() + ".mp3");
-      if ((path ?? "").endsWith(".aac")) {
+      if ((path ?? "").endsWith(".wav")) {
         newPath = path!.substring(0, path.length - 4);
       }
 
       await FlutterSoundHelper()
-          .convertFile(path, Codec.aacADTS, newPath, Codec.mp3);
+          .convertFile(path, Codec.pcm16WAV, newPath, Codec.mp3);
 
       return newPath;
     }
@@ -78,5 +81,15 @@ class SPSoundUtil {
 
   static Future<Duration?> getAudioDuration(String filePath) async {
     return await flutterSoundHelper.duration(filePath);
+  }
+
+  static void dispose() async {
+    if (_recorder != null) {
+      if (!_recorder!.isStopped) {
+        await _recorder!.stopRecorder();
+      }
+      await _recorder!.closeAudioSession();
+      _recorder = null;
+    }
   }
 }

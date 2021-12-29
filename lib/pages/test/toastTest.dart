@@ -1,3 +1,5 @@
+import '../../common/controlls/scaffold.dart';
+
 import '../../common/controlls/toast.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +11,8 @@ class ToastTestView extends StatefulWidget {
 class _ToastTestViewState extends State<ToastTestView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text("Test")),
+    return SPScaffold(
+        title: Text("Test"),
         body: Container(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
