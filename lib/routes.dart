@@ -2,6 +2,7 @@ import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
 
 import 'pages/test/testAlphabetListView.dart';
 import 'pages/test/testButton.dart';
+import 'pages/test/testCalendar.dart';
 import 'pages/test/testImage.dart';
 import 'pages/test/testPageView.dart';
 
@@ -60,6 +61,7 @@ class SPRoute {
     "/testAlphabetListView": (context) => TestAlphabetListView(),
     "/testButton": (context) => TestButton(),
     "/testVoice": (context) => TestVoice(),
-    "/testThemeAndI18N": (context) => TestThemeAndI18N()
+    "/testThemeAndI18N": (context) => TestThemeAndI18N(),
+    "/testCalendar": (context) => TestCalendar()
   };
 }
