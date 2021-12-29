@@ -57,9 +57,6 @@ class _TestThemeAndI18NState extends State<TestThemeAndI18N> {
                   style: TextStyle(color: SPTheme.of(context).textColor),
                 ),
               )),
-              TextField(
-                  // textAlign: TextAlign.end,
-                  decoration: InputDecoration.collapsed(hintText: 'hello')),
             ],
           ),
         ),

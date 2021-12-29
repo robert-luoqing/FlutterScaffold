@@ -29,6 +29,21 @@ class _TestTextFieldState extends State<TestTextField> {
                     SPDialog.alert(context, "${myController.text}");
                   },
                   child: Text("Test")),
+              ListTile(
+                title: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text('Career'),
+                    ),
+                    Expanded(
+                        child: TextField(
+                            // textAlign: TextAlign.end,
+                            decoration: InputDecoration.collapsed(
+                                hintText: 'Input your career'))),
+                  ],
+                ),
+              ),
             ],
           ),
         ));
