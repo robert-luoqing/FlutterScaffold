@@ -77,11 +77,11 @@ class SPDateUtil {
     var format1 = new DateFormat("yyyy-MM-dd HH:mm:ss");
     try {
       return format1.parse(dt);
-    } catch (e1, s1) {
+    } catch (e1, _) {
       try {
         var format2 = new DateFormat("yyyy-MM-dd");
         return format2.parse(dt);
-      } catch (e2, s2) {}
+      } catch (e2, _) {}
     }
 
     return null;

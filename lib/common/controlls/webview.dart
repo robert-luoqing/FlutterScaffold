@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import '../../../common/utils/encryptUtil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 typedef SPWebviewTitleChanged = void Function(String? title);
@@ -53,7 +51,7 @@ class SPWebviewState extends State<SPWebview>
           }
         }
       }
-    } catch (e, s) {
+    } catch (e, _) {
       // do nothing
     }
   }

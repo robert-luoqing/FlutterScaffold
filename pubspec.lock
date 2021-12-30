@@ -891,6 +891,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.13.0"
+  pin_code_fields:
+    dependency: "direct main"
+    description:
+      name: pin_code_fields
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.3.0"
   platform:
     dependency: transitive
     description:
@@ -976,7 +983,7 @@ packages:
     source: hosted
     version: "0.26.0"
   scrollable_positioned_list:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: scrollable_positioned_list
       url: "https://pub.dartlang.org"

@@ -4,6 +4,7 @@ import 'package:FlutterScaffold/pages/login/phoneVerifyPage.dart';
 import 'pages/test/testAlphabetListView.dart';
 import 'pages/test/testButton.dart';
 import 'pages/test/testCalendar.dart';
+import 'pages/test/testChat.dart';
 import 'pages/test/testImage.dart';
 import 'pages/test/testPageView.dart';
 
@@ -68,6 +69,7 @@ class SPRoute {
     "/testButton": (context) => TestButton(),
     "/testVoice": (context) => TestVoice(),
     "/testThemeAndI18N": (context) => TestThemeAndI18N(),
-    "/testCalendar": (context) => TestCalendar()
+    "/testCalendar": (context) => TestCalendar(),
+    "/testChat": (context) => TestChat()
   };
 }
