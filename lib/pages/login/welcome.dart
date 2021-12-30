@@ -1,4 +1,3 @@
-import '../../common/controlls/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -28,7 +27,7 @@ class _WelcomePageState extends State<WelcomePage> {
           'Welcome',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        margin: EdgeInsets.only(bottom: 180)));
+        margin: EdgeInsets.only(top: 100, bottom: 150)));
   }
 
   Widget renderLoginModule() {
@@ -72,7 +71,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 color: const Color(0xff5D626D),
                 width: 1,
                 style: BorderStyle.solid)),
-        // margin: EdgeInsets.only(left: 40, right: 40, top: 30),
         alignment: Alignment.center,
         height: 40,
         child: GestureDetector(
