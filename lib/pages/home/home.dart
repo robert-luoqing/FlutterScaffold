@@ -2,6 +2,7 @@ import 'package:FlutterScaffold/common/controlls/bottomNavigationBar.dart';
 import 'package:FlutterScaffold/common/controlls/scaffold.dart';
 import 'package:FlutterScaffold/common/providers/i18nProvider.dart';
 import 'package:FlutterScaffold/common/providers/themeProvider.dart';
+import 'package:FlutterScaffold/pages/login/welcome.dart';
 import 'package:FlutterScaffold/theme/baseTheme.dart';
 import 'package:FlutterScaffold/theme/darkTheme.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
           constraints: BoxConstraints.expand(),
           child: Column(
-            children: [],
+            children: [
+              WelcomePage(),
+            ],
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

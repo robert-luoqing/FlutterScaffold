@@ -1,5 +1,6 @@
+import 'package:FlutterScaffold/pages/login/phoneLoginPage.dart';
 import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
-
+import 'package:FlutterScaffold/pages/login/phoneVerifyPage.dart';
 import 'pages/test/testAlphabetListView.dart';
 import 'pages/test/testButton.dart';
 import 'pages/test/testCalendar.dart';
@@ -43,6 +44,11 @@ class SPRoute {
     "/webview": (context) => MyWebView(),
     "/testToast": (context) => ToastTestView(),
     "/test": (context) => TestPageView(),
+    "/phoneLogin": (context) => PhoneLoginPage(),
+    "/phoneVerify": (context) => VerifyCodePage(
+          phone: '',
+        ),
+    '/alphabetListView': (context) => TestAlphabetListView(),
     "/testGlobalLoading": (context) => TestGlobalLoading(),
     "/testCarousel": (context) => TestCarouselPage(),
     "/testMarquee": (context) => TestMarqueePage(),

@@ -86,6 +86,7 @@ dependencies:
   scrollable_positioned_list: ^0.2.3
   section_view: ^1.0.1
   table_calendar: ^3.0.3
+  pin_code_fields: ^7.3.0
 
 dev_dependencies:
   # flutter_test:

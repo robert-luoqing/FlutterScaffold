@@ -111,6 +111,8 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
                     child: SizedBox(
                       height: itemData["height"] as double,
                       child: ListTile(
+                          onTap: () =>
+                              _rowOnTap(itemData["phoneCode"] as String),
                           title: Text(itemData["countryName"] as String),
                           trailing: Text(itemData["phoneCode"] as String)),
                     ),
@@ -120,5 +122,9 @@ class _TestAlphabetListViewState extends State<TestAlphabetListView> {
             ),
           ],
         ));
+  }
+
+  void _rowOnTap(String countryCode) {
+    Navigator.of(context).pop(countryCode);
   }
 }
