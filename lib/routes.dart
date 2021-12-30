@@ -1,8 +1,10 @@
+import 'package:FlutterScaffold/pages/login/phoneLoginPage.dart';
 import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
-
+import 'package:FlutterScaffold/pages/login/phoneVerifyPage.dart';
 import 'pages/test/testAlphabetListView.dart';
 import 'pages/test/testButton.dart';
 import 'pages/test/testCalendar.dart';
+import 'pages/test/testChat.dart';
 import 'pages/test/testImage.dart';
 import 'pages/test/testPageView.dart';
 
@@ -43,6 +45,11 @@ class SPRoute {
     "/webview": (context) => MyWebView(),
     "/testToast": (context) => ToastTestView(),
     "/test": (context) => TestPageView(),
+    "/phoneLogin": (context) => PhoneLoginPage(),
+    "/phoneVerify": (context) => VerifyCodePage(
+          phone: '',
+        ),
+    '/alphabetListView': (context) => TestAlphabetListView(),
     "/testGlobalLoading": (context) => TestGlobalLoading(),
     "/testCarousel": (context) => TestCarouselPage(),
     "/testMarquee": (context) => TestMarqueePage(),
@@ -62,6 +69,7 @@ class SPRoute {
     "/testButton": (context) => TestButton(),
     "/testVoice": (context) => TestVoice(),
     "/testThemeAndI18N": (context) => TestThemeAndI18N(),
-    "/testCalendar": (context) => TestCalendar()
+    "/testCalendar": (context) => TestCalendar(),
+    "/testChat": (context) => TestChat()
   };
 }

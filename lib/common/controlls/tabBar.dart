@@ -1,7 +1,6 @@
 import '../../../common/controlls/underlineTabIndicator.dart';
 import '../../../common/utils/textStyleUtil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 enum SPTabBarPattern {
   normal,

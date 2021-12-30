@@ -5,8 +5,6 @@ import '../../services/userService.dart';
 
 import '../../common/utils/errorUtil.dart';
 
-import '../../common/core/graphQLClient.dart';
-
 import '../../common/controlls/scaffold.dart';
 import 'package:flutter/material.dart';
 

@@ -4,7 +4,6 @@ import 'package:FlutterScaffold/common/controlls/voice_control.dart';
 
 import '../../common/utils/screenUtil.dart';
 
-import '../../common/controlls/dialog.dart';
 import '../../common/utils/textStyleUtil.dart';
 
 import '../../common/controlls/loading.dart';
