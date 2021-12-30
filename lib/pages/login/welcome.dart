@@ -54,7 +54,7 @@ class _WelcomePageState extends State<WelcomePage> {
               margin: EdgeInsets.only(right: 60),
             ),
             Container(
-              child: renderBtn('Email', _loginOnTap),
+              child: renderBtn('Email', _phoneOnTap),
               width: 95,
             )
           ],

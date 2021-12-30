@@ -1,8 +1,11 @@
+import 'package:FlutterScaffold/common/controlls/picker.dart';
 import 'package:FlutterScaffold/common/controlls/toast.dart';
 import 'package:FlutterScaffold/pages/login/phoneVerifyPage.dart';
+import 'package:flutter/services.dart';
 import '../../common/controlls/scaffold.dart';
 import 'package:flutter/material.dart';
 import '../../common/controlls/textField.dart';
+import 'dart:convert';
 
 class PhoneLoginPage extends StatefulWidget {
   @override
@@ -13,9 +16,21 @@ class _PhoneLoginPageState extends State<PhoneLoginPage> {
   final telController = TextEditingController();
   String countryCode = '+86';
   bool btnEnable = false;
+  Map<dynamic, dynamic> countryCodeList = {};
+  int? selectedValue = 45;
+
   @override
   void initState() {
+    _bulidCountryCode();
     super.initState();
+  }
+
+  void _bulidCountryCode() async {
+    var cJson = await rootBundle.loadString('assets/data/countryCode.json');
+    List<dynamic> cList = jsonDecode(cJson);
+    for (var i = 0; i < cList.length; i++) {
+      countryCodeList[i] = cList[i];
+    }
   }
 
   bool _checkTel() {
@@ -37,8 +52,7 @@ class _PhoneLoginPageState extends State<PhoneLoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           renderHeader(),
-          renderCountryCode(),
-          renderPhoneInput(),
+          renderPhone(),
           renderBtn(),
         ],
       ),
@@ -56,49 +70,31 @@ class _PhoneLoginPageState extends State<PhoneLoginPage> {
     ));
   }
 
-  Widget renderCountryCode() {
-    return (Stack(alignment: Alignment.center, children: [
-      GestureDetector(
-          onTap: _codeOnTap,
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                    color: const Color(0xff5D626D),
-                    width: 1,
-                    style: BorderStyle.solid)),
-            padding: EdgeInsets.only(left: 20, right: 20, top: 15),
-            margin: EdgeInsets.only(left: 40, right: 40, bottom: 20, top: 20),
-            height: 50,
-            child: Text(
-              this.countryCode,
-              style: TextStyle(color: Colors.grey[400], fontSize: 14),
-            ),
-          ))
-    ]));
-  }
-
-  Widget renderPhoneInput() {
-    return (Stack(alignment: Alignment.center, children: [
+  Widget renderPhone() {
+    return (Stack(alignment: Alignment.centerLeft, children: [
       Container(
-        decoration: BoxDecoration(
-            color: Colors.grey[50],
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(
-                color: const Color(0xff5D626D),
-                width: 1,
-                style: BorderStyle.solid)),
-        padding: EdgeInsets.only(left: 15, right: 15),
-        margin: EdgeInsets.only(left: 40, right: 40, bottom: 20),
-        height: 50,
-        child: SPTextField(
-          pattern: SPTextFieldPattern.withoutBorder,
-          placeholder: 'Enter your phone',
-          controller: telController,
-        ),
-      )
+          decoration: new UnderlineTabIndicator(
+              borderSide: BorderSide(width: 1.0, color: Color(0xff5D626D)),
+              insets: EdgeInsets.only(top: 10)),
+          margin: EdgeInsets.only(left: 40, right: 40),
+          child: Container(
+            margin: EdgeInsets.only(left: 60, bottom: 1),
+            child: SPTextField(
+              pattern: SPTextFieldPattern.withoutBorder,
+              placeholder: 'Phone',
+              controller: telController,
+              autofocus: true,
+            ),
+          )),
+      GestureDetector(
+          onTap: _openCountryCodePicker,
+          child: Container(
+              width: 60,
+              margin: EdgeInsets.only(left: 50),
+              child: Text(
+                countryCode,
+                style: TextStyle(fontSize: 16),
+              ))),
     ]));
   }
 
@@ -135,6 +131,34 @@ class _PhoneLoginPageState extends State<PhoneLoginPage> {
               ),
               alignment: Alignment.center,
             ))));
+  }
+
+  _openCountryCodePicker(
+      {bool showTopBar = true, bool dismissIsSelect = false}) async {
+    if (countryCodeList.isNotEmpty && countryCodeList.length > 0) {
+      this.selectedValue = await SPPicker.show(context, countryCodeList,
+          selectedKey: this.selectedValue,
+          showTopBar: showTopBar,
+          dismissIsSelect: dismissIsSelect, itemBuilder: (key, val) {
+        if (val.isNotEmpty) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Row(
+              children: [
+                Image.asset('assets/icons/country.png'),
+                Expanded(child: Center(child: Text("${val['countryName']}"))),
+                Text("+${val['phoneCode']}")
+              ],
+            ),
+          );
+        } else {
+          return Container();
+        }
+      });
+      setState(() {
+        countryCode = '+ ${countryCodeList[selectedValue]?['phoneCode']}';
+      });
+    }
   }
 
   void _codeOnTap() {

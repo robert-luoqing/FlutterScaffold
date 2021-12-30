@@ -15,8 +15,13 @@ class VerifyCodePage extends StatefulWidget {
 
 class _VerifyCodePageState extends State<VerifyCodePage> {
   final codeController = TextEditingController();
-  int remainingTime = 0; // 可重发验证码的剩余时间（秒）
+  int remainingTime = 10; // 可重发验证码的剩余时间（秒）
   late Timer _timer;
+  @override
+  void initState() {
+    _startTimer();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -100,12 +105,10 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
       _startTimer();
     }
   }
-// SPToast.show(context, "Please fill in the blank");
 
   // 启动Timer
   void _startTimer() {
     final Duration duration = Duration(seconds: 1);
-    // _timer.cancel(); // 取消Timer
     setState(() {
       remainingTime = 10;
     });
@@ -113,7 +116,6 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
       setState(() {
         remainingTime = remainingTime - 1;
       });
-      // print(remainingTime);
       if (remainingTime <= 0) {
         _timer.cancel();
       }
