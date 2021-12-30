@@ -1,4 +1,6 @@
 import 'package:FlutterScaffold/common/controlls/animImages.dart';
+import 'package:FlutterScaffold/common/controlls/audio_view.dart';
+import 'package:FlutterScaffold/common/controlls/voice_control.dart';
 
 import '../../common/utils/screenUtil.dart';
 
@@ -24,6 +26,7 @@ class TestVoice extends StatefulWidget {
 
 class _TestVoiceState extends State<TestVoice> {
   bool recorderStart = false;
+  bool allowRelease = true;
   String? voiceFilePath;
   Duration? voiceSize;
 
@@ -48,6 +51,13 @@ class _TestVoiceState extends State<TestVoice> {
 
   _completeRecordVoice() async {
     try {
+      if (!allowRelease) {
+        setState(() {
+          recorderStart = false;
+          allowRelease = true;
+        });
+        return;
+      }
       SPLoading.show();
       var filePath = await SPSoundUtil.endRecordSound();
       print("_endUploadVoice:$filePath");
@@ -166,6 +176,9 @@ class _TestVoiceState extends State<TestVoice> {
   }
 
   _renderRecorder() {
+    GlobalKey _gestureDetectorKey = GlobalKey();
+    RenderBox? renderBox;
+    final Map<String, double> offset = <String, double>{};
     return GestureDetector(
       onLongPress: () {
         print("onLongPress");
@@ -179,11 +192,33 @@ class _TestVoiceState extends State<TestVoice> {
         print("onLongPressCancel");
         this._cancelUploadVoice();
       },
+      onLongPressMoveUpdate:(details) {
+        if (renderBox == null) {
+          renderBox = _gestureDetectorKey.currentContext!.findRenderObject() as RenderBox;
+        }
+        // offset代表当前播放组件的中心点的坐标
+        offset['dx'] = renderBox!.localToGlobal(Offset.zero).dx;
+        offset['dy'] = renderBox!.localToGlobal(Offset.zero).dy;
+        // 点击处的坐标 details.globalPosition.dx, details.globalPosition.dy
+        if (details.globalPosition.dy > (offset['dy']! + (renderBox!.size.height / 2)) + 50 ||
+          details.globalPosition.dy < (offset['dy']! - (renderBox!.size.height / 2)) - 50 ||
+          details.globalPosition.dx > (offset['dx']! + (renderBox!.size.width / 2)) + 50 ||
+          details.globalPosition.dx < (offset['dx']! - (renderBox!.size.width / 2)) - 50) {
+            this.setState(() {
+              allowRelease = false;
+            });
+        } else {
+          this.setState(() {
+            allowRelease = true;
+          });
+        }
+      },
       onTap: () {
         // _uploadVoice();
       },
       behavior: HitTestBehavior.opaque,
       child: SPRoundContainer(
+        key: _gestureDetectorKey,
           width: 34,
           height: 34,
           radius: 17,
@@ -206,6 +241,7 @@ class _TestVoiceState extends State<TestVoice> {
 
   @override
   Widget build(BuildContext context) {
+    print(this.voiceFilePath);
     return SPScaffold(
         title: Text("Test record and play voice"),
         body: Stack(
@@ -220,23 +256,31 @@ class _TestVoiceState extends State<TestVoice> {
                       child: _renderRecorder()),
                   Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 20),
-                      child: _renderVoiceItem())
+                      child: _renderVoiceItem()),
+                  Container(
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.blue
+                    ),
+                    child: AudioView(filePath: this.voiceFilePath ?? '', isSend: false),
+                  ),
                 ],
               ),
             ),
-            recorderStart
-                ? Positioned(
-                    top: 0,
-                    bottom: SPScreen.getSize(context).height / 3,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: AnimImages(
-                        imagePattern: "assets/icons/sound/voice0%s.png",
-                      ),
-                    ))
-                : Positioned(
-                    left: 0, top: 0, width: 0, height: 0, child: Container())
+            VoiceControl.showVoiceDialogContainer(context, recorderStart, allowRelease),
+            // recorderStart
+            //     ? Positioned(
+            //         top: 0,
+            //         bottom: SPScreen.getSize(context).height / 3,
+            //         left: 0,
+            //         right: 0,
+            //         child: Center(
+            //           child: AnimImages(
+            //             imagePattern: "assets/icons/sound/voice0%s.png",
+            //           ),
+            //         ))
+            //     : Positioned(
+            //         left: 0, top: 0, width: 0, height: 0, child: Container())
           ],
         ));
   }
