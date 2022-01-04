@@ -83,6 +83,16 @@ class SPSoundUtil {
     return await flutterSoundHelper.duration(filePath);
   }
 
+  static int getSecondsByDuration(Duration duration) {
+    var minutes = duration.inMinutes;
+    var seconds = duration.inSeconds;
+    var millSecond = duration.inMilliseconds;
+    if (minutes > 0) {
+      return 60;
+    }
+    return millSecond > 0 ? seconds + 1 : seconds;
+  }
+
   static void dispose() async {
     if (_recorder != null) {
       if (!_recorder!.isStopped) {
