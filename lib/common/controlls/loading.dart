@@ -1,4 +1,4 @@
-import '../../../common/controlls/roundContainer.dart';
+import 'round_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:load/load.dart';
@@ -21,7 +21,7 @@ class SPLoading extends StatefulWidget {
   }
 
   final Widget child;
-  SPLoading({required this.child});
+  const SPLoading({Key? key, required this.child}) : super(key: key);
 
   @override
   _SPLoadingState createState() => _SPLoadingState();
@@ -37,7 +37,8 @@ class _SPLoadingState extends State<SPLoading> {
   Widget build(BuildContext context) {
     return LoadingProvider(
       themeData: LoadingThemeData(
-          loadingSize: Size(55, 55), loadingBackgroundColor: Colors.black),
+          loadingSize: const Size(55, 55),
+          loadingBackgroundColor: Colors.black),
       loadingWidgetBuilder: (ctx, data) {
         return Center(
           child: SizedBox(
@@ -47,9 +48,9 @@ class _SPLoadingState extends State<SPLoading> {
               radius: 8,
               child: Theme(
                   data: ThemeData(
-                      cupertinoOverrideTheme:
-                          CupertinoThemeData(brightness: Brightness.dark)),
-                  child: CupertinoActivityIndicator(
+                      cupertinoOverrideTheme: const CupertinoThemeData(
+                          brightness: Brightness.dark)),
+                  child: const CupertinoActivityIndicator(
                     radius: 15,
                   )),
               bkColor: Colors.black87,
@@ -57,7 +58,7 @@ class _SPLoadingState extends State<SPLoading> {
           ),
         );
       },
-      child: this.widget.child,
+      child: widget.child,
     );
   }
 }

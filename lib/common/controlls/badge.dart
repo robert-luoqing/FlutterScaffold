@@ -1,6 +1,7 @@
-import '../../../common/utils/textStyleUtil.dart';
+import '../../theme/text_style.dart';
 import 'package:flutter/material.dart';
 
+// ignore: constant_identifier_names
 enum SPBadgePattern { h14_f10 }
 
 class SPBadge extends StatelessWidget {
@@ -11,7 +12,7 @@ class SPBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (this.pattern) {
+    switch (pattern) {
       case SPBadgePattern.h14_f10:
         return Center(
           child: SizedBox(
@@ -20,11 +21,11 @@ class SPBadge extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7), color: Colors.red),
               child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: 14),
+                constraints: const BoxConstraints(minWidth: 14),
                 child: Center(
                   child: Text(
-                    this.badge,
-                    style: SPTextStyle.text10_FFF_Style,
+                    badge,
+                    style: SPTextStyle.text10cFFFStyle,
                   ),
                 ),
               ),

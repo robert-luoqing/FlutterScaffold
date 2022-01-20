@@ -51,12 +51,7 @@ dependencies {
 
 - [ ] [生成SHA-1示例](https://www.jianshu.com/p/0a80679e6664)
 
-```
-keytool -genkey -v -keystore jstep.keystore -alias jstep -keyalg RSA -validity 20000 -keystore jstep.keystore
-
-keytool -list -v -keystore jstep.keystore
-```
-
+在android目录下终端执行./gradlew signingReport
 
 ### 二. Add dependency
 
@@ -110,3 +105,10 @@ Future<void> signInWithGoogle(BuildContext context) async {
   }
 ```
 
+Xcode的配置：
+将 Google Sign-In 的 URL 方案添加到您的项目
+Google Sign-In 需要将自定义 URL Scheme 添加到您的项目中。添加自定义方案：
+
+1. 打开您的项目配置：双击左侧树视图中的项目名称。从选择目标部分的应用程序，然后选择信息选项卡，并展开URL类型部分。
+
+2. 点击+按钮，添加您的反向客户ID作为URL方案。颠倒的客户 ID 是您的客户 ID，点分隔字段的顺序颠倒了。例如：com.googleusercontent.apps.1234567890-abcdefg

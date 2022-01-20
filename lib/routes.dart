@@ -1,75 +1,78 @@
-import 'package:FlutterScaffold/pages/login/phoneLoginPage.dart';
-import 'package:FlutterScaffold/pages/test/testGrahpQL.dart';
-import 'package:FlutterScaffold/pages/login/phoneVerifyPage.dart';
-import 'pages/test/testAlphabetListView.dart';
-import 'pages/test/testButton.dart';
-import 'pages/test/testCalendar.dart';
-import 'pages/test/testChat.dart';
-import 'pages/test/testImage.dart';
-import 'pages/test/testPageView.dart';
+import 'package:lingo_dragon/pages/login/email_login_page.dart';
+import 'package:lingo_dragon/pages/login/phone_login_page.dart';
+import 'package:lingo_dragon/pages/login/verify_code_page.dart';
+import 'package:lingo_dragon/pages/test/test_chat_bubble.dart';
+import 'package:lingo_dragon/pages/test/test_grahp_ql.dart';
+import 'package:lingo_dragon/pages/test/test_listview_performance.dart';
+import 'pages/home/root.dart';
+import 'pages/test/test_alphabet_list_view.dart';
+import 'pages/test/test_button.dart';
+import 'pages/test/test_calendar.dart';
+import 'pages/test/test_chat.dart';
+import 'pages/test/test_flutter_listview_performance.dart';
+import 'pages/test/test_image.dart';
+import 'pages/test/test_page_view.dart';
 
-import 'pages/home/home.dart';
 import 'package:flutter/widgets.dart';
-
-import 'pages/test/myPageView.dart';
-import 'pages/test/myPageView2.dart';
-import 'pages/test/myWebView.dart';
-import 'pages/test/testCarousel.dart';
-import 'pages/test/testDateTimePicker.dart';
-import 'pages/test/testDialogView.dart';
-import 'pages/test/testGlobalLoading.dart';
-import 'pages/test/testImagePicker.dart';
-import 'pages/test/testListView.dart';
-import 'pages/test/testMarquee.dart';
-import 'pages/test/testPicker.dart';
-import 'pages/test/testShowModalSideSheet.dart';
-import 'pages/test/testSliverView.dart';
-import 'pages/test/testSwitchControl.dart';
-import 'pages/test/testTextField.dart';
-import 'pages/test/testThemeAndI18N.dart';
-import 'pages/test/testVoice.dart';
-import 'pages/test/testqrscanView.dart';
-import 'pages/test/toastTest.dart';
+import 'pages/test/my_page_view.dart';
+import 'pages/test/my_page_view2.dart';
+import 'pages/test/my_web_view.dart';
+import 'pages/test/test_carousel.dart';
+import 'pages/test/test_datetime_picker.dart';
+import 'pages/test/test_dialog_view.dart';
+import 'pages/test/test_global_loading.dart';
+import 'pages/test/test_image_picker.dart';
+import 'pages/test/test_list_view.dart';
+import 'pages/test/test_marquee.dart';
+import 'pages/test/test_picker.dart';
+import 'pages/test/test_show_modal_side_sheet.dart';
+import 'pages/test/test_sliver_view.dart';
+import 'pages/test/test_switch_control.dart';
+import 'pages/test/test_text_field.dart';
+import 'pages/test/test_theme_i18n.dart';
+import 'pages/test/test_voice.dart';
+import 'pages/test/testqrscan_view.dart';
+import 'pages/test/toast_test.dart';
 
 class SPRoute {
-  static final String initialRoute = "/";
+  static const String initialRoute = "/";
   static final Map<String, WidgetBuilder> routes = {
-    "/": (context) => Stack(
-          children: [
-            MyHomePage(),
-            // GlobalLoading(),
-          ],
-        ),
-    "/pager": (context) => MyPageView(),
-    "/pager2": (context) => MyPageView2(),
-    "/webview": (context) => MyWebView(),
-    "/testToast": (context) => ToastTestView(),
-    "/test": (context) => TestPageView(),
-    "/phoneLogin": (context) => PhoneLoginPage(),
-    "/phoneVerify": (context) => VerifyCodePage(
-          phone: '',
-        ),
-    '/alphabetListView': (context) => TestAlphabetListView(),
-    "/testGlobalLoading": (context) => TestGlobalLoading(),
-    "/testCarousel": (context) => TestCarouselPage(),
-    "/testMarquee": (context) => TestMarqueePage(),
-    "/testListview": (context) => TestListView(),
-    "/testSliverView": (context) => TestSliverView(),
-    "/testQrScanView": (context) => TestQrScanView(),
-    "/testDialogView": (context) => TestDialogView(),
-    "/testImagePicker": (context) => TestImagePicker(),
-    "/testDateTimePicker": (context) => TestDateTimePicker(),
-    "/testTextField": (context) => TestTextField(),
-    "/testSwitchControl": (context) => TestSwitchControl(),
-    "/testShowModalSideSheet": (context) => TestShowModalSideSheet(),
-    "/testGraphQL": (context) => TestGraphQL(),
-    "/testImage": (context) => TestImage(),
-    "/testPicker": (context) => TestPicker(),
-    "/testAlphabetListView": (context) => TestAlphabetListView(),
-    "/testButton": (context) => TestButton(),
-    "/testVoice": (context) => TestVoice(),
-    "/testThemeAndI18N": (context) => TestThemeAndI18N(),
-    "/testCalendar": (context) => TestCalendar(),
-    "/testChat": (context) => TestChat()
+    "/": (context) => const RootPage(),
+    "/pager": (context) => const MyPageView(),
+    "/pager2": (context) => const MyPageView2(),
+    "/webview": (context) => const MyWebView(),
+    "/testToast": (context) => const ToastTestView(),
+    "/test": (context) => const TestPageView(),
+    '/alphabetListView': (context) => const TestAlphabetListView(),
+    "/testGlobalLoading": (context) => const TestGlobalLoading(),
+    "/testCarousel": (context) => const TestCarouselPage(),
+    "/testMarquee": (context) => const TestMarqueePage(),
+    "/testListview": (context) => const TestListView(),
+    "/testSliverView": (context) => const TestSliverView(),
+    "/testQrScanView": (context) => const TestQrScanView(),
+    "/testDialogView": (context) => const TestDialogView(),
+    "/testImagePicker": (context) => const TestImagePicker(),
+    "/testDateTimePicker": (context) => const TestDateTimePicker(),
+    "/testTextField": (context) => const TestTextField(),
+    "/testSwitchControl": (context) => const TestSwitchControl(),
+    "/testShowModalSideSheet": (context) => const TestShowModalSideSheet(),
+    "/testGraphQL": (context) => const TestGraphQL(),
+    "/testImage": (context) => const TestImage(),
+    "/testPicker": (context) => const TestPicker(),
+    "/testAlphabetListView": (context) => const TestAlphabetListView(),
+    "/testButton": (context) => const TestButton(),
+    "/testVoice": (context) => const TestVoice(),
+    "/testThemeAndI18N": (context) => const TestThemeAndI18N(),
+    "/testCalendar": (context) => const TestCalendar(),
+    "/testChat": (context) => const TestChat(),
+    '/testChatBubble': (context) => const ChatBubble(),
+    '/testListViewPerformance': (context) => const TestListViewPerformance(),
+    '/testFlutterListViewPerformance': (context) =>
+        const TestFlutterListViewPerformance(),
+
+    /// Below will put official page in here.
+    "/phoneLogin": (context) => const PhoneLoginPage(),
+    "/phoneVerify": (context) => const VerifyCodePage(account: ''),
+    '/emailLogin': (context) => const EmailLoginPage(),
   };
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-import '../../../common/utils/encryptUtil.dart';
+import 'package:flutter/foundation.dart';
+
+import '../utils/encrypt_util.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -12,7 +14,8 @@ class SPWebview extends StatefulWidget {
   final SPWebviewTitleChanged? onTitleChanged;
   final SPWebviewCallback? onCallback;
   final String url;
-  SPWebview({required this.url, this.onTitleChanged, this.onCallback, Key? key})
+  const SPWebview(
+      {required this.url, this.onTitleChanged, this.onCallback, Key? key})
       : super(key: key);
 
   @override
@@ -31,7 +34,9 @@ class SPWebviewState extends State<SPWebview>
 
   @override
   void initState() {
-    print("========================>view loaded ${this.widget.url}");
+    if (kDebugMode) {
+      print("========================>view loaded ${widget.url}");
+    }
     _loadController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -44,10 +49,10 @@ class SPWebviewState extends State<SPWebview>
     try {
       if (_controller != null) {
         var newTitle = await _controller!.getTitle();
-        if (this._title != newTitle) {
-          this._title = newTitle;
-          if (this.widget.onTitleChanged != null) {
-            this.widget.onTitleChanged!(this._title);
+        if (_title != newTitle) {
+          _title = newTitle;
+          if (widget.onTitleChanged != null) {
+            widget.onTitleChanged!(_title);
           }
         }
       }
@@ -70,7 +75,7 @@ class SPWebviewState extends State<SPWebview>
                 builder: (BuildContext context, Widget? child) {
                   return LinearProgressIndicator(
                     backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(Colors.green),
+                    valueColor: const AlwaysStoppedAnimation(Colors.green),
                     value: _loadController.value,
                   );
                 },
@@ -96,11 +101,11 @@ class SPWebviewState extends State<SPWebview>
         top: 0,
         bottom: 0,
         child: WebView(
-          initialUrl: this.widget.url,
+          initialUrl: widget.url,
           javascriptMode: JavascriptMode.unrestricted,
           userAgent:
               "user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Mobile Safari/537.36",
-          javascriptChannels: Set.from([
+          javascriptChannels: {
             JavascriptChannel(
                 name: 'messageHandler',
                 onMessageReceived: (JavascriptMessage message) {
@@ -111,30 +116,34 @@ class SPWebviewState extends State<SPWebview>
                   Map<String, dynamic> jsonObj = jsonDecode(decodeUrlComponent);
                   var type = jsonObj["type"] as String;
                   var data = jsonObj["data"];
-                  if (this.widget.onCallback != null) {
-                    this.widget.onCallback!(type, data);
+                  if (widget.onCallback != null) {
+                    widget.onCallback!(type, data);
                   }
                 })
-          ]),
+          },
           onWebViewCreated: (WebViewController webViewController) {
             _controller = webViewController;
             _loadHtmlFromAssetsOrUrl();
-            this._fetchTitle();
+            _fetchTitle();
           },
           onProgress: (int progress) {
-            print("load url progress: $progress");
+            if (kDebugMode) {
+              print("load url progress: $progress");
+            }
             var newProgress = progress / 100.0;
             if (newProgress < 0 / 1) {
               newProgress = 0.1;
             }
             _loadController.value = newProgress;
-            this._fetchTitle();
+            _fetchTitle();
           },
           onPageFinished: (String url) async {
-            print("load url finished: $url");
-            this._fetchTitle();
+            if (kDebugMode) {
+              print("load url finished: $url");
+            }
+            _fetchTitle();
             _loadController.value = 1;
-            await Future.delayed(Duration(milliseconds: 200));
+            await Future.delayed(const Duration(milliseconds: 200));
             if (_loadController.value == 1) {
               setState(() {
                 _showLoading = false;
@@ -145,17 +154,21 @@ class SPWebviewState extends State<SPWebview>
             var lowerUrl = url.toLowerCase().trim();
             if (lowerUrl.startsWith("http://") ||
                 lowerUrl.startsWith("https://")) {
-              print("load url started: $url");
+              if (kDebugMode) {
+                print("load url started: $url");
+              }
               _loadController.value = 0.1;
               setState(() {
                 _showLoading = true;
               });
-              this._fetchTitle();
+              _fetchTitle();
             }
           },
           onWebResourceError: (WebResourceError error) {},
           navigationDelegate: (NavigationRequest request) {
-            print("url: ${request.url}");
+            if (kDebugMode) {
+              print("url: ${request.url}");
+            }
             var lowerUrl = request.url.toLowerCase().trim();
             if (lowerUrl.startsWith("http://") ||
                 lowerUrl.startsWith("https://") ||
@@ -179,7 +192,7 @@ class SPWebviewState extends State<SPWebview>
     // _controller?.loadUrl(Uri.dataFromString(fileText,
     //         mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
     //     .toString());
-    // this._controller!.loadUrl(this.widget.url);
+    // this._controller!.loadUrl(widget.url);
   }
 
   /// @data is json object
@@ -190,13 +203,16 @@ class SPWebviewState extends State<SPWebview>
       encodeBase64 =
           EncryptUtil.encodeBase64(EncryptUtil.encodeComponent(jsonStr));
     }
-    _controller?.evaluateJavascript('fromFlutter("$type", "$encodeBase64")');
+
+    _controller?.runJavascript('fromFlutter("$type", "$encodeBase64")');
   }
 
   @override
   void dispose() {
     _loadController.dispose();
     super.dispose();
-    print('webview disposed');
+    if (kDebugMode) {
+      print('webview disposed');
+    }
   }
 }

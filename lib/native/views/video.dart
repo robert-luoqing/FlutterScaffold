@@ -1,26 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'videoViewController.dart';
+import 'package:lingo_dragon/common/core/exception.dart';
+import 'video_view_controller.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 
 class VideoView extends StatefulWidget {
   final DidFullScreenSwitchCallback? onFullScreenSwitch;
   final DidLoadVideo? onLoadVideo;
-  VideoView({this.onFullScreenSwitch, this.onLoadVideo});
+  const VideoView({Key? key, this.onFullScreenSwitch, this.onLoadVideo})
+      : super(key: key);
 
   @override
   _VideoViewState createState() => _VideoViewState();
 }
 
 class _VideoViewState extends State<VideoView> {
-  // final VideoViewCreatedCallback onVideoViewCreated;
-  VideoViewController? _videoViewController;
-
   @override
   Widget build(BuildContext context) {
-    final String viewType = 'SPVideoView';
+    const String viewType = 'SPVideoView';
     // Pass parameters to the platform side.
     final Map<String, dynamic> creationParams = <String, dynamic>{};
 
@@ -38,13 +37,13 @@ class _VideoViewState extends State<VideoView> {
             );
           },
           onCreatePlatformView: (PlatformViewCreationParams params) {
-            this._onPlatformViewCreated(params.id);
+            _onPlatformViewCreated(params.id);
             return PlatformViewsService.initSurfaceAndroidView(
               id: params.id,
               viewType: viewType,
               layoutDirection: TextDirection.ltr,
               creationParams: creationParams,
-              creationParamsCodec: StandardMessageCodec(),
+              creationParamsCodec: const StandardMessageCodec(),
             )
               ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
               ..create();
@@ -59,12 +58,10 @@ class _VideoViewState extends State<VideoView> {
           creationParamsCodec: const StandardMessageCodec(),
         );
       default:
-        throw UnsupportedError("Unsupported platform view");
+        throw SPException(
+            code: SPException.unsupport, message: "unsupported platform view");
     }
   }
 
-  void _onPlatformViewCreated(int id) {
-    _videoViewController = VideoViewController(
-        id, this.widget.onFullScreenSwitch, this.widget.onLoadVideo);
-  }
+  void _onPlatformViewCreated(int id) {}
 }

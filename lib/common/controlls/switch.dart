@@ -1,4 +1,4 @@
-import '../../../common/utils/platformUtil.dart';
+import '../utils/platform_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +6,8 @@ class SPSwitch extends StatefulWidget {
   final ValueChanged<bool>? onChanged;
   final bool value;
 
-  SPSwitch({required this.value, this.onChanged});
+  const SPSwitch({Key? key, required this.value, this.onChanged})
+      : super(key: key);
 
   @override
   _SPSwitchState createState() => _SPSwitchState();
@@ -15,10 +16,10 @@ class SPSwitch extends StatefulWidget {
 class _SPSwitchState extends State<SPSwitch> {
   Widget _buildIOWidget() {
     return CupertinoSwitch(
-      value: this.widget.value,
+      value: widget.value,
       onChanged: (bool val) {
-        if (this.widget.onChanged != null) {
-          this.widget.onChanged!(val);
+        if (widget.onChanged != null) {
+          widget.onChanged!(val);
         }
       },
     );
@@ -27,10 +28,10 @@ class _SPSwitchState extends State<SPSwitch> {
   Widget _buildAndroidWidget() {
     return SizedBox(
       child: Switch(
-        value: this.widget.value,
+        value: widget.value,
         onChanged: (bool val) {
-          if (this.widget.onChanged != null) {
-            this.widget.onChanged!(val);
+          if (widget.onChanged != null) {
+            widget.onChanged!(val);
           }
         },
       ),

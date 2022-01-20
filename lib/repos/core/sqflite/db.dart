@@ -4,9 +4,7 @@ abstract class Db {
   Database? _database;
 
   Future _openDatabase() async {
-    if (this._database == null) {
-      this._database = await this.createAndOpenDatabase();
-    }
+    _database ??= await createAndOpenDatabase();
   }
 
   Future<Database> createAndOpenDatabase();
@@ -14,7 +12,7 @@ abstract class Db {
   Future<int> insert(String table, Map<String, Object?> values,
       {String? nullColumnHack, ConflictAlgorithm? conflictAlgorithm}) async {
     await _openDatabase();
-    return await this._database!.insert(table, values,
+    return await _database!.insert(table, values,
         nullColumnHack: nullColumnHack, conflictAlgorithm: conflictAlgorithm);
   }
 
@@ -23,7 +21,7 @@ abstract class Db {
       List<Object?>? whereArgs,
       ConflictAlgorithm? conflictAlgorithm}) async {
     await _openDatabase();
-    return await this._database!.update(table, values,
+    return await _database!.update(table, values,
         where: where,
         whereArgs: whereArgs,
         conflictAlgorithm: conflictAlgorithm);
@@ -32,9 +30,7 @@ abstract class Db {
   Future<int> delete(String table,
       {String? where, List<Object?>? whereArgs}) async {
     await _openDatabase();
-    return await this
-        ._database!
-        .delete(table, where: where, whereArgs: whereArgs);
+    return await _database!.delete(table, where: where, whereArgs: whereArgs);
   }
 
   Future<List<Map<String, Object?>>> query(String table,
@@ -48,7 +44,7 @@ abstract class Db {
       int? limit,
       int? offset}) async {
     await _openDatabase();
-    return await this._database!.query(table,
+    return await _database!.query(table,
         distinct: distinct,
         columns: columns,
         where: where,
@@ -62,22 +58,22 @@ abstract class Db {
 
   Future<int> rawInsert(String sql, [List<Object?>? arguments]) async {
     await _openDatabase();
-    return await this._database!.rawInsert(sql, arguments);
+    return await _database!.rawInsert(sql, arguments);
   }
 
   Future<int> rawUpdate(String sql, [List<Object?>? arguments]) async {
     await _openDatabase();
-    return await this._database!.rawUpdate(sql, arguments);
+    return await _database!.rawUpdate(sql, arguments);
   }
 
   Future<int> rawDelete(String sql, [List<Object?>? arguments]) async {
     await _openDatabase();
-    return await this._database!.rawDelete(sql, arguments);
+    return await _database!.rawDelete(sql, arguments);
   }
 
   Future<List<Map<String, Object?>>> rawQuery(String sql,
       [List<Object?>? arguments]) async {
     await _openDatabase();
-    return await this._database!.rawQuery(sql, arguments);
+    return await _database!.rawQuery(sql, arguments);
   }
 }

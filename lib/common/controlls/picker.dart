@@ -65,9 +65,8 @@ class SPPicker extends StatefulWidget {
               dismissIsSelect: dismissIsSelect,
               showTopBar: showTopBar,
               itemExtent: itemExtent,
-              itemBuilder: itemBuilder == null
-                  ? (key, val) => Center(child: Text('$val'))
-                  : itemBuilder);
+              itemBuilder:
+                  itemBuilder ?? (key, val) => Center(child: Text('$val')));
         });
     return completer.future;
   }
@@ -80,48 +79,48 @@ class _SPPickerState extends State<SPPicker> {
   @override
   void initState() {
     var selectedIndex = 0;
-    for (var i = 0; i < this.widget.data.length; i++) {
-      if (this.widget.data.keys.elementAt(i) == this.widget.selectedKey) {
+    for (var i = 0; i < widget.data.length; i++) {
+      if (widget.data.keys.elementAt(i) == widget.selectedKey) {
         selectedIndex = i;
         break;
       }
     }
-    this.selectedValue = this.widget.selectedKey;
-    this.controller = FixedExtentScrollController(initialItem: selectedIndex);
+    selectedValue = widget.selectedKey;
+    controller = FixedExtentScrollController(initialItem: selectedIndex);
     super.initState();
   }
 
   _selectValue() {
     invokeCompleter = true;
-    var selectedItem = this.widget.data.keys.elementAt(controller.selectedItem);
-    this.widget.completer.complete(selectedItem);
+    var selectedItem = widget.data.keys.elementAt(controller.selectedItem);
+    widget.completer.complete(selectedItem);
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: this.widget.height,
+      height: widget.height,
       child: Column(
         children: [
-          this.widget.showTopBar
+          widget.showTopBar
               ? Row(
                   children: [
                     TextButton(
                         onPressed: () {
                           invokeCompleter = true;
                           SPNavigator.pop(context);
-                          this.widget.completer.complete(null);
+                          widget.completer.complete(null);
                         },
-                        child: Text(this.widget.cancelButtonText)),
+                        child: Text(widget.cancelButtonText)),
                     Expanded(
                         child: Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
                           onPressed: () {
-                            this._selectValue();
+                            _selectValue();
                             SPNavigator.pop(context);
                           },
-                          child: Text(this.widget.okButtonText)),
+                          child: Text(widget.okButtonText)),
                     ))
                   ],
                 )
@@ -129,21 +128,18 @@ class _SPPickerState extends State<SPPicker> {
           Expanded(
             child: CupertinoPicker(
               backgroundColor: Colors.white,
-              scrollController: this.controller,
+              scrollController: controller,
               magnification: 1,
               useMagnifier: true,
               onSelectedItemChanged: (index) {
-                var selectedItem = this.widget.data.keys.elementAt(index);
-                this.selectedValue = selectedItem;
+                var selectedItem = widget.data.keys.elementAt(index);
+                selectedValue = selectedItem;
                 // print("selectedd: $index");
               },
               itemExtent: widget.itemExtent,
-              children: this
-                  .widget
-                  .data
-                  .keys
+              children: widget.data.keys
                   .map((dataKey) =>
-                      widget.itemBuilder(dataKey, this.widget.data[dataKey]))
+                      widget.itemBuilder(dataKey, widget.data[dataKey]))
                   .toList(),
             ),
           )
@@ -155,13 +151,13 @@ class _SPPickerState extends State<SPPicker> {
   @override
   void dispose() {
     if (invokeCompleter == false) {
-      if (this.widget.dismissIsSelect) {
-        this.widget.completer.complete(this.selectedValue);
+      if (widget.dismissIsSelect) {
+        widget.completer.complete(selectedValue);
       } else {
-        this.widget.completer.complete(null);
+        widget.completer.complete(null);
       }
     }
-    this.controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

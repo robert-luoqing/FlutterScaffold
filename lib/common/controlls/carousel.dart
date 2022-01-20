@@ -14,12 +14,14 @@ class SPCarouselView extends StatefulWidget {
   final SPCarouselChanged? onChange;
   final double aspectRatio;
 
-  SPCarouselView(
-      {required this.items,
+  const SPCarouselView(
+      {Key? key,
+      required this.items,
       required this.builder,
       this.aspectRatio = 16 / 9,
       this.onPress,
-      this.onChange});
+      this.onChange})
+      : super(key: key);
 }
 
 class _SPCarouselViewState extends State<SPCarouselView> {
@@ -40,29 +42,27 @@ class _SPCarouselViewState extends State<SPCarouselView> {
   }
 
   buildItems() {
-    this.imageSliders = this.widget.items.map((item) {
+    imageSliders = widget.items.map((item) {
       return GestureDetector(
         onTap: () {
-          if (this.widget.onPress != null) {
-            this.widget.onPress!(item);
+          if (widget.onPress != null) {
+            widget.onPress!(item);
           }
         },
         child: Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: this.widget.builder(item))
-                  ],
-                )),
-          ),
+          margin: const EdgeInsets.all(5.0),
+          child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: widget.builder(item))
+                ],
+              )),
         ),
       );
     }).toList();
@@ -78,14 +78,14 @@ class _SPCarouselViewState extends State<SPCarouselView> {
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 1.0,
-            aspectRatio: this.widget.aspectRatio,
+            aspectRatio: widget.aspectRatio,
             initialPage: 0,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
               });
-              if (this.widget.onChange != null) {
-                this.widget.onChange!(index);
+              if (widget.onChange != null) {
+                widget.onChange!(index);
               }
             }),
       ),
@@ -100,12 +100,13 @@ class _SPCarouselViewState extends State<SPCarouselView> {
               return Container(
                 width: 8.0,
                 height: 8.0,
-                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4),
+                      ? const Color.fromRGBO(0, 0, 0, 0.9)
+                      : const Color.fromRGBO(0, 0, 0, 0.4),
                 ),
               );
             }).toList(),

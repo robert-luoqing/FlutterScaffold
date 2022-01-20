@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import '../../../common/controlls/textField.dart';
-import '../../../common/utils/platformUtil.dart';
-import '../../../common/utils/textStyleUtil.dart';
+import 'text_field.dart';
+import '../utils/platform_util.dart';
+import '../../theme/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,12 +19,12 @@ class SPDialog {
         TextButton(
           style: ButtonStyle(
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xFF6200EE))),
+                  MaterialStateProperty.all<Color>(const Color(0xFF6200EE))),
           onPressed: () {
             SPNavigator.pop(context);
             completer.complete();
           },
-          child: Text(buttonText != null ? buttonText : 'OK'),
+          child: Text(buttonText ?? 'OK'),
         ),
       ],
     );
@@ -39,8 +39,8 @@ class SPDialog {
       actions: [
         CupertinoButton(
             child: Text(
-              buttonText != null ? buttonText : 'OK',
-              style: TextStyle(color: Color(0xFF000000)),
+              buttonText ?? 'OK',
+              style: const TextStyle(color: Color(0xFF000000)),
             ),
             onPressed: () {
               SPNavigator.pop(context);
@@ -78,24 +78,24 @@ class SPDialog {
         TextButton(
           style: ButtonStyle(
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xFF6200EE))),
+                  MaterialStateProperty.all<Color>(const Color(0xFF6200EE))),
           onPressed: () {
             SPNavigator.pop(context);
             completer.complete(false);
           },
           child: Text(
-            cancelButtonText != null ? cancelButtonText : 'CANCEL',
+            cancelButtonText ?? 'CANCEL',
           ),
         ),
         TextButton(
           style: ButtonStyle(
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xFF6200EE))),
+                  MaterialStateProperty.all<Color>(const Color(0xFF6200EE))),
           onPressed: () {
             SPNavigator.pop(context);
             completer.complete(true);
           },
-          child: Text(okButtonText != null ? okButtonText : 'OK'),
+          child: Text(okButtonText ?? 'OK'),
         ),
       ],
     );
@@ -110,7 +110,7 @@ class SPDialog {
       actions: [
         CupertinoButton(
             child: Text(
-              cancelButtonText != null ? cancelButtonText : 'CANCEL',
+              cancelButtonText ?? 'CANCEL',
               style: TextStyle(color: Colors.red[400]),
             ),
             onPressed: () {
@@ -119,8 +119,8 @@ class SPDialog {
             }),
         CupertinoButton(
             child: Text(
-              okButtonText != null ? okButtonText : 'OK',
-              style: TextStyle(color: Colors.blue),
+              okButtonText ?? 'OK',
+              style: const TextStyle(color: Colors.blue),
             ),
             onPressed: () {
               SPNavigator.pop(context);
@@ -182,124 +182,124 @@ class SPDialog {
     var textController = TextEditingController(text: defaultValue);
     SPDialog.showCommonDialog(
       context: context,
-      widget: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SizedBox(
-                      height: 120,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              title ?? "",
-                              style: SPTextStyle.text15_333_BoldStyle,
+      widget: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SizedBox(
+                    height: 120,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            title ?? "",
+                            style: SPTextStyle.text15c333BoldStyle,
+                          ),
+                          Flexible(
+                              child: SizedBox(
+                            height: 55,
+                            child: SPTextField(
+                              autofocus: true,
+                              pattern: SPTextFieldPattern.normal,
+                              placeholder: hintText,
+                              controller: textController,
                             ),
-                            Flexible(
-                                child: SizedBox(
-                              height: 55,
-                              child: SPTextField(
-                                autofocus: true,
-                                pattern: SPTextFieldPattern.normal,
-                                placeholder: hintText,
-                                controller: textController,
-                              ),
-                            )),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 4.0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [
-                                                Color(0xFFFFFFFF),
-                                                Color(0xFFFFFFFF)
-                                              ]),
-                                              borderRadius:
-                                                  BorderRadius.circular(0),
+                          )),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 4.0),
+                                        child: Container(
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            gradient: const LinearGradient(
+                                                colors: [
+                                                  Color(0xFFFFFFFF),
+                                                  Color(0xFFFFFFFF)
+                                                ]),
+                                            borderRadius:
+                                                BorderRadius.circular(0),
+                                          ),
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0))),
+                                              shadowColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.transparent),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.transparent),
                                             ),
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                shape: MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(0))),
-                                                shadowColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                              ),
-                                              onPressed: () {
-                                                SPNavigator.pop(context);
-                                                completer.complete(null);
-                                              },
-                                              child: Text("Cancel",
-                                                  style: SPTextStyle
-                                                      .text15_999_Style),
+                                            onPressed: () {
+                                              SPNavigator.pop(context);
+                                              completer.complete(null);
+                                            },
+                                            child: const Text("Cancel",
+                                                style: SPTextStyle
+                                                    .text15c999Style),
+                                          ),
+                                        ))),
+                                Expanded(
+                                    child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 4.0),
+                                        child: Container(
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            gradient: const LinearGradient(
+                                                colors: [
+                                                  Color(0xFFF46921),
+                                                  Color(0xFFF46921)
+                                                ]),
+                                            borderRadius:
+                                                BorderRadius.circular(0),
+                                          ),
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              0))),
+                                              shadowColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.transparent),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.transparent),
                                             ),
-                                          ))),
-                                  Expanded(
-                                      child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 4.0),
-                                          child: Container(
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [
-                                                Color(0xFFF46921),
-                                                Color(0xFFF46921)
-                                              ]),
-                                              borderRadius:
-                                                  BorderRadius.circular(0),
-                                            ),
-                                            child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                shape: MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(0))),
-                                                shadowColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                              ),
-                                              onPressed: () {
-                                                SPNavigator.pop(context);
-                                                completer.complete(
-                                                    textController.text);
-                                              },
-                                              child: Text("OK",
-                                                  style: SPTextStyle
-                                                      .text15_FFF_Style),
-                                            ),
-                                          )))
-                                ],
-                              ),
-                            )
-                          ]),
-                    ),
-                  ))
-            ],
-          ),
+                                            onPressed: () {
+                                              SPNavigator.pop(context);
+                                              completer.complete(
+                                                  textController.text);
+                                            },
+                                            child: const Text("OK",
+                                                style: SPTextStyle
+                                                    .text15cFFFStyle),
+                                          ),
+                                        )))
+                              ],
+                            ),
+                          )
+                        ]),
+                  ),
+                ))
+          ],
         ),
       ),
     );
@@ -316,96 +316,92 @@ class SPDialog {
     var textController = TextEditingController(text: defaultValue);
     SPDialog.showCommonDialog(
       context: context,
-      widget: Container(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: SizedBox(
-                      height: 120,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 15.0),
-                              child: Text(
-                                title ?? "",
-                                textAlign: TextAlign.center,
-                                style: SPTextStyle.text15_333_BoldStyle,
-                              ),
+      widget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: SizedBox(
+                    height: 120,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15.0, right: 15.0),
+                            child: Text(
+                              title ?? "",
+                              textAlign: TextAlign.center,
+                              style: SPTextStyle.text15c333BoldStyle,
                             ),
-                            Flexible(
-                                child: SizedBox(
-                              height: 44,
-                              child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, right: 15.0),
-                                  child: Material(
-                                    child: TextField(
-                                        autofocus: true,
-                                        controller: textController,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 5.0, horizontal: 8),
-                                          hintText: hintText,
-                                          hintStyle:
-                                              SPTextStyle.text14_ABA_Style,
-                                          border: InputBorder.none,
-                                        )),
-                                  )),
-                            )),
-                            SizedBox(
-                              height: 1,
-                              child: Divider(),
+                          ),
+                          Flexible(
+                              child: SizedBox(
+                            height: 44,
+                            child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15.0),
+                                child: Material(
+                                  child: TextField(
+                                      autofocus: true,
+                                      controller: textController,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 5.0, horizontal: 8),
+                                        hintText: hintText,
+                                        hintStyle: SPTextStyle.text14cABAStyle,
+                                        border: InputBorder.none,
+                                      )),
+                                )),
+                          )),
+                          const SizedBox(
+                            height: 1,
+                            child: Divider(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: CupertinoButton(
+                                      child: Text(
+                                        'CANCEL',
+                                        style:
+                                            TextStyle(color: Colors.red[400]),
+                                      ),
+                                      onPressed: () {
+                                        SPNavigator.pop(context);
+                                        completer.complete(null);
+                                      }),
+                                ),
+                                Expanded(
+                                  child: CupertinoButton(
+                                      child: const Text(
+                                        'OK',
+                                        style: TextStyle(color: Colors.blue),
+                                      ),
+                                      onPressed: () {
+                                        SPNavigator.pop(context);
+                                        completer.complete(textController.text);
+                                      }),
+                                )
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: CupertinoButton(
-                                        child: Text(
-                                          'CANCEL',
-                                          style:
-                                              TextStyle(color: Colors.red[400]),
-                                        ),
-                                        onPressed: () {
-                                          SPNavigator.pop(context);
-                                          completer.complete(null);
-                                        }),
-                                  ),
-                                  Expanded(
-                                    child: CupertinoButton(
-                                        child: Text(
-                                          'OK',
-                                          style: TextStyle(color: Colors.blue),
-                                        ),
-                                        onPressed: () {
-                                          SPNavigator.pop(context);
-                                          completer
-                                              .complete(textController.text);
-                                        }),
-                                  )
-                                ],
-                              ),
-                            )
-                          ]),
-                    ),
-                  ))
-            ],
-          ),
+                          )
+                        ]),
+                  ),
+                ))
+          ],
         ),
       ),
     );

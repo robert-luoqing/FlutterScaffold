@@ -3,5 +3,29 @@
     "@helloWorld": {
       "description": "The conventional newborn programmer greeting"
     },
-    "appHome":"Home"
+    "appHome":"Home",
+    "login_button_google":"Continue with Google",
+    "login_button_apple":"Continue with Apple",
+    "common_button_continue":"Continue",
+    "login_button_phone":"Phone",
+    "login_button_email":"Email",
+    "login_text_termsText1":"By proceeding, I accept the ",
+    "login_text_termsText2":"and the ",
+    "login_button_terms":"Terms and Conditions",
+    "login_button_policy":"Privacy Policy",
+    "login_title_emailAddress":"What’s your email address?",
+    "login_hint_phoneFormat":"Your phone format is incorrect.",
+    "login_hint_emailFormat":"Your email format is incorrect.",
+    "login_hint_codeIncorrect":"Your verification code is incorrect.",
+    "login_title_login":"Log in",
+    "login_title_signup":"Sign up",
+    "login_text_verificationSent":"Please enter the verification code sent to",
+    "login_text_resend":"Didn’t receive any code?",
+    "login_button_resend":"Resend",
+    "login_title_phoneNumbe":"What’s your phone number?",
+    "login_text_appleAuth":"Do you want to log in to LingoDragon with your Apple ID “{%appleid}”?",
+    "login_title_googleAuth":"“LingoDragon” Wants to use “google.com” to Log in",
+    "login_text_googleAuth":"This allows the app and website to share information about you.",
+    "me_account_logOut": "Log Out",
+    "me_accountAlert_logOut": "Are you sure you want to log out?"
 }

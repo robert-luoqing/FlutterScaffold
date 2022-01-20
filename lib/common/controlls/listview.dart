@@ -11,25 +11,26 @@ class SPListView extends StatefulWidget {
   final bool enablePullDown;
   final bool enablePullUp;
 
-  SPListView(
-      {required this.child,
+  const SPListView(
+      {Key? key,
+      required this.child,
       this.onRefresh,
       this.onLoad,
       this.enablePullDown = false,
-      this.enablePullUp = false});
+      this.enablePullUp = false})
+      : super(key: key);
 
   @override
   _SPListViewState createState() => _SPListViewState();
 }
 
 class _SPListViewState extends State<SPListView> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
     // monitor network fetch
-    if (this.widget.onRefresh != null) {
-      await this.widget.onRefresh!();
+    if (widget.onRefresh != null) {
+      await widget.onRefresh!();
     }
 
     // if failed,use refreshFailed()
@@ -38,8 +39,8 @@ class _SPListViewState extends State<SPListView> {
 
   void _onLoading() async {
     // monitor network fetch
-    if (this.widget.onLoad != null) {
-      await this.widget.onLoad!();
+    if (widget.onLoad != null) {
+      await widget.onLoad!();
     }
 
     _refreshController.loadComplete();
@@ -48,8 +49,8 @@ class _SPListViewState extends State<SPListView> {
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
-      enablePullDown: this.widget.enablePullDown,
-      enablePullUp: this.widget.enablePullUp,
+      enablePullDown: widget.enablePullDown,
+      enablePullUp: widget.enablePullUp,
       header: WaterDropHeader(
         complete: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -61,8 +62,8 @@ class _SPListViewState extends State<SPListView> {
             Container(
               width: 15.0,
             ),
-            Text(
-              "已刷新",
+            const Text(
+              "Refershed",
               style: TextStyle(color: Colors.grey),
             )
           ],
@@ -72,17 +73,17 @@ class _SPListViewState extends State<SPListView> {
         builder: (BuildContext context, LoadStatus? mode) {
           Widget body;
           if (mode == LoadStatus.idle) {
-            body = Text("pull up load");
+            body = const Text("pull up load");
           } else if (mode == LoadStatus.loading) {
-            body = CupertinoActivityIndicator();
+            body = const CupertinoActivityIndicator();
           } else if (mode == LoadStatus.failed) {
-            body = Text("Load Failed!Click retry!");
+            body = const Text("Load Failed!Click retry!");
           } else if (mode == LoadStatus.canLoading) {
-            body = Text("release to load more");
+            body = const Text("release to load more");
           } else {
-            body = Text("No more Data");
+            body = const Text("No more Data");
           }
-          return Container(
+          return SizedBox(
             height: 55.0,
             child: Center(child: body),
           );
@@ -91,7 +92,7 @@ class _SPListViewState extends State<SPListView> {
       controller: _refreshController,
       onRefresh: _onRefresh,
       onLoading: _onLoading,
-      child: this.widget.child,
+      child: widget.child,
     );
   }
 }

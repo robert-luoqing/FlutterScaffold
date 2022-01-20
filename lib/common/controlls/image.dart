@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import '../../../common/controlls/networkImage.dart';
-import '../../../common/utils/imageUtil.dart';
+import 'network_image.dart';
+import '../utils/image_util.dart';
 import 'package:flutter/material.dart';
 
 enum SPImageType { assetImage, networkImage, iconImage, fileImage }
@@ -25,7 +25,7 @@ class SPImage extends StatefulWidget {
   final double? width;
   final double? height;
   final BoxFit fit;
-  SPImage(
+  const SPImage(
       {Key? key,
       required this.imageType,
       required this.url,
@@ -42,44 +42,37 @@ class SPImage extends StatefulWidget {
 class _SPImageState extends State<SPImage> {
   @override
   Widget build(BuildContext context) {
-    switch (this.widget.imageType) {
+    switch (widget.imageType) {
       case SPImageType.assetImage:
-        return Image.asset(this.widget.url,
-            width: this.widget.width,
-            height: this.widget.height,
-            fit: this.widget.fit);
+        return Image.asset(widget.url,
+            width: widget.width, height: widget.height, fit: widget.fit);
 
       case SPImageType.networkImage:
-        if (this.widget.url.trim() == "") {
-          if (this.widget.defaultUrl == null) {
-            return Container(
-                width: this.widget.width, height: this.widget.height);
+        if (widget.url.trim() == "") {
+          if (widget.defaultUrl == null) {
+            return SizedBox(width: widget.width, height: widget.height);
           } else {
-            return Image.asset(this.widget.defaultUrl!,
-                width: this.widget.width,
-                height: this.widget.height,
-                fit: this.widget.fit);
+            return Image.asset(widget.defaultUrl!,
+                width: widget.width, height: widget.height, fit: widget.fit);
           }
         } else {
           return SPNetworkImage(
-              url: SPImageUtil().getFullImageUrl(this.widget.url),
-              defaultUrl: this.widget.defaultUrl,
-              width: this.widget.width,
-              height: this.widget.height,
-              fit: this.widget.fit);
+              url: SPImageUtil().getFullImageUrl(widget.url),
+              defaultUrl: widget.defaultUrl,
+              width: widget.width,
+              height: widget.height,
+              fit: widget.fit);
         }
       case SPImageType.iconImage:
         return SizedBox(
-            width: this.widget.width,
-            height: this.widget.height,
+            width: widget.width,
+            height: widget.height,
             child: Icon(
-              IconData(int.parse(this.widget.url)),
+              IconData(int.parse(widget.url)),
             ));
       case SPImageType.fileImage:
-        return Image.file(File(this.widget.url),
-            width: this.widget.width,
-            height: this.widget.height,
-            fit: this.widget.fit);
+        return Image.file(File(widget.url),
+            width: widget.width, height: widget.height, fit: widget.fit);
     }
   }
 }

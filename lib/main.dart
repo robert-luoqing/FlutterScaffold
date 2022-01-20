@@ -1,26 +1,25 @@
 import 'dart:io';
+import 'package:lingo_dragon/providers/login_info_provider.dart';
 import 'package:provider/provider.dart';
 import 'common/controlls/app.dart';
-import 'common/core/eventBus.dart';
-import 'common/core/eventBusType.dart';
-import 'common/core/httpClient.dart';
-import 'common/providers/globalVariableProvider.dart';
-import 'common/providers/i18nProvider.dart';
-import 'common/providers/themeProvider.dart';
+import 'common/core/http_client.dart';
+import 'providers/global_variable_provider.dart';
+import 'providers/i18n_provider.dart';
+import 'providers/theme_provider.dart';
 import 'config.dart';
-import 'dao/base/baseDao.dart';
-import 'common/core/graphQLClient.dart';
+import 'dao/base/base_dao.dart';
+import 'common/core/graph_ql_client.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
 import 'common/controlls/loading.dart';
-import 'native/channel/commonChannel.dart';
+import 'native/channel/common_channel.dart';
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
   // Set host and
@@ -30,55 +29,33 @@ void main() async {
     ChangeNotifierProvider(create: (_) => SPGlobalVariableProvider()),
     ChangeNotifierProvider(create: (_) => SPI18NProvider()),
     ChangeNotifierProvider(create: (_) => SPThemeProvider()),
-  ], child: MyApp()));
+    ChangeNotifierProvider(create: (_) => SPLoginInfoProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  bool inited = false;
-
   _initBasicData() async {
     SPHttpClient().host = Config.apiHost;
     GrahpQLClient().host = Config.grahpQLHost;
-    // 以下是获取token,并设置API Host
-    SPHttpClient().onHeaderCallback = () async {
-      // var userInfo = await getLoginInfo();
-      // if (userInfo == null) {
-      //   return {};
-      // } else {
-      //   return {"x-access-token": userInfo.token};
-      // }
-      return {};
-    };
 
-    GrahpQLClient().onHeaderCallback = () async {
-      return {};
-    };
-
-    // 这里是LoadToken到
-    this.setState(() {
-      inited = true;
-    });
-
-    BaseDao.onTokenExpired = this._tokenExpiredCallback;
+    BaseDao.onTokenExpired = _tokenExpiredCallback;
   }
 
-  _tokenExpiredCallback() {
-    SPEventBus().emit(SPEventBusType.UserLoginOrLogout);
-  }
+  _tokenExpiredCallback() {}
 
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     // Init channel, 只能在build这里初始化，否则会报错（放在这里看一下）
     CommonChannel.initChannel();
-    this._initBasicData();
+    _initBasicData();
     super.initState();
   }
 
@@ -89,31 +66,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    if (!inited) {
-      return Container(
-          color: Colors.white,
-          child: Image.asset(
-            "assets/images/splashImage.png",
-            fit: BoxFit.fill,
-          ));
-    } else {
-      return Consumer2<SPI18NProvider, SPThemeProvider>(
-          builder: (context, i18nProv, themeProv, child) => SPTheme(
-              theme: themeProv.currentTheme,
-              child: SPApp(
-                title: Config.appName,
-                initialRoute: SPRoute.initialRoute,
-                routes: SPRoute.routes,
-                supportedLocales: i18nProv.supportedLocales,
-                localizationsDelegates: [
-                  i18nProv.delegate,
-                ],
-                locale: i18nProv.currentLocale,
-                builder: (context, widget) {
-                  return SPLoading(child: Container(child: widget));
-                },
-              )));
-    }
+    return Consumer2<SPI18NProvider, SPThemeProvider>(
+        builder: (context, i18nProv, themeProv, child) => SPTheme(
+            theme: themeProv.currentTheme,
+            child: SPApp(
+              title: Config.appName,
+              initialRoute: SPRoute.initialRoute,
+              routes: SPRoute.routes,
+              supportedLocales: i18nProv.supportedLocales,
+              localizationsDelegates: [
+                i18nProv.delegate,
+              ],
+              locale: i18nProv.currentLocale,
+              builder: (context, widget) {
+                return SPLoading(child: Container(child: widget));
+              },
+            )));
   }
 }
 

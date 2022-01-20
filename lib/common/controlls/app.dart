@@ -1,6 +1,6 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../../../common/utils/platformUtil.dart';
+import '../utils/platform_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,8 @@ class SPApp extends StatefulWidget {
       this.builder,
       this.localizationsDelegates = const [],
       this.supportedLocales = const <Locale>[Locale('en', 'US')],
-      this.locale});
+      this.locale})
+      : super(key: key);
   @override
   _SPAppState createState() => _SPAppState();
 }
@@ -31,37 +32,37 @@ class _SPAppState extends State<SPApp> {
   Widget build(BuildContext context) {
     return SPPlatform.isIOS()
         ? CupertinoApp(
-            builder: this.widget.builder,
-            title: this.widget.title,
-            initialRoute: this.widget.initialRoute,
-            routes: this.widget.routes!,
+            builder: widget.builder,
+            title: widget.title,
+            initialRoute: widget.initialRoute,
+            routes: widget.routes!,
             localizationsDelegates: [
-              ...this.widget.localizationsDelegates,
+              ...widget.localizationsDelegates,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: this.widget.supportedLocales,
-            locale: this.widget.locale,
-            theme: CupertinoThemeData(
+            supportedLocales: widget.supportedLocales,
+            locale: widget.locale,
+            theme: const CupertinoThemeData(
                 primaryColor: Color(0xFF757575),
                 textTheme: CupertinoTextThemeData(
                   primaryColor: Color(0xFF757575),
                 )),
           )
         : MaterialApp(
-            builder: this.widget.builder,
-            title: this.widget.title,
-            initialRoute: this.widget.initialRoute,
-            routes: this.widget.routes!,
+            builder: widget.builder,
+            title: widget.title,
+            initialRoute: widget.initialRoute,
+            routes: widget.routes!,
             localizationsDelegates: [
-              ...this.widget.localizationsDelegates,
+              ...widget.localizationsDelegates,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: this.widget.supportedLocales,
-            locale: this.widget.locale,
+            supportedLocales: widget.supportedLocales,
+            locale: widget.locale,
             theme: ThemeData(
               // fontFamily: "Segoe UI Mono",
               primarySwatch: Colors.blue,

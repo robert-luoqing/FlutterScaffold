@@ -1,7 +1,7 @@
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
-typedef void ReceiveCallback(dynamic data);
+typedef ReceiveCallback = void Function(dynamic data);
 
 class SPWebSocket {
   IOWebSocketChannel? _channel;

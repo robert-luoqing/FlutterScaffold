@@ -1,13 +1,17 @@
-import '../../../common/utils/textStyleUtil.dart';
+import 'package:lingo_dragon/common/constant/colors.dart';
+import 'package:lingo_dragon/common/controlls/animated_button.dart';
+import '../../theme/text_style.dart';
 import 'package:flutter/material.dart';
-
-import 'singleChildDiv.dart';
+import 'single_child_div.dart';
 
 enum SPButtonPattern {
   primaryRoundButton,
   primaryRectButton,
   primaryOutlineButton,
-  secondOutlineButton
+  secondOutlineButton,
+  animatedButton,
+  googleLoginButton, // 欢迎页的谷歌登录按钮（特殊按钮）
+  appleLoginButton, // 苹果登录按钮（特殊按钮）
 }
 
 enum SPButtonSize { small, middle, large }
@@ -22,23 +26,25 @@ class SPButton extends StatefulWidget {
   final SPButtonSize size;
   final bool fitContent;
 
-  SPButton(
-      {required this.pattern,
+  const SPButton(
+      {Key? key,
+      required this.pattern,
       required this.text,
       this.disabled = false,
       this.size = SPButtonSize.middle,
       this.suffix,
       this.icon,
       this.onPressed,
-      this.fitContent = false});
+      this.fitContent = false})
+      : super(key: key);
   @override
   _SPButtonState createState() => _SPButtonState();
 }
 
 class _SPButtonState extends State<SPButton> {
   _didPress() {
-    if (this.widget.onPressed != null && widget.disabled == false) {
-      this.widget.onPressed!();
+    if (widget.onPressed != null && widget.disabled == false) {
+      widget.onPressed!();
     }
   }
 
@@ -76,8 +82,44 @@ class _SPButtonState extends State<SPButton> {
           fontSize: textSize,
           color: isDisabled ? disabledTextColor : textColor,
           fontWeight: FontWeight.normal,
-          fontFamily: FontFamily_Regular)),
+          fontFamily: fontFamilyRegular)),
     );
+    if (fitContent) {
+      return UnconstrainedBox(child: SizedBox(height: height, child: button));
+    } else {
+      return SingleChildDiv(height: height, child: button);
+    }
+  }
+
+  Widget _renderAnimatedButton({
+    required bool isDisabled,
+    required Color bkColor,
+    required Color textColor,
+    required double radius,
+    required double height,
+    required double textSize,
+    required bool fitContent,
+    double? borderWidth,
+    Color? borderColor,
+    Color? activeShadowColor,
+  }) {
+    var button = AnimatedButton(
+      radius: radius,
+      height: height,
+      bgColor: isDisabled ? SPColors.disabledBtnColor : bkColor,
+      borderWidth: borderWidth ?? 0,
+      borderColor: borderColor ?? Colors.transparent,
+      activeShadowColor: activeShadowColor,
+      child: _renderContent(
+        TextStyle(
+            fontSize: textSize,
+            color: isDisabled ? SPColors.disabledBtnTextColor : textColor,
+            fontWeight: FontWeight.normal,
+            fontFamily: fontFamilyRegular),
+      ),
+      onPressed: isDisabled ? () {} : _didPress,
+    );
+
     if (fitContent) {
       return UnconstrainedBox(child: SizedBox(height: height, child: button));
     } else {
@@ -90,26 +132,26 @@ class _SPButtonState extends State<SPButton> {
     var textSizeMap = <SPButtonSize, double>{
       SPButtonSize.small: 13,
       SPButtonSize.middle: 15,
-      SPButtonSize.large: 17,
+      SPButtonSize.large: 16,
     };
     var heightMap = <SPButtonSize, double>{
       SPButtonSize.small: 32,
       SPButtonSize.middle: 44,
-      SPButtonSize.large: 60,
+      SPButtonSize.large: 50,
     };
 
-    switch (this.widget.pattern) {
+    switch (widget.pattern) {
       case SPButtonPattern.primaryRoundButton:
         return _renderCommonButton(
             isDisabled: widget.disabled,
-            bkColor: Color(0xFF007AFF),
-            disabledBkColor: Color(0xFFB1B1B1),
-            textColor: Color(0xFFFFFFFF),
-            disabledTextColor: Color(0xFFFFFFFF),
+            bkColor: const Color(0xFF5467F0),
+            disabledBkColor: const Color(0xFFE7E7E7),
+            textColor: const Color(0xFFFFFFFF),
+            disabledTextColor: const Color(0xFF979FA8),
             borderWidth: 0,
-            borderColor: Color(0xFF007AFF),
-            disabledBorderColor: Color(0xFFB1B1B1),
-            radius: 5.0,
+            borderColor: const Color(0xFF007AFF),
+            disabledBorderColor: const Color(0xFFB1B1B1),
+            radius: 30.0,
             height: heightMap[widget.size]!,
             textSize: textSizeMap[widget.size]!,
             fitContent: widget.fitContent);
@@ -117,13 +159,13 @@ class _SPButtonState extends State<SPButton> {
       case SPButtonPattern.primaryRectButton:
         return _renderCommonButton(
             isDisabled: widget.disabled,
-            bkColor: Color(0xFF007AFF),
-            disabledBkColor: Color(0xFFB1B1B1),
-            textColor: Color(0xFFFFFFFF),
-            disabledTextColor: Color(0xFFFFFFFF),
+            bkColor: const Color(0xFF007AFF),
+            disabledBkColor: const Color(0xFFB1B1B1),
+            textColor: const Color(0xFFFFFFFF),
+            disabledTextColor: const Color(0xFFFFFFFF),
             borderWidth: 0,
-            borderColor: Color(0xFF007AFF),
-            disabledBorderColor: Color(0xFFB1B1B1),
+            borderColor: const Color(0xFF007AFF),
+            disabledBorderColor: const Color(0xFFB1B1B1),
             radius: 0.0,
             height: heightMap[widget.size]!,
             textSize: textSizeMap[widget.size]!,
@@ -133,11 +175,11 @@ class _SPButtonState extends State<SPButton> {
             isDisabled: widget.disabled,
             bkColor: Colors.transparent,
             disabledBkColor: Colors.transparent,
-            textColor: Color(0xFF000000),
+            textColor: const Color(0xFF000000),
             disabledTextColor: Colors.grey,
             borderWidth: 2,
-            borderColor: Color(0xFF84D3FF),
-            disabledBorderColor: Color(0xFF84D3FF),
+            borderColor: const Color(0xFF84D3FF),
+            disabledBorderColor: const Color(0xFF84D3FF),
             radius: 5.0,
             overlayColor: Colors.grey[100],
             height: heightMap[widget.size]!,
@@ -149,13 +191,45 @@ class _SPButtonState extends State<SPButton> {
             isDisabled: widget.disabled,
             bkColor: Colors.transparent,
             disabledBkColor: Colors.transparent,
-            textColor: Color(0xFF000000),
+            textColor: const Color(0xFF000000),
             disabledTextColor: Colors.grey,
             borderWidth: 0,
-            borderColor: Color(0xFF000000),
-            disabledBorderColor: Color(0xFF000000),
+            borderColor: const Color(0xFF000000),
+            disabledBorderColor: const Color(0xFF000000),
             radius: 5.0,
             overlayColor: Colors.grey[100],
+            height: heightMap[widget.size]!,
+            textSize: textSizeMap[widget.size]!,
+            fitContent: widget.fitContent);
+
+      case SPButtonPattern.animatedButton:
+        return _renderAnimatedButton(
+            isDisabled: widget.disabled,
+            bkColor: const Color(0xFF5467F0),
+            textColor: const Color(0xFFFFFFFF),
+            radius: 30,
+            height: heightMap[widget.size]!,
+            textSize: textSizeMap[widget.size]!,
+            fitContent: widget.fitContent);
+
+      case SPButtonPattern.googleLoginButton:
+        return _renderAnimatedButton(
+            isDisabled: widget.disabled,
+            bkColor: Colors.white,
+            textColor: const Color.fromRGBO(0, 0, 0, 0.54),
+            radius: 30,
+            height: heightMap[widget.size]!,
+            textSize: textSizeMap[widget.size]!,
+            fitContent: widget.fitContent,
+            activeShadowColor: const Color(0xffDDDCE2),
+            borderWidth: 2,
+            borderColor: const Color(0xffDDDCE2));
+      case SPButtonPattern.appleLoginButton:
+        return _renderAnimatedButton(
+            isDisabled: widget.disabled,
+            bkColor: const Color(0xFF22273C),
+            textColor: const Color(0xFFFFFFFF),
+            radius: 30,
             height: heightMap[widget.size]!,
             textSize: textSizeMap[widget.size]!,
             fitContent: widget.fitContent);
@@ -163,22 +237,22 @@ class _SPButtonState extends State<SPButton> {
   }
 
   _renderContent(TextStyle style) {
-    if (this.widget.suffix == null && this.widget.icon == null) {
+    if (widget.suffix == null && widget.icon == null) {
       return Text(
-        this.widget.text ?? "",
+        widget.text ?? "",
         style: style,
       );
     } else {
       List<Widget> children = [];
-      if (this.widget.icon != null) {
-        children.add(this.widget.icon!);
+      if (widget.icon != null) {
+        children.add(widget.icon!);
       }
       children.add(Text(
-        this.widget.text ?? "",
+        widget.text ?? "",
         style: style,
       ));
-      if (this.widget.suffix != null) {
-        children.add(this.widget.suffix!);
+      if (widget.suffix != null) {
+        children.add(widget.suffix!);
       }
       return Row(
           mainAxisAlignment: MainAxisAlignment.center, children: children);

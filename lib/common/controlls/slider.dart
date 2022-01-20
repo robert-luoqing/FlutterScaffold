@@ -1,4 +1,4 @@
-import '../../../common/utils/platformUtil.dart';
+import '../utils/platform_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +10,15 @@ class SPSlider extends StatefulWidget {
   final double min;
   final double max;
 
-  SPSlider({
+  const SPSlider({
+    Key? key,
     required this.value,
     required this.onChanged,
     this.onChangeStart,
     this.onChangeEnd,
     this.min = 0.0,
     this.max = 1.0,
-  });
+  }) : super(key: key);
   @override
   _SPSliderState createState() => _SPSliderState();
 }
@@ -27,20 +28,20 @@ class _SPSliderState extends State<SPSlider> {
   Widget build(BuildContext context) {
     return SPPlatform.isIOS()
         ? CupertinoSlider(
-            value: this.widget.value,
-            onChanged: this.widget.onChanged,
-            onChangeStart: this.widget.onChangeStart,
-            onChangeEnd: this.widget.onChangeEnd,
-            min: this.widget.min,
-            max: this.widget.max,
+            value: widget.value,
+            onChanged: widget.onChanged,
+            onChangeStart: widget.onChangeStart,
+            onChangeEnd: widget.onChangeEnd,
+            min: widget.min,
+            max: widget.max,
           )
         : Slider(
-            value: this.widget.value,
-            onChanged: this.widget.onChanged,
-            onChangeStart: this.widget.onChangeStart,
-            onChangeEnd: this.widget.onChangeEnd,
-            min: this.widget.min,
-            max: this.widget.max,
+            value: widget.value,
+            onChanged: widget.onChanged,
+            onChangeStart: widget.onChangeStart,
+            onChangeEnd: widget.onChangeEnd,
+            min: widget.min,
+            max: widget.max,
           );
   }
 }

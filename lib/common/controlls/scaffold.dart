@@ -1,4 +1,4 @@
-import '../../../common/utils/platformUtil.dart';
+import '../utils/platform_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +22,9 @@ class SPScaffold extends StatefulWidget {
 
   final bool applyBottomSafeArea;
 
-  SPScaffold(
-      {this.title,
+  const SPScaffold(
+      {Key? key,
+      this.title,
       this.leading,
       this.actions,
       this.body,
@@ -34,81 +35,81 @@ class SPScaffold extends StatefulWidget {
       this.applyBottomSafeArea = true,
       this.scaffoldKey,
       this.resizeToAvoidBottomInset = false,
-      this.statusbarColor = Colors.white});
+      this.statusbarColor = Colors.white})
+      : super(key: key);
   @override
   _SPScaffoldState createState() => _SPScaffoldState();
 }
 
 class _SPScaffoldState extends State<SPScaffold> {
   _buildIOSAppBar() {
-    if (this.widget.noStatusBar == true) {
+    if (widget.noStatusBar == true) {
       return null;
     }
 
     return CupertinoNavigationBar(
-      middle: this.widget.title,
-      leading: this.widget.leading,
-      trailing: this.widget.actions == null
+      middle: widget.title,
+      leading: widget.leading,
+      trailing: widget.actions == null
           ? null
           : Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
-              children: this.widget.actions!),
+              children: widget.actions!),
     );
   }
 
   _buildAndriodAppBar() {
-    if (this.widget.noStatusBar == true) {
+    if (widget.noStatusBar == true) {
       return null;
     }
 
     return AppBar(
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Colors.white, //change your color here
       ),
-      leadingWidth: this.widget.leadingWidth,
+      leadingWidth: widget.leadingWidth,
       centerTitle: true,
-      title: this.widget.title,
-      leading: this.widget.leading,
-      actions: this.widget.actions,
+      title: widget.title,
+      leading: widget.leading,
+      actions: widget.actions,
     );
   }
 
   _buildAndroidScaffold() {
-    Widget? content = this.widget.body;
-    if (this.widget.noStatusBar != true ||
-        this.widget.bottomNavigationBar != null) {
+    Widget? content = widget.body;
+    if (widget.noStatusBar != true || widget.bottomNavigationBar != null) {
       content = Container(
-          color: this.widget.statusbarColor,
+          color: widget.statusbarColor,
           child: SafeArea(
-              bottom: this.widget.applyBottomSafeArea,
-              child: Container(child: this.widget.body)));
+              bottom: widget.applyBottomSafeArea,
+              child: Container(child: widget.body)));
     }
     return Scaffold(
-        resizeToAvoidBottomInset: this.widget.resizeToAvoidBottomInset,
+        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
         appBar: _buildAndriodAppBar(),
-        key: this.widget.scaffoldKey,
+        key: widget.scaffoldKey,
         body: SizedBox(
             width: double.infinity, height: double.infinity, child: content),
-        floatingActionButton: this.widget.floatingActionButton,
-        bottomNavigationBar: this.widget.bottomNavigationBar);
+        floatingActionButton: widget.floatingActionButton,
+        bottomNavigationBar: widget.bottomNavigationBar);
   }
 
   _buildiOSScaffold() {
     Widget child;
 
-    if (this.widget.floatingActionButton != null ||
-        this.widget.bottomNavigationBar != null) {
+    if (widget.floatingActionButton != null ||
+        widget.bottomNavigationBar != null) {
       var children = <Widget>[];
       children.add(Positioned(
-          child: this.widget.body ?? Container(),
+          child: widget.body ?? Container(),
           left: 0,
           right: 0,
           bottom: 0,
           top: 0));
-      if (this.widget.floatingActionButton != null) {
+      if (widget.floatingActionButton != null) {
         children.add(Positioned(
-          child: this.widget.floatingActionButton!,
+          child: widget.floatingActionButton!,
           bottom: 30,
           right: 30,
         ));
@@ -117,38 +118,34 @@ class _SPScaffoldState extends State<SPScaffold> {
 
       List<Widget> columnChildren = [];
       columnChildren.add(Expanded(child: mainChild, flex: 1));
-      if (this.widget.bottomNavigationBar != null) {
-        columnChildren.add(this.widget.bottomNavigationBar!);
+      if (widget.bottomNavigationBar != null) {
+        columnChildren.add(widget.bottomNavigationBar!);
       }
 
       child = Column(children: columnChildren);
     } else {
-      child = this.widget.body ?? Container();
+      child = widget.body ?? Container();
     }
 
     var appBar = _buildIOSAppBar();
-    if (this.widget.bottomNavigationBar != null) {
+    if (widget.bottomNavigationBar != null) {
       return CupertinoPageScaffold(
-          resizeToAvoidBottomInset: this.widget.resizeToAvoidBottomInset,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
           navigationBar: appBar,
-          key: this.widget.scaffoldKey,
+          key: widget.scaffoldKey,
           child: SafeArea(bottom: false, child: Material(child: child)));
     } else {
       // noStatusBar
-      Widget content = Container(
-          child: Material(
-              child: SizedBox(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: child)));
-      if (this.widget.noStatusBar != true) {
-        content =
-            SafeArea(bottom: this.widget.applyBottomSafeArea, child: content);
+      Widget content = Material(
+          child: SizedBox(
+              width: double.infinity, height: double.infinity, child: child));
+      if (widget.noStatusBar != true) {
+        content = SafeArea(bottom: widget.applyBottomSafeArea, child: content);
       }
       return CupertinoPageScaffold(
-          resizeToAvoidBottomInset: this.widget.resizeToAvoidBottomInset,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
           navigationBar: appBar,
-          key: this.widget.scaffoldKey,
+          key: widget.scaffoldKey,
           child: content);
     }
   }

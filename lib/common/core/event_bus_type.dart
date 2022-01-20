@@ -1,0 +1,3 @@
+enum SPEventBusType {
+  localeChanged,
+}

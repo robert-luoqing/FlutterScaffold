@@ -14,7 +14,7 @@ class SPCard extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: this.child),
+          child: child),
     );
   }
 }
