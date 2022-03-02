@@ -9,6 +9,7 @@ import 'pages/test/test_alphabet_list_view.dart';
 import 'pages/test/test_button.dart';
 import 'pages/test/test_calendar.dart';
 import 'pages/test/test_chat.dart';
+import 'pages/test/test_expand_tabview.dart';
 import 'pages/test/test_flutter_listview_performance.dart';
 import 'pages/test/test_image.dart';
 import 'pages/test/test_page_view.dart';
@@ -74,5 +75,6 @@ class SPRoute {
     "/phoneLogin": (context) => const PhoneLoginPage(),
     "/phoneVerify": (context) => const VerifyCodePage(account: ''),
     '/emailLogin': (context) => const EmailLoginPage(),
+    '/testExpandTabview': (context) => const TestExpandTabview(),
   };
 }

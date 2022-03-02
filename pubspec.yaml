@@ -96,6 +96,7 @@ dependencies:
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
   flutter_list_view: ^1.0.9
+  extended_nested_scroll_view: ^5.0.0
 
 dev_dependencies:
   # flutter_test:
