@@ -12,15 +12,18 @@ class ExpandHeaderTabView extends StatefulWidget {
   /// [headerControlBuilder] will return the header widget
   final Widget Function(double offset)? headerControlBuilder;
 
+  final List<Widget> Function()? sliverBuilder;
+
   final Widget child;
 
   const ExpandHeaderTabView(
       {Key? key,
       required this.child,
-      required this.minExtend,
-      required this.maxExtend,
+      this.minExtend = 50,
+      this.maxExtend = 50,
       this.refreshControlBuilder,
-      this.headerControlBuilder})
+      this.headerControlBuilder,
+      this.sliverBuilder})
       : super(key: key);
 
   @override
@@ -33,19 +36,24 @@ class _ExpandHeaderTabViewState extends State<ExpandHeaderTabView> {
     return SPNestedScrollView(
         refreshControlBuilder: widget.refreshControlBuilder,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return <Widget>[
-            SliverPersistentHeader(
-                pinned: true,
-                floating: false,
-                delegate: PersistentHeaderBuilder(
-                    builder: (ctx, offset) => SizedBox(
-                        height: widget.maxExtend,
-                        child: widget.headerControlBuilder == null
-                            ? Container()
-                            : widget.headerControlBuilder!(offset)),
-                    min: widget.minExtend,
-                    max: widget.maxExtend)),
-          ];
+          if (widget.headerControlBuilder != null) {
+            return <Widget>[
+              SliverPersistentHeader(
+                  pinned: true,
+                  floating: false,
+                  delegate: PersistentHeaderBuilder(
+                      builder: (ctx, offset) => SizedBox(
+                          height: widget.maxExtend,
+                          child: widget.headerControlBuilder!(offset)),
+                      min: widget.minExtend,
+                      max: widget.maxExtend)),
+            ];
+          } else {
+            if (widget.sliverBuilder != null) {
+              return widget.sliverBuilder!();
+            }
+            return [];
+          }
         },
         body: widget.child);
   }

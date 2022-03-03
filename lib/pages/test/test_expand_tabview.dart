@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingo_dragon/common/controlls/expand_header_tab_view.dart';
 import 'package:lingo_dragon/common/controlls/listview.dart';
+import 'package:lingo_dragon/common/controlls/measure_size.dart';
 
 class TestExpandTabview extends StatefulWidget {
   const TestExpandTabview({Key? key}) : super(key: key);
@@ -12,9 +13,17 @@ class TestExpandTabview extends StatefulWidget {
 class _TestExpandTabviewState extends State<TestExpandTabview>
     with TickerProviderStateMixin {
   late final TabController _tabController;
+  double maxExtend = 50;
+  List<String> texts = ["33333"];
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 4), () {
+      for (var i = 0; i < 10; i++) {
+        texts.add((i.toString()));
+      }
+      setState(() {});
+    });
     _tabController = TabController(length: 2, vsync: this);
   }
 
@@ -32,7 +41,7 @@ class _TestExpandTabviewState extends State<TestExpandTabview>
         ),
         body: ExpandHeaderTabView(
           minExtend: 50,
-          maxExtend: 150,
+          maxExtend: maxExtend,
           refreshControlBuilder: (child) => SPListView(
               enablePullDown: true,
               enablePullUp: false,
@@ -46,9 +55,14 @@ class _TestExpandTabviewState extends State<TestExpandTabview>
                   left: 0,
                   right: 0,
                   bottom: 65,
-                  child: Text("shrinkOffset:${offset.toStringAsFixed(1)}",
-                      style:
-                          const TextStyle(fontSize: 20, color: Colors.white))),
+                  child: MeasureSize(
+                      child:
+                          Column(children: texts.map((e) => Text(e)).toList()),
+                      onChange: (size) {
+                        setState(() {
+                          maxExtend = 50 + size.height;
+                        });
+                      })),
               Positioned(
                   left: 0,
                   right: 0,
