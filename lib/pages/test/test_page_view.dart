@@ -156,6 +156,11 @@ class _TestPageViewState extends State<TestPageView> {
                       context, "/testFlutterListViewPerformance");
                 },
                 child: const Text("Test Flutter List View Performance")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/testExpandTabview");
+                },
+                child: const Text("Test Expand Tabview")),
           ],
         ),
       ),
