@@ -2,7 +2,7 @@ import 'package:lingo_dragon/common/constant/colors.dart';
 import 'package:lingo_dragon/common/controlls/animated_button.dart';
 import '../../theme/text_style.dart';
 import 'package:flutter/material.dart';
-import 'single_child_div.dart';
+import 'layout/single_child_div.dart';
 
 enum SPButtonPattern {
   primaryRoundButton,

@@ -1,75 +1,79 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 
-import 'listview.dart';
+import 'nested_scroll_view.dart';
 
 class ExpandHeaderTabView extends StatefulWidget {
-  const ExpandHeaderTabView({Key? key}) : super(key: key);
+  final double maxExtend;
+  final double minExtend;
+
+  /// [refreshControlBuilder] build refresh control
+  final Widget Function(Widget child)? refreshControlBuilder;
+
+  /// [headerControlBuilder] will return the header widget
+  final Widget Function(double offset)? headerControlBuilder;
+
+  final Widget child;
+
+  const ExpandHeaderTabView(
+      {Key? key,
+      required this.child,
+      required this.minExtend,
+      required this.maxExtend,
+      this.refreshControlBuilder,
+      this.headerControlBuilder})
+      : super(key: key);
 
   @override
   State<ExpandHeaderTabView> createState() => _ExpandHeaderTabViewState();
 }
 
-class _ExpandHeaderTabViewState extends State<ExpandHeaderTabView>
-    with TickerProviderStateMixin {
-  late final TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
+class _ExpandHeaderTabViewState extends State<ExpandHeaderTabView> {
   @override
   Widget build(BuildContext context) {
-    return SPListView(
-        enablePullDown: true,
-        enablePullUp: true,
-        child: ExtendedNestedScrollView(
-            headerSliverBuilder: (BuildContext c, bool f) {
-              return <Widget>[
-                SliverAppBar(
-                  pinned: true,
-                  expandedHeight: 200.0,
-                  flexibleSpace: FlexibleSpaceBar(
-                    //centerTitle: true,
-                    collapseMode: CollapseMode.pin,
-                    background: Image.asset(
-                      'assets/icons/googleIcon.png',
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  bottom: TabBar(
-                    controller: _tabController,
-                    labelColor: Colors.blue,
-                    indicatorColor: Colors.blue,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorWeight: 2.0,
-                    isScrollable: false,
-                    unselectedLabelColor: Colors.grey,
-                    tabs: const <Tab>[
-                      Tab(text: 'Tab0'),
-                      Tab(text: 'Tab1'),
-                    ],
-                  ),
-                )
-              ];
-            },
-            //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-            onlyOneScrollInBody: true,
-            body: TabBarView(controller: _tabController, children: <Widget>[
-              Container(
-                child: Text("tab1"),
-              ),
-              Container(
-                child: Text("tab2"),
-              )
-            ])));
+    return SPNestedScrollView(
+        refreshControlBuilder: widget.refreshControlBuilder,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverPersistentHeader(
+                pinned: true,
+                floating: false,
+                delegate: PersistentHeaderBuilder(
+                    builder: (ctx, offset) => SizedBox(
+                        height: widget.maxExtend,
+                        child: widget.headerControlBuilder == null
+                            ? Container()
+                            : widget.headerControlBuilder!(offset)),
+                    min: widget.minExtend,
+                    max: widget.maxExtend)),
+          ];
+        },
+        body: widget.child);
   }
+}
+
+class PersistentHeaderBuilder extends SliverPersistentHeaderDelegate {
+  final double max;
+  final double min;
+  final Widget Function(BuildContext context, double offset) builder;
+
+  PersistentHeaderBuilder(
+      {this.max = 120, this.min = 80, required this.builder});
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return builder(context, shrinkOffset);
+  }
+
+  @override
+  double get maxExtent => max;
+
+  @override
+  double get minExtent => min;
+
+  @override
+  bool shouldRebuild(covariant PersistentHeaderBuilder oldDelegate) =>
+      max != oldDelegate.max ||
+      min != oldDelegate.min ||
+      builder != oldDelegate.builder;
 }
