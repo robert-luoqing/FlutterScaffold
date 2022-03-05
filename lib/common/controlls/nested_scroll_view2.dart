@@ -1301,17 +1301,22 @@ class _NestedScrollCoordinator
 
         if (outerDelta != 0.0)
           outerDelta -= _outerPosition!.applyClampedDragUpdate(outerDelta);
-
+        var hasInnerPixes = false;
         // Now deal with any overscroll
         for (int i = 0; i < innerPositions.length; ++i) {
           final double remainingDelta = overscrolls[i] - outerDelta;
           if (remainingDelta > 0.0)
             innerPositions[i].applyFullDragUpdate(remainingDelta);
+          if(innerPositions[0].pixels>0) {
+            hasInnerPixes = true;
+          }
         }
 
         /// SPModify
-        if (temDelta != 0.0 && outerDelta == 0)
+        if (temDelta != 0.0 && outerDelta == 0 && hasInnerPixes == false) {
           _outerPosition!.applyFullDragUpdate(temDelta);
+        }
+          
       }
     }
   }
