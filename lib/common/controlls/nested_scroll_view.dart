@@ -515,8 +515,7 @@ class SPNestedScrollView extends StatefulWidget {
   }
 
   @override
-  SPNestedScrollViewState createState() =>
-      SPNestedScrollViewState();
+  SPNestedScrollViewState createState() => SPNestedScrollViewState();
 }
 
 /// The [State] for a [SPNestedScrollView].
@@ -1307,7 +1306,7 @@ class _NestedScrollCoordinator
           final double remainingDelta = overscrolls[i] - outerDelta;
           if (remainingDelta > 0.0)
             innerPositions[i].applyFullDragUpdate(remainingDelta);
-          if(innerPositions[0].pixels>0) {
+          if (innerPositions[0].pixels > 0) {
             hasInnerPixes = true;
           }
         }
@@ -1316,7 +1315,6 @@ class _NestedScrollCoordinator
         if (temDelta != 0.0 && outerDelta == 0 && hasInnerPixes == false) {
           _outerPosition!.applyFullDragUpdate(temDelta);
         }
-          
       }
     }
   }
