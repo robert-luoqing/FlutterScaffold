@@ -1,4 +1,4 @@
-part of 'nested_scroll_view2.dart';
+part of 'nested_scroll_view.dart';
 
 /// It may be include statusBarHeight ,pinned appbar height,pinned SliverPersistentHeader height
 /// which are in NestedScrollViewHeaderSlivers
