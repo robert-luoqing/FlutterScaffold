@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'nested_scroll_view.dart';
+import 'nested_scroll_view2.dart';
 
 class ExpandHeaderTabView extends StatefulWidget {
   final double maxExtend;
@@ -14,6 +15,11 @@ class ExpandHeaderTabView extends StatefulWidget {
 
   final List<Widget> Function()? sliverBuilder;
 
+  final NestedScrollViewPinnedHeaderSliverHeightBuilder?
+      pinnedHeaderSliverHeightBuilder;
+
+  final bool onlyOneScrollInBody;
+
   final Widget child;
 
   const ExpandHeaderTabView(
@@ -23,7 +29,9 @@ class ExpandHeaderTabView extends StatefulWidget {
       this.maxExtend = 50,
       this.refreshControlBuilder,
       this.headerControlBuilder,
-      this.sliverBuilder})
+      this.sliverBuilder,
+      this.pinnedHeaderSliverHeightBuilder,
+      this.onlyOneScrollInBody = false})
       : super(key: key);
 
   @override
@@ -34,6 +42,8 @@ class _ExpandHeaderTabViewState extends State<ExpandHeaderTabView> {
   @override
   Widget build(BuildContext context) {
     return SPNestedScrollView(
+        pinnedHeaderSliverHeightBuilder: widget.pinnedHeaderSliverHeightBuilder,
+        onlyOneScrollInBody: widget.onlyOneScrollInBody,
         refreshControlBuilder: widget.refreshControlBuilder,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           if (widget.headerControlBuilder != null) {
