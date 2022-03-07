@@ -95,7 +95,7 @@ dependencies:
   google_sign_in: ^5.2.1
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
-  flutter_list_view: ^1.0.9
+  flutter_list_view: ^1.1.4
 
 dev_dependencies:
   # flutter_test:

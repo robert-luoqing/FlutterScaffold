@@ -4,18 +4,32 @@ import 'package:flutter_list_view/flutter_list_view.dart';
 import 'hierarchy_list_data.dart';
 
 typedef HierarchyListOnFetchListData = List<dynamic>? Function(
-    {int hierarchyLevel, dynamic parent});
-typedef HierarchyListOnRefresh = Future Function();
-
-typedef HierarchyListRefreshWidgetBuilder = Widget Function(double offset);
+    int hierarchyLevel, dynamic parent);
 
 typedef HierarchyListRefreshBuilder = Widget Function(Widget? child);
+typedef HierarchyListFooterBuilder = Widget? Function(
+  BuildContext context,
+  dynamic itemData,
+  int index,
+  int hierarchyLevel,
+  int parentMapListIndex,
+);
+
 typedef HierarchyListItemBuilder = Widget Function(
   BuildContext context,
   dynamic itemData,
   int index,
   int hierarchyLevel,
   dynamic parentData,
+  int parentMapListIndex,
+);
+
+typedef HierarchyListOnItemSticky = bool Function(
+  dynamic itemData,
+  int index,
+  int hierarchyLevel,
+  dynamic parentData,
+  int parentMapListIndex,
 );
 
 /// The widget is used to wrap Hierarchy list
@@ -36,8 +50,11 @@ class HierarchyListView extends StatefulWidget {
       required this.onFetchListData,
       required this.itemBuilder,
       this.refreshBuilder,
-      this.enableSticky = true,
       this.physics,
+      this.footerBuilder,
+      this.rebuildListOnlySourceMutation = false,
+      this.onItemSticky,
+      this.controller,
       Key? key})
       : super(key: key);
 
@@ -45,15 +62,24 @@ class HierarchyListView extends StatefulWidget {
   final HierarchyListOnFetchListData onFetchListData;
   final HierarchyListItemBuilder itemBuilder;
   final HierarchyListRefreshBuilder? refreshBuilder;
-  final bool enableSticky;
   final ScrollPhysics? physics;
+
+  /// [footerBuilder] to create footer of each level
+  /// You can handle it like "load more", "collapse" function etc.
+  final HierarchyListFooterBuilder? footerBuilder;
+
+  /// [rebuildListOnlySourceMutation] == true, Only the passed source mutated, the list will rebuild
+  /// [rebuildListOnlySourceMutation] == false, that mean didUpdateWidget will cause list rebuild in every time
+  final bool rebuildListOnlySourceMutation;
+
+  final HierarchyListOnItemSticky? onItemSticky;
+  final FlutterListViewController? controller;
+
   @override
   State<HierarchyListView> createState() => _HierarchyListViewState();
 }
 
 class _HierarchyListViewState extends State<HierarchyListView> {
-  final FlutterListViewController _controller = FlutterListViewController();
-
   /// listData will used to bind [FlutterListView]
   List<HierarchyListData> _listData = [];
 
@@ -67,27 +93,49 @@ class _HierarchyListViewState extends State<HierarchyListView> {
       dynamic parentData,
       required int hierarchyLevel,
       required int mapListIndex}) {
+    var parentMapListIndex = mapListIndex - 1;
+    if (parentMapListIndex < 0) {
+      parentMapListIndex = 0;
+    }
+
     if (listData != null) {
-      for (var item in listData) {
+      for (var i = 0; i < listData.length; i++) {
+        var item = listData[i];
         var data = HierarchyListData(
+          type: HierarchyListDataType.data,
           data: item,
           hierarchyLevel: hierarchyLevel,
           parentData: parentData,
           mapListIndex: mapListIndex,
+          indexInParent: i,
+          parentMapListIndex: parentMapListIndex,
         );
         buildData.add(data);
         mapListIndex++;
 
-        var childListData = widget.onFetchListData(
-            hierarchyLevel: hierarchyLevel, parent: item);
+        var childListData = widget.onFetchListData(hierarchyLevel, item);
 
         mapListIndex = _buildHierarchy(
-            buildData: buildData,
-            listData: childListData,
-            parentData: item,
-            hierarchyLevel: hierarchyLevel + 1,
-            mapListIndex: mapListIndex);
+          buildData: buildData,
+          listData: childListData,
+          parentData: item,
+          hierarchyLevel: hierarchyLevel + 1,
+          mapListIndex: mapListIndex,
+        );
       }
+
+      // Create footer item
+      // Footer Widget will be null
+      var footerData = HierarchyListData(
+        type: HierarchyListDataType.footer,
+        data: null,
+        hierarchyLevel: hierarchyLevel,
+        parentData: parentData,
+        mapListIndex: mapListIndex,
+        parentMapListIndex: parentMapListIndex,
+      );
+      buildData.add(footerData);
+      mapListIndex++;
     }
 
     return mapListIndex;
@@ -107,72 +155,77 @@ class _HierarchyListViewState extends State<HierarchyListView> {
 
   @override
   void didUpdateWidget(covariant HierarchyListView oldWidget) {
-    _listData = [];
-    _buildHierarchy(
-        buildData: _listData,
-        listData: widget.source,
-        parentData: null,
-        hierarchyLevel: 0,
-        mapListIndex: 0);
+    bool needRebuild = true;
+    if (widget.rebuildListOnlySourceMutation &&
+        oldWidget.source == widget.source) {
+      needRebuild = false;
+    }
+
+    if (needRebuild) {
+      _listData = [];
+      _buildHierarchy(
+          buildData: _listData,
+          listData: widget.source,
+          parentData: null,
+          hierarchyLevel: 0,
+          mapListIndex: 0);
+    }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
-  bool _getPhysicsIsBounce() {
-    late ScrollPhysics physics;
-    if (ownWidget.physics != null) {
-      physics = ownWidget.physics!;
-    } else {
-      var sc = ScrollConfiguration.of(context);
-      physics = sc.getScrollPhysics(context);
+  bool _onItemSticky(int index) {
+    if (ownWidget.onItemSticky != null) {
+      final data = _listData[index];
+      return ownWidget.onItemSticky!(data.data, data.indexInParent,
+          data.hierarchyLevel, data.parentData, data.parentMapListIndex);
     }
-    return physics is BouncingScrollPhysics;
+
+    return false;
   }
 
-  Widget _renderList(bool isBouncePhysic) {
+  @override
+  Widget build(BuildContext context) {
     Widget result = FlutterListView(
+        physics: ownWidget.physics,
         delegate: FlutterListViewDelegate(
           (BuildContext context, int index) {
             HierarchyListData itemData = _listData[index];
-            return ownWidget.itemBuilder(context, itemData.data, index,
-                itemData.hierarchyLevel, itemData.parentData);
+            if (itemData.type == HierarchyListDataType.data) {
+              return ownWidget.itemBuilder(
+                  context,
+                  itemData.data,
+                  itemData.indexInParent,
+                  itemData.hierarchyLevel,
+                  itemData.parentData,
+                  itemData.parentMapListIndex);
+            } else {
+              Widget? footerWidget;
+              if (ownWidget.footerBuilder != null) {
+                footerWidget = ownWidget.footerBuilder!(
+                    context,
+                    itemData.parentData,
+                    0,
+                    itemData.hierarchyLevel,
+                    itemData.parentMapListIndex);
+              }
+              footerWidget ??= const SizedBox(height: 0);
+              return footerWidget;
+            }
           },
           childCount: _listData.length,
-          // onItemSticky: (index) {
-          //   if (ownWidget.enableSticky) {
-          //     final data = _listData[index];
-          //     if (data.type == SectionViewDataType.dataHeader) {
-          //       return true;
-          //     }
-          //   }
-
-          //   return false;
-          // }
+          onItemSticky: _onItemSticky,
         ),
-        controller: _controller);
+        controller: widget.controller);
 
     if (ownWidget.refreshBuilder != null) {
       result = ownWidget.refreshBuilder!(result);
     }
 
     return result;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var isBouncePhysic = _getPhysicsIsBounce();
-
-    Widget content = Stack(
-      children: [
-        _renderList(isBouncePhysic),
-      ],
-    );
-
-    return content;
   }
 }

@@ -11,6 +11,8 @@ import 'pages/test/test_calendar.dart';
 import 'pages/test/test_chat.dart';
 import 'pages/test/test_expand_tabview.dart';
 import 'pages/test/test_flutter_listview_performance.dart';
+import 'pages/test/test_hierarchy_listview.dart';
+import 'pages/test/test_hierarchy_listview2.dart';
 import 'pages/test/test_image.dart';
 import 'pages/test/test_page_view.dart';
 
@@ -76,5 +78,7 @@ class SPRoute {
     "/phoneVerify": (context) => const VerifyCodePage(account: ''),
     '/emailLogin': (context) => const EmailLoginPage(),
     '/testExpandTabview': (context) => const TestExpandTabview(),
+    "/testHierarchyListView": (context) => const TestHierarchyListView(),
+    "/testHierarchyListView2": (context) => const TestHierarchyListView2(),
   };
 }
