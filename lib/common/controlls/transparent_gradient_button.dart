@@ -37,7 +37,6 @@ class TransparentGradientButton extends StatelessWidget {
                 borderRadius:
                     BorderRadius.all(Radius.circular(radius - strokeWidth)),
                 gradient: backgroundGradient,
-                // color: Colors.black
               ),
               constraints: const BoxConstraints(minWidth: 88, minHeight: 48),
               child: Row(
