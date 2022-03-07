@@ -171,6 +171,12 @@ class _TestPageViewState extends State<TestPageView> {
                   Navigator.pushNamed(context, "/testHierarchyListView2");
                 },
                 child: const Text("Test Hierarchy List View 2")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context, "/testTransparentGradientButton");
+                },
+                child: const Text("Test Transparent Gradient Button")),
           ],
         ),
       ),

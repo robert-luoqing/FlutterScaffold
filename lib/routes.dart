@@ -33,6 +33,7 @@ import 'pages/test/test_sliver_view.dart';
 import 'pages/test/test_switch_control.dart';
 import 'pages/test/test_text_field.dart';
 import 'pages/test/test_theme_i18n.dart';
+import 'pages/test/test_transparent_gradient_button.dart';
 import 'pages/test/test_voice.dart';
 import 'pages/test/testqrscan_view.dart';
 import 'pages/test/toast_test.dart';
@@ -80,5 +81,7 @@ class SPRoute {
     '/testExpandTabview': (context) => const TestExpandTabview(),
     "/testHierarchyListView": (context) => const TestHierarchyListView(),
     "/testHierarchyListView2": (context) => const TestHierarchyListView2(),
+    "/testTransparentGradientButton": (context) =>
+        const TestTransparentGradientButton(),
   };
 }
