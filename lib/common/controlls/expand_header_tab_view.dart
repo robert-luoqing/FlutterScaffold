@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'nested_row_scroll_view.dart';
 import 'nested_scroll_view.dart';
 
 class ExpandHeaderTabView extends StatefulWidget {
