@@ -182,6 +182,11 @@ class _TestPageViewState extends State<TestPageView> {
                   Navigator.pushNamed(context, "/testColorPicker");
                 },
                 child: const Text("Test Color Picker")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/testActionSheet");
+                },
+                child: const Text("Test Action Sheet")),
           ],
         ),
       ),

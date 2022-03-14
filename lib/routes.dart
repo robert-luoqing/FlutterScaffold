@@ -6,6 +6,7 @@ import 'package:lingo_dragon/pages/test/test_grahp_ql.dart';
 import 'package:lingo_dragon/pages/test/test_listview_performance.dart';
 import 'package:path/path.dart';
 import 'pages/home/root.dart';
+import 'pages/test/test_action_sheet.dart';
 import 'pages/test/test_alphabet_list_view.dart';
 import 'pages/test/test_button.dart';
 import 'pages/test/test_calendar.dart';
@@ -86,5 +87,6 @@ class SPRoute {
     "/testTransparentGradientButton": (context) =>
         const TestTransparentGradientButton(),
     "/testColorPicker": (context) => const TestColorPicker(),
+    "/testActionSheet": (context) => const TestActionSheet(),
   };
 }
