@@ -1,6 +1,6 @@
 import '../../common/utils/error_util.dart';
 
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestGraphQL extends StatefulWidget {

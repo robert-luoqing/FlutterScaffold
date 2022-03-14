@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:lingo_dragon/providers/login_info_provider.dart';
 import 'package:provider/provider.dart';
-import 'common/controlls/app.dart';
+import 'common/widgets/app.dart';
 import 'common/core/http_client.dart';
 import 'providers/global_variable_provider.dart';
 import 'providers/i18n_provider.dart';
@@ -11,7 +11,7 @@ import 'dao/base/base_dao.dart';
 import 'common/core/graph_ql_client.dart';
 import 'routes.dart';
 import 'package:flutter/material.dart';
-import 'common/controlls/loading.dart';
+import 'common/widgets/loading.dart';
 import 'native/channel/common_channel.dart';
 import 'configure_nonweb.dart' if (dart.library.html) 'configure_web.dart';
 import 'package:flutter/services.dart';

@@ -1,4 +1,4 @@
-import '../../../common/controlls/image.dart';
+import '../../../common/widgets/image.dart';
 import 'package:flutter/widgets.dart';
 
 class SPRoundImage extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:lingo_dragon/common/controlls/pin_code.dart';
+import 'package:lingo_dragon/common/widgets/pin_code.dart';
 import 'package:lingo_dragon/providers/i18n_provider.dart';
 import 'package:lingo_dragon/pages/login/timer.dart';
 import 'package:lingo_dragon/theme/text_style.dart';
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class VerifyCodePage extends StatefulWidget {

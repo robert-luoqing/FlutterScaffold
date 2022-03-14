@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lingo_dragon/common/controlls/transparent_gradient_button.dart';
+import 'package:lingo_dragon/common/widgets/transparent_gradient_button.dart';
 
 class TestTransparentGradientButton extends StatefulWidget {
   const TestTransparentGradientButton({Key? key}) : super(key: key);

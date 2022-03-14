@@ -1,4 +1,6 @@
-import '../../common/controlls/dialog.dart';
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
+
+import '../../common/widgets/dialog.dart';
 import 'package:flutter/material.dart';
 
 class TestDialogView extends StatefulWidget {
@@ -11,8 +13,8 @@ class TestDialogView extends StatefulWidget {
 class _TestDialogViewState extends State<TestDialogView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text("Dialog")),
+    return SPScaffold(
+        title:  const Text("Dialog"),
         body: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:lingo_dragon/common/controlls/audio_view.dart';
-import 'package:lingo_dragon/common/controlls/voice_control.dart';
+import 'package:lingo_dragon/common/widgets/audio_view.dart';
+import 'package:lingo_dragon/common/widgets/voice_control.dart';
 
-import '../../common/controlls/loading.dart';
-import '../../common/controlls/round_container.dart';
+import '../../common/widgets/loading.dart';
+import '../../common/widgets/round_container.dart';
 import '../../common/utils/error_util.dart';
 import '../../common/utils/path_util.dart';
 import '../../common/utils/sound_util.dart';
 import '../../common/utils/uuid_util.dart';
 
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestVoice extends StatefulWidget {

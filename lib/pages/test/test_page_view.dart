@@ -1,4 +1,4 @@
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestPageView extends StatefulWidget {
@@ -177,6 +177,11 @@ class _TestPageViewState extends State<TestPageView> {
                       context, "/testTransparentGradientButton");
                 },
                 child: const Text("Test Transparent Gradient Button")),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/testColorPicker");
+                },
+                child: const Text("Test Color Picker")),
           ],
         ),
       ),

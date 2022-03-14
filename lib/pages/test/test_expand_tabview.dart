@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lingo_dragon/common/controlls/expand_header_tab_view.dart';
-import 'package:lingo_dragon/common/controlls/listview.dart';
-import 'package:lingo_dragon/common/controlls/measure_size.dart';
+import 'package:lingo_dragon/common/widgets/expand_header_tab_view.dart';
+import 'package:lingo_dragon/common/widgets/listview.dart';
+import 'package:lingo_dragon/common/widgets/measure_size.dart';
 
 class TestExpandTabview extends StatefulWidget {
   const TestExpandTabview({Key? key}) : super(key: key);

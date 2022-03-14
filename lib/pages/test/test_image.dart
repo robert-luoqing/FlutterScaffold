@@ -1,8 +1,8 @@
-import 'package:lingo_dragon/common/controlls/image.dart';
-import 'package:lingo_dragon/common/controlls/network_image.dart';
-import 'package:lingo_dragon/common/controlls/round_image.dart';
+import 'package:lingo_dragon/common/widgets/image.dart';
+import 'package:lingo_dragon/common/widgets/network_image.dart';
+import 'package:lingo_dragon/common/widgets/round_image.dart';
 
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestImage extends StatefulWidget {
@@ -16,7 +16,7 @@ class _TestImageState extends State<TestImage> {
   @override
   Widget build(BuildContext context) {
     return SPScaffold(
-        title: const Text("Image selection"),
+        title: const Text("Image"),
         body: Column(
           children: const [
             Text("SP Image"),

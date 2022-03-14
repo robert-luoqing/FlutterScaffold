@@ -1,7 +1,7 @@
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 
-import '../../common/controlls/dialog.dart';
-import '../../common/controlls/image_picker.dart';
+import '../../common/widgets/dialog.dart';
+import '../../common/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class TestImagePicker extends StatefulWidget {

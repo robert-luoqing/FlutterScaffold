@@ -4,11 +4,13 @@ import 'package:lingo_dragon/pages/login/verify_code_page.dart';
 import 'package:lingo_dragon/pages/test/test_chat_bubble.dart';
 import 'package:lingo_dragon/pages/test/test_grahp_ql.dart';
 import 'package:lingo_dragon/pages/test/test_listview_performance.dart';
+import 'package:path/path.dart';
 import 'pages/home/root.dart';
 import 'pages/test/test_alphabet_list_view.dart';
 import 'pages/test/test_button.dart';
 import 'pages/test/test_calendar.dart';
 import 'pages/test/test_chat.dart';
+import 'pages/test/test_color_picker.dart';
 import 'pages/test/test_expand_tabview.dart';
 import 'pages/test/test_flutter_listview_performance.dart';
 import 'pages/test/test_hierarchy_listview.dart';
@@ -83,5 +85,6 @@ class SPRoute {
     "/testHierarchyListView2": (context) => const TestHierarchyListView2(),
     "/testTransparentGradientButton": (context) =>
         const TestTransparentGradientButton(),
+    "/testColorPicker": (context) => const TestColorPicker(),
   };
 }

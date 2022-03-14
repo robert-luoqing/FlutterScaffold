@@ -1,6 +1,6 @@
-import 'package:lingo_dragon/common/controlls/dialog.dart';
-import 'package:lingo_dragon/common/controlls/picker.dart';
-import 'package:lingo_dragon/common/controlls/scaffold.dart';
+import 'package:lingo_dragon/common/widgets/dialog.dart';
+import 'package:lingo_dragon/common/widgets/picker.dart';
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestPicker extends StatefulWidget {

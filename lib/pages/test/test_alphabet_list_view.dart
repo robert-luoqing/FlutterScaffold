@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:section_view/section_view.dart';
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 
 class TestAlphabetListView extends StatefulWidget {
   const TestAlphabetListView({Key? key}) : super(key: key);

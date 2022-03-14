@@ -1,7 +1,7 @@
 import '../../theme/dark_theme.dart';
 import '../../theme/base_theme.dart';
 import '../../providers/theme_provider.dart';
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import '../../providers/i18n_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-import '../../common/controlls/webview.dart';
+import '../../common/widgets/webview.dart';
 import 'package:flutter/material.dart';
 
 class MyWebView extends StatefulWidget {
