@@ -98,6 +98,7 @@ class _SPPinCodeState extends State<SPPinCode> {
   @override
   void dispose() {
     errorController.close();
+    textEditingController.dispose();
     super.dispose();
   }
 }

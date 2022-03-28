@@ -13,6 +13,12 @@ class _TestPinCodeState extends State<TestPinCode> {
   String currentText = "";
 
   @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 40, right: 40),

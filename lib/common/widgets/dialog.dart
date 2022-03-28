@@ -288,6 +288,7 @@ class SPDialog {
                                           onPressed: () {
                                             SPNavigator.pop(context);
                                             completer.complete(null);
+                                            textController.dispose();
                                           },
                                           child: const Text("Cancel",
                                               style:
@@ -328,6 +329,7 @@ class SPDialog {
                                             SPNavigator.pop(context);
                                             completer
                                                 .complete(textController.text);
+                                            textController.dispose();
                                           },
                                           child: const Text("OK",
                                               style:
@@ -359,6 +361,7 @@ class SPDialog {
       String? hintText}) {
     var completer = Completer<String?>();
     var textController = TextEditingController(text: defaultValue);
+
     var child = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       child: Column(
@@ -423,6 +426,7 @@ class SPDialog {
                                     onPressed: () {
                                       SPNavigator.pop(context);
                                       completer.complete(null);
+                                      textController.dispose();
                                     }),
                               ),
                               Expanded(
@@ -434,6 +438,7 @@ class SPDialog {
                                     onPressed: () {
                                       SPNavigator.pop(context);
                                       completer.complete(textController.text);
+                                      textController.dispose();
                                     }),
                               )
                             ],

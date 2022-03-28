@@ -40,6 +40,13 @@ class _LoginDashboardState extends State<LoginDashboard> {
   }
 
   @override
+  void dispose() {
+    psdController.dispose();
+    againPsdController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SPScaffold(
       title: const Text("Login"),
