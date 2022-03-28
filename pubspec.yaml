@@ -96,6 +96,7 @@ dependencies:
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
   flutter_list_view: ^1.1.4
+  shimmer: ^2.0.0
 
 dev_dependencies:
   # flutter_test:

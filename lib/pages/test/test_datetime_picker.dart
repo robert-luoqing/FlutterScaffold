@@ -1,5 +1,5 @@
-import '../../common/controlls/datetime_picker.dart';
-import '../../common/controlls/dialog.dart';
+import '../../common/widgets/datetime_picker.dart';
+import '../../common/widgets/dialog.dart';
 import 'package:flutter/material.dart';
 
 class TestDateTimePicker extends StatefulWidget {

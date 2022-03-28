@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_view/flutter_list_view.dart';
-import 'package:lingo_dragon/common/controlls/hierarchy_list_view/master_detail_hierarchy_view.dart';
-import 'package:lingo_dragon/common/controlls/scaffold.dart';
+import 'package:lingo_dragon/common/widgets/hierarchy_list_view/master_detail_hierarchy_view.dart';
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
 
 class TestHierarchyListView2 extends StatefulWidget {
   const TestHierarchyListView2({Key? key}) : super(key: key);

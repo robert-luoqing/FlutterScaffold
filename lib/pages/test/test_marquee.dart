@@ -1,8 +1,8 @@
-import '../../common/controlls/dialog.dart';
-import '../../common/controlls/marquee_vertical.dart';
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/dialog.dart';
+import '../../common/widgets/marquee_vertical.dart';
+import '../../common/widgets/scaffold.dart';
 
-import '../../common/controlls/marquee.dart';
+import '../../common/widgets/marquee.dart';
 import 'package:flutter/material.dart';
 
 class TestMarqueePage extends StatefulWidget {

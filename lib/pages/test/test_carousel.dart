@@ -1,7 +1,7 @@
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 
-import '../../common/controlls/carousel.dart';
-import '../../common/controlls/toast.dart';
+import '../../common/widgets/carousel.dart';
+import '../../common/widgets/toast.dart';
 import 'package:flutter/material.dart';
 
 class TestCarouselPage extends StatefulWidget {

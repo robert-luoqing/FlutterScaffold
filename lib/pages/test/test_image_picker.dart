@@ -1,7 +1,7 @@
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 
-import '../../common/controlls/dialog.dart';
-import '../../common/controlls/image_picker.dart';
+import '../../common/widgets/dialog.dart';
+import '../../common/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class TestImagePicker extends StatefulWidget {
@@ -45,6 +45,13 @@ class _TestImagePickerState extends State<TestImagePicker> {
                       context, "You selected ${images.length} images");
                 },
                 child: const Text("Select Multiple Images")),
+            ElevatedButton(
+                onPressed: () async {
+                  var imagePath = await SPImagePicker()
+                      .getImageFromCameraAndGallery(context: context);
+                  SPDialog.alert(context, "You selected $imagePath images");
+                },
+                child: const Text("Select image from camera and gallery")),
           ],
         ));
   }

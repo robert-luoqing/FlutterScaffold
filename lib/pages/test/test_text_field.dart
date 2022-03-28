@@ -1,7 +1,7 @@
-import 'package:lingo_dragon/common/controlls/button.dart';
-import 'package:lingo_dragon/common/controlls/scaffold.dart';
+import 'package:lingo_dragon/common/widgets/button.dart';
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
 
-import '../../common/controlls/text_field.dart';
+import '../../common/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 
 class TestTextField extends StatefulWidget {

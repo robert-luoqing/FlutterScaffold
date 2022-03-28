@@ -1,4 +1,4 @@
-import '../../common/controlls/loading.dart';
+import '../../common/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class TestGlobalLoading extends StatefulWidget {

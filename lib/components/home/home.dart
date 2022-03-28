@@ -1,7 +1,7 @@
-import 'package:lingo_dragon/common/controlls/bottom_navigationbar.dart';
-import 'package:lingo_dragon/common/controlls/button.dart';
-import 'package:lingo_dragon/common/controlls/dialog.dart';
-import 'package:lingo_dragon/common/controlls/scaffold.dart';
+import 'package:lingo_dragon/common/widgets/bottom_navigationbar.dart';
+import 'package:lingo_dragon/common/widgets/button.dart';
+import 'package:lingo_dragon/common/widgets/dialog.dart';
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
 import 'package:lingo_dragon/common/utils/error_util.dart';
 import 'package:lingo_dragon/providers/i18n_provider.dart';
 import 'package:flutter/material.dart';

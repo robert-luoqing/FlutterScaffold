@@ -1,5 +1,5 @@
-import '../../common/controlls/modal_side_sheet.dart';
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/modal_side_sheet.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TestShowModalSideSheet extends StatefulWidget {

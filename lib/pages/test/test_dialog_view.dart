@@ -1,4 +1,4 @@
-import '../../common/controlls/dialog.dart';
+import '../../common/widgets/dialog.dart';
 import 'package:flutter/material.dart';
 
 class TestDialogView extends StatefulWidget {

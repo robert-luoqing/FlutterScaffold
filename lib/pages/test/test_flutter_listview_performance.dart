@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_view/flutter_list_view.dart';
-import 'package:lingo_dragon/common/controlls/scaffold.dart';
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
 
 class TestFlutterListViewPerformance extends StatefulWidget {
   const TestFlutterListViewPerformance({Key? key}) : super(key: key);

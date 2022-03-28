@@ -1,5 +1,5 @@
-import '../../common/controlls/dialog.dart';
-import '../../common/controlls/switch.dart';
+import '../../common/widgets/dialog.dart';
+import '../../common/widgets/switch.dart';
 import 'package:flutter/material.dart';
 
 class TestSwitchControl extends StatefulWidget {

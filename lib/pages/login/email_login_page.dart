@@ -1,13 +1,13 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:lingo_dragon/common/constant/colors.dart';
-import 'package:lingo_dragon/common/controlls/button.dart';
+import 'package:lingo_dragon/common/widgets/button.dart';
 import 'package:lingo_dragon/providers/i18n_provider.dart';
 import 'package:lingo_dragon/common/utils/validate_util.dart';
 import 'package:lingo_dragon/pages/login/verify_code_page.dart';
 import 'package:lingo_dragon/theme/text_style.dart';
-import '../../common/controlls/scaffold.dart';
+import '../../common/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import '../../common/controlls/text_field.dart';
+import '../../common/widgets/text_field.dart';
 
 class EmailLoginPage extends StatefulWidget {
   const EmailLoginPage({Key? key}) : super(key: key);

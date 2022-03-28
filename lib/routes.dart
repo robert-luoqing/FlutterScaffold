@@ -4,6 +4,7 @@ import 'package:lingo_dragon/pages/login/verify_code_page.dart';
 import 'package:lingo_dragon/pages/test/test_chat_bubble.dart';
 import 'package:lingo_dragon/pages/test/test_grahp_ql.dart';
 import 'package:lingo_dragon/pages/test/test_listview_performance.dart';
+import 'package:path/path.dart';
 import 'pages/home/root.dart';
 import 'pages/test/test_alphabet_list_view.dart';
 import 'pages/test/test_button.dart';
@@ -14,6 +15,7 @@ import 'pages/test/test_flutter_listview_performance.dart';
 import 'pages/test/test_hierarchy_listview.dart';
 import 'pages/test/test_hierarchy_listview2.dart';
 import 'pages/test/test_image.dart';
+import 'pages/test/test_list_skeleton.dart';
 import 'pages/test/test_page_view.dart';
 
 import 'package:flutter/widgets.dart';
@@ -83,5 +85,6 @@ class SPRoute {
     "/testHierarchyListView2": (context) => const TestHierarchyListView2(),
     "/testTransparentGradientButton": (context) =>
         const TestTransparentGradientButton(),
+    "/testListSkeleton": (context) => const TestListSkeleton(),
   };
 }

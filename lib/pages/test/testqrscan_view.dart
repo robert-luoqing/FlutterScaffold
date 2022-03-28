@@ -1,4 +1,4 @@
-import '../../common/controlls/qr_scanner.dart';
+import '../../common/widgets/qr_scanner.dart';
 import 'package:flutter/material.dart';
 
 class TestQrScanView extends StatefulWidget {

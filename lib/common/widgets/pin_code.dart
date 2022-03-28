@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lingo_dragon/common/controlls/pin_code_field/pin_code_fields.dart';
+import 'package:lingo_dragon/common/widgets/pin_code_field/pin_code_fields.dart';
 import 'package:lingo_dragon/theme/text_style.dart';
 
 class SPPinCode extends StatefulWidget {
