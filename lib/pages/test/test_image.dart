@@ -16,7 +16,7 @@ class _TestImageState extends State<TestImage> {
   @override
   Widget build(BuildContext context) {
     return SPScaffold(
-        title: const Text("Image selection"),
+        title: const Text("Image"),
         body: Column(
           children: const [
             Text("SP Image"),
