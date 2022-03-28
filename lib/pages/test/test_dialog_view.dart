@@ -1,3 +1,5 @@
+import 'package:lingo_dragon/common/widgets/scaffold.dart';
+
 import '../../common/widgets/dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +13,8 @@ class TestDialogView extends StatefulWidget {
 class _TestDialogViewState extends State<TestDialogView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text("Dialog")),
+    return SPScaffold(
+        title: const Text("Dialog"),
         body: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,6 +46,27 @@ class _TestDialogViewState extends State<TestDialogView> {
                   SPDialog.alert(context, "input: $result");
                 },
                 child: const Text("Open Prompt")),
+            ElevatedButton(
+                onPressed: () async {
+                  SPDialog.showBottomDialog(
+                    context: context,
+                    backgroundColor: Colors.black,
+                    widget: const Padding(
+                      padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                      child: TextField(
+                          autofocus: true,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 8),
+                            border: InputBorder.none,
+                          )),
+                    ),
+                  );
+                },
+                child: const Text("Open Bottom Prompt")),
           ],
         ));
   }

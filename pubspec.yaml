@@ -97,6 +97,7 @@ dependencies:
   crypto: ^3.0.1
   flutter_list_view: ^1.1.4
   shimmer: ^2.0.0
+  modal_bottom_sheet: ^2.0.1
 
 dev_dependencies:
   # flutter_test:
