@@ -47,6 +47,12 @@ class _SPListViewState extends State<SPListView> {
   }
 
   @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SmartRefresher(
       enablePullDown: widget.enablePullDown,
